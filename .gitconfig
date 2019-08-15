@@ -1,0 +1,46 @@
+[alias]
+  co = checkout
+  br = branch
+  cm = commit
+  st = status
+  rb = rebase
+  push--fwl = push --force-with-lease
+  llog = log --date=local
+  flog = log --pretty=fuller --decorate
+  lol = log --graph --decorate --oneline
+  lola = log --graph --decorate --oneline --all --date-order
+  blog = log origin/master... --left-right
+  ds = diff --staged
+  fixup = commit --fixup
+  squash = commit --squash
+  unstage = reset HEAD
+  rum = rebase master@{u}
+
+[core]
+  editor = vim
+
+[color]
+  ui = auto
+  branch = auto
+  interactive = auto
+  status = auto
+
+[push]
+  default = simple
+
+[color "diff"]
+  meta = yellow bold
+  commit = green bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
+
+[color "diff-highlight"]
+  oldNormal = "red bold"
+  oldHighlight = "red bold 52"
+  newNormal = "green bold"
+  newHighlight = "green bold 22"
+
+[merge]
+  tool = kdiff3

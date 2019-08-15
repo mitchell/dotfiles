@@ -1,0 +1,75 @@
+[submodule ".vim/bundle/Zenburn"]
+	path = .vim/bundle/Zenburn
+	url = https://github.com/jnurmine/Zenburn.git
+[submodule ".vim/bundle/ack.vim"]
+	path = .vim/bundle/ack.vim
+	url = https://github.com/mileszs/ack.vim.git
+[submodule ".vim/bundle/ale"]
+	path = .vim/bundle/ale
+	url = https://github.com/w0rp/ale.git
+[submodule ".vim/bundle/dart-vim-plugin"]
+	path = .vim/bundle/dart-vim-plugin
+	url = https://github.com/dart-lang/dart-vim-plugin.git
+[submodule ".vim/bundle/dracula"]
+	path = .vim/bundle/dracula
+	url = https://github.com/dracula/vim.git
+[submodule ".vim/bundle/gruvbox"]
+	path = .vim/bundle/gruvbox
+	url = https://github.com/morhetz/gruvbox.git
+[submodule ".vim/bundle/lightline.vim"]
+	path = .vim/bundle/lightline.vim
+	url = https://github.com/itchyny/lightline.vim.git
+[submodule ".vim/bundle/nerdtree"]
+	path = .vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule ".vim/bundle/nord-vim"]
+	path = .vim/bundle/nord-vim
+	url = git://github.com/arcticicestudio/nord-vim.git
+[submodule ".vim/bundle/tmuxline.vim"]
+	path = .vim/bundle/tmuxline.vim
+	url = https://github.com/edkolev/tmuxline.vim.git
+[submodule ".vim/bundle/typescript-vim"]
+	path = .vim/bundle/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git
+[submodule ".vim/bundle/vim-colors-pencil"]
+	path = .vim/bundle/vim-colors-pencil
+	url = https://github.com/reedes/vim-colors-pencil.git
+[submodule ".vim/bundle/vim-elixir"]
+	path = .vim/bundle/vim-elixir
+	url = https://github.com/elixir-editors/vim-elixir.git
+[submodule ".vim/bundle/vim-endwise"]
+	path = .vim/bundle/vim-endwise
+	url = git://github.com/tpope/vim-endwise.git
+[submodule ".vim/bundle/vim-fish"]
+	path = .vim/bundle/vim-fish
+	url = https://github.com/dag/vim-fish.git
+[submodule ".vim/bundle/vim-gitgutter"]
+	path = .vim/bundle/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter
+[submodule ".vim/bundle/vim-go"]
+	path = .vim/bundle/vim-go
+	url = https://github.com/fatih/vim-go
+[submodule ".vim/bundle/vim-graphql"]
+	path = .vim/bundle/vim-graphql
+	url = https://github.com/jparise/vim-graphql.git
+[submodule ".vim/bundle/vim-javascript"]
+	path = .vim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript
+[submodule ".vim/bundle/vim-material-theme"]
+	path = .vim/bundle/vim-material-theme
+	url = https://github.com/jdkanani/vim-material-theme.git
+[submodule ".vim/bundle/vim-one"]
+	path = .vim/bundle/vim-one
+	url = https://github.com/rakr/vim-one.git
+[submodule ".vim/bundle/vim-pencil"]
+	path = .vim/bundle/vim-pencil
+	url = https://github.com/reedes/vim-pencil.git
+[submodule ".vim/bundle/vim-ruby"]
+	path = .vim/bundle/vim-ruby
+	url = git://github.com/vim-ruby/vim-ruby.git
+[submodule ".vim/bundle/vim-surround"]
+	path = .vim/bundle/vim-surround
+	url = https://github.com/tpope/vim-surround
+[submodule ".vim/bundle/vim-toml"]
+	path = .vim/bundle/vim-toml
+	url = https://github.com/cespare/vim-toml.git
