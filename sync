@@ -1,0 +1,10 @@
+#!/usr/bin/env fish
+
+echo 'Syncing configuration files to your home dir...'
+
+rsync -aP ./.config/fish ~/.config/
+rsync -aP ./.gitconfig ~/
+rsync -aP ./.tmux* ~/
+rsync -aP ./.vim* ~/
+
+echo 'Done syncing.'
