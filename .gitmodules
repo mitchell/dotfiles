@@ -1,6 +1,3 @@
-[submodule ".vim/bundle/Zenburn"]
-	path = .vim/bundle/Zenburn
-	url = https://github.com/jnurmine/Zenburn.git
 [submodule ".vim/bundle/ack.vim"]
 	path = .vim/bundle/ack.vim
 	url = https://github.com/mileszs/ack.vim.git
@@ -10,9 +7,6 @@
 [submodule ".vim/bundle/dart-vim-plugin"]
 	path = .vim/bundle/dart-vim-plugin
 	url = https://github.com/dart-lang/dart-vim-plugin.git
-[submodule ".vim/bundle/dracula"]
-	path = .vim/bundle/dracula
-	url = https://github.com/dracula/vim.git
 [submodule ".vim/bundle/gruvbox"]
 	path = .vim/bundle/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
@@ -22,18 +16,12 @@
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule ".vim/bundle/nord-vim"]
-	path = .vim/bundle/nord-vim
-	url = git://github.com/arcticicestudio/nord-vim.git
 [submodule ".vim/bundle/tmuxline.vim"]
 	path = .vim/bundle/tmuxline.vim
 	url = https://github.com/edkolev/tmuxline.vim.git
 [submodule ".vim/bundle/typescript-vim"]
 	path = .vim/bundle/typescript-vim
 	url = https://github.com/leafgarland/typescript-vim.git
-[submodule ".vim/bundle/vim-colors-pencil"]
-	path = .vim/bundle/vim-colors-pencil
-	url = https://github.com/reedes/vim-colors-pencil.git
 [submodule ".vim/bundle/vim-elixir"]
 	path = .vim/bundle/vim-elixir
 	url = https://github.com/elixir-editors/vim-elixir.git
@@ -55,12 +43,6 @@
 [submodule ".vim/bundle/vim-javascript"]
 	path = .vim/bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript
-[submodule ".vim/bundle/vim-material-theme"]
-	path = .vim/bundle/vim-material-theme
-	url = https://github.com/jdkanani/vim-material-theme.git
-[submodule ".vim/bundle/vim-one"]
-	path = .vim/bundle/vim-one
-	url = https://github.com/rakr/vim-one.git
 [submodule ".vim/bundle/vim-pencil"]
 	path = .vim/bundle/vim-pencil
 	url = https://github.com/reedes/vim-pencil.git
