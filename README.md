@@ -15,15 +15,16 @@ Installation dependencies:
 - git
 - fish
 - rsync (for sync script)
-- curl (for fisher pkg manager)
+- curl
 
-To install all of the configurations:
+To install from fish shell: `curl https://raw.githubusercontent.com/mitchell/dotfiles/master/sync | .`
+
+To install all of the configuration from bash and then change default shell:
 1. Clone this repo with the `--recurse-submodules` flag.
 1. `cd` into your clone and run the `sync` script (requires fish be installed).
 1. If you haven't already either run `fish` or change your default shell by appending the result of
    `which fish` to `/etc/shells` and running `chsh -s /path/to/fish yourusername`, then restarting
    the terminal.
-1. Once using fish run `fisher` to install all fish plugins.
 1. Enjoy!
 
 Dependencies for fish aliases:

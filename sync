@@ -2,34 +2,48 @@
 
 echo 'Syncing configuration files to your home dir...'
 
+set_color brgrey
+
+set -l fwd (pwd)
+set -l cwd (string match -r '\w+$' $fwd)
+
+if test ! "$cwd" = 'dotfiles'
+    cd /var/tmp
+    git clone --recurse-submodules https://github.com/mitchell/dotfiles.git
+    cd ./dotfiles
+    echo
+end
+
 if ! test -e ~/.config; mkdir ~/.config; end
 
-set_color brgrey
 rsync -aP ./.config/fish ~/.config/
 rsync -aP ./.gitconfig ~/
 rsync -aP ./.tmux* ~/
 rsync -aP ./.vim* ~/
-set_color normal
-echo
 
+echo
 fisher
 
+set_color normal
+
+
 set -l prompt 'Would you like to set your git user name and email?'
-read -l -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal" set_git_user
+set -l set_git_user (read -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal")
 
-if test -z "$set_git_user"; or test $set_git_user = 'y'; or test $set_git_user = 'Y'
-   read -l -P 'name: ' first_name last_name
-   set -l full_name $first_name
+if test -z "$set_git_user"; or test "$set_git_user" = 'y'; or test "$set_git_user" = 'Y'
+   set -l name (read -P 'name: ')
 
-   if test -n "$last_name"
-       set full_name "$full_name $last_name"
-   end
+   git config --global user.name $name
 
-   git config --global user.name $full_name
-
-   read -l -P 'email: ' email
+   set -l email (read -P 'email: ')
 
    git config --global user.email $email
+end
+
+if test ! "$cwd" = 'dotfiles'
+    cd ..
+    rm -rf ./dotfiles
+    cd $fwd
 end
 
 echo -s \n 'Done syncing.'
