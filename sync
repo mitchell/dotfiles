@@ -4,9 +4,32 @@ echo 'Syncing configuration files to your home dir...'
 
 if ! test -e ~/.config; mkdir ~/.config; end
 
+set_color brgrey
 rsync -aP ./.config/fish ~/.config/
 rsync -aP ./.gitconfig ~/
 rsync -aP ./.tmux* ~/
 rsync -aP ./.vim* ~/
+set_color normal
+echo
 
-echo 'Done syncing.'
+fisher
+
+set -l prompt 'Would you like to set your git user name and email?'
+read -l -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal" set_git_user
+
+if test -z "$set_git_user"; or test $set_git_user = 'y'; or test $set_git_user = 'Y'
+   read -l -P 'name: ' first_name last_name
+   set -l full_name $first_name
+
+   if test -n "$last_name"
+       set full_name "$full_name $last_name"
+   end
+
+   git config --global user.name $full_name
+
+   read -l -P 'email: ' email
+
+   git config --global user.email $email
+end
+
+echo -s \n 'Done syncing.'
