@@ -20,6 +20,7 @@ rsync -aP ./.config/fish ~/.config/
 rsync -aP ./.gitconfig ~/
 rsync -aP ./.tmux* ~/
 rsync -aP ./.vim* ~/
+rsync -aP ./.ideavimrc ~/
 
 echo
 fisher
