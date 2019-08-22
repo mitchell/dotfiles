@@ -45,11 +45,14 @@ nnoremap <C-p> :FZF<cr>
 let g:gruvbox_italic=1
 colorscheme gruvbox
 
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
 let g:lightline = {
 \   'colorscheme': 'gruvbox',
 \}
 
 let g:ale_linters = {
+\   'javascript': ['tsserver'],
 \   'css': ['csslint'],
 \   'go': ['golint', 'go vet', 'gopls'],
 \   'typescript': ['tslint', 'tsserver', 'typecheck'],

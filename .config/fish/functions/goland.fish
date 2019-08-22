@@ -1,4 +1,4 @@
 function goland
-  open -a Goland .
+    open -a Goland .
 end
 
