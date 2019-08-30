@@ -52,7 +52,7 @@ let g:lightline = {
 \}
 
 let g:ale_linters = {
-\   'javascript': ['tsserver'],
+\   'javascript': ['tsserver', 'eslint'],
 \   'css': ['csslint'],
 \   'go': ['golint', 'go vet', 'gopls'],
 \   'typescript': ['tslint', 'tsserver', 'typecheck'],
@@ -62,7 +62,7 @@ let g:ale_linters = {
 \   'dart': ['language_server', 'dartanalyzer'],
 \   'fish': ['fish'],
 \   'vim': ['vint'],
-\   'elixir': ['credo', 'elixir-ls'],
+\   'elixir': ['credo', 'elixir-ls', 'mix'],
 \}
 
 
