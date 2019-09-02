@@ -9,7 +9,6 @@ function fish_prompt --description 'Write out the prompt'
     set -l node_version
     set -l ex_version
     set -l dart_version
-    set -l flutter_version
     set -l jobs_num
     set -l exit_code
 
@@ -134,11 +133,6 @@ function fish_prompt --description 'Write out the prompt'
     if test -e ./pubspec.yaml
         set -l version_str (string match -r '\d+\.\d+\.?\d*' (dart --version 2>| cat))
         set dart_version ' with ' (set_color brblue) 'dart' $version_str (set_color normal)
-
-        if cat pubspec.yaml | grep flutter > /dev/null
-            set -l version_str (string sub -s 9 (string match -r 'Flutter \d+\.\d+\.?\d*' (flutter --version)))
-            set flutter_version ' on ' (set_color blue) 'flutter' $version_str (set_color normal)
-        end
     end
 
     # Combine all prompt variables
