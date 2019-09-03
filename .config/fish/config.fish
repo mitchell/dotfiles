@@ -3,8 +3,6 @@ set -gx GOBIN $GOPATH/bin
 set -gx PATH $PATH $GOBIN \
     $HOME/.pub-cache/bin \
     $HOME/Documents/bash_scripts \
-    $HOME/Library/Python/2.7/bin \
-    $HOME/.n/bin \
     $HOME/Documents/flutter/bin \
     $HOME/.cargo/bin
 
