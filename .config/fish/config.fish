@@ -2,7 +2,7 @@ set -gx GOPATH $HOME/Documents/go
 set -gx GOBIN $GOPATH/bin
 set -gx PATH $PATH $GOBIN \
     $HOME/.pub-cache/bin \
-    $HOME/Documents/bash_scripts \
+    $HOME/Documents/scripts \
     $HOME/Documents/flutter/bin \
     $HOME/.cargo/bin
 

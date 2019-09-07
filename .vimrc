@@ -21,10 +21,11 @@ set mouse=a
 set nowrap
 set number
 set expandtab
-set runtimepath+=/usr/local/opt/fzf
 set textwidth=100
 set noshowmode
 set background=dark
+
+set runtimepath+=/usr/local/opt/fzf
 
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -62,7 +63,7 @@ let g:ale_linters = {
 \   'dart': ['language_server', 'dartanalyzer'],
 \   'fish': ['fish'],
 \   'vim': ['vint'],
-\   'elixir': ['credo', 'elixir-ls', 'mix'],
+\   'elixir': ['credo', 'elixir-ls'],
 \}
 
 
@@ -84,4 +85,5 @@ let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
 let g:ale_completion_enabled = 1
 let g:ale_completion_delay = 500
+let g:ale_elixir_elixir_ls_release = expand('~/Documents/elixir-ls/bin')
 
