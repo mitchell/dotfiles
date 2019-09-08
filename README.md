@@ -8,6 +8,9 @@ This repo contains my preferred configurations for:
 - vim
 - tmux
 - git
+- yabai wm
+- skhd
+- kitty term
 
 Which also implies they are all dependencies to use the whole configuration.
 
