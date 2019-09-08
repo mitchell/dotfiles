@@ -64,6 +64,7 @@ let g:ale_linters = {
 \   'fish': ['fish'],
 \   'vim': ['vint'],
 \   'elixir': ['credo', 'elixir-ls'],
+\   'cs': ['csc'],
 \}
 
 
