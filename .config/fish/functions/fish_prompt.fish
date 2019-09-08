@@ -20,7 +20,7 @@ function fish_prompt --description 'Write out the prompt'
     # Set jobs num, based on exit code of jobs command
     if jobs > /dev/null
         set -l jobs_out (jobs -c)
-        set jobs_num '[' (set_color brblack) (count $jobs_out) (set_color normal) '] '
+        set jobs_num '[' (set_color grey) (count $jobs_out) (set_color normal) '] '
     end
 
     # Set cwd color and prompt suffix, based on current user and fish_bind_mode.
@@ -47,16 +47,16 @@ function fish_prompt --description 'Write out the prompt'
         case '*'
             set color_cwd $fish_color_cwd
             
-            set suffix '~~>'
+            set suffix '$~>'
 
             if test $fish_key_bindings = 'fish_vi_key_bindings'
                 switch "$fish_bind_mode"
                 case 'insert'
                     set suffix (set_color brblue) $suffix (set_color normal)
                 case 'default'
-                    set suffix '<~>'
+                    set suffix '<$>'
                 case 'visual'
-                    set suffix (set_color bryellow) '<~~' (set_color normal)
+                    set suffix (set_color bryellow) '<~$' (set_color normal)
                 end
             end
     end

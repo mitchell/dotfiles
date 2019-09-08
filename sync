@@ -2,7 +2,7 @@
 
 echo 'Syncing configuration files to your home dir...'
 
-set_color brgrey
+set_color grey
 
 set -l fwd (pwd)
 set -l cwd (string match -r '\w+$' $fwd)
