@@ -17,10 +17,13 @@ end
 if ! test -e ~/.config; mkdir ~/.config; end
 
 rsync -aP ./.config/fish ~/.config/
+rsync -aP ./.config/kitty ~/.config/
 rsync -aP ./.gitconfig ~/
 rsync -aP ./.tmux* ~/
 rsync -aP ./.vim* ~/
 rsync -aP ./.ideavimrc ~/
+rsync -aP ./.yabairc ~/
+rsync -aP ./.skhdrc ~/
 
 echo
 fisher
