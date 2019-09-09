@@ -43,6 +43,9 @@ nnoremap <leader>n :NERDTree<cr>
 nnoremap <leader>w <C-w>
 nnoremap <C-p> :FZF<cr>
 
+" next line is necessary to prevent background rendering bug with kitty term
+let &t_ut=''
+
 let g:gruvbox_italic=1
 colorscheme gruvbox
 
