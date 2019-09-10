@@ -9,4 +9,4 @@ set -gx PATH $PATH $GOBIN \
 set -g fish_escape_delay_ms 10
 
 # The next line updates PATH for the Google Cloud SDK.
-if test -f '/Users/m/Documents/google-cloud-sdk/path.fish.inc'; source '/Users/m/Documents/google-cloud-sdk/path.fish.inc'; end
+# if test -f '/Users/m/Documents/google-cloud-sdk/path.fish.inc'; source '/Users/m/Documents/google-cloud-sdk/path.fish.inc'; end
