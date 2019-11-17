@@ -58,3 +58,15 @@
 [submodule ".vim/bundle/omnisharp-vim"]
 	path = .vim/bundle/omnisharp-vim
 	url = https://github.com/OmniSharp/omnisharp-vim.git
+[submodule ".vim/bundle/yats.vim"]
+	path = .vim/bundle/yats.vim
+	url = https://github.com/HerringtonDarkholme/yats.vim.git
+[submodule ".vim/bundle/vim-jsx-pretty"]
+	path = .vim/bundle/vim-jsx-pretty
+	url = https://github.com/MaxMEllon/vim-jsx-pretty.git
+[submodule ".vim/bundle/goyo.vim"]
+	path = .vim/bundle/goyo.vim
+	url = https://github.com/junegunn/goyo.vim.git
+[submodule ".vim/bundle/limelight.vim"]
+	path = .vim/bundle/limelight.vim
+	url = https://github.com/junegunn/limelight.vim.git

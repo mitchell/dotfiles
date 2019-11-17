@@ -15,6 +15,8 @@
   squash = commit --squash
   unstage = reset HEAD
   rum = rebase master@{u}
+  puff = pull --ff-only
+  merff = merge --ff-only
 
 [core]
   editor = vim

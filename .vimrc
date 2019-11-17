@@ -67,7 +67,7 @@ let g:ale_linters = {
 \   'fish': ['fish'],
 \   'vim': ['vint'],
 \   'elixir': ['credo', 'elixir-ls'],
-\   'cs': ['csc'],
+\   'cs': ['OmniSharp'],
 \}
 
 
@@ -91,3 +91,4 @@ let g:ale_completion_enabled = 1
 let g:ale_completion_delay = 500
 let g:ale_elixir_elixir_ls_release = expand('~/Documents/elixir-ls/bin')
 
+let g:OmniSharp_server_stdio = 1

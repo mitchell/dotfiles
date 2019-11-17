@@ -82,8 +82,8 @@ function fish_prompt --description 'Write out the prompt'
 
         set -l cur_branch_len (string length $cur_branch)
         if test $cur_branch_len -gt 21
-            set -l sub_str (string sub -s (math $cur_branch_len - 17) -l 18 $cur_branch)
-            set cur_branch "...$sub_str"
+            set -l sub_str (string sub -l 18 $cur_branch)
+            set cur_branch "$sub_str..."
         end
 
         if string match 'Your branch is ahead of*' $git_status > /dev/null
