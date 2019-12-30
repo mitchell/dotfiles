@@ -56,10 +56,10 @@ let g:lightline = {
 \}
 
 let g:ale_linters = {
-\   'javascript': ['tsserver', 'eslint'],
-\   'css': ['csslint'],
+\   'javascript': ['tsserver', 'eslint', 'stylelint'],
+\   'css': ['stylelint'],
 \   'go': ['golint', 'go vet', 'gopls'],
-\   'typescript': ['tslint', 'tsserver', 'typecheck'],
+\   'typescript': ['tslint', 'tsserver', 'typecheck', 'stylelint'],
 \   'make': ['checkmake'],
 \   'proto': ['protoc-gen-lint'],
 \   'dockerfile': ['hadolint'],
@@ -92,3 +92,9 @@ let g:ale_completion_delay = 500
 let g:ale_elixir_elixir_ls_release = expand('~/Documents/elixir-ls/bin')
 
 let g:OmniSharp_server_stdio = 1
+
+augroup js_ft
+  au!
+  autocmd BufNewFile,BufRead *.jsx   set ft=javascript
+  autocmd BufNewFile,BufRead *.tsx   set ft=typescript
+augroup END
