@@ -2,8 +2,8 @@ if &shell =~# 'fish$'
   set shell=sh
 endif
 
-syntax enable
 filetype plugin on
+syntax on
 execute pathogen#infect()
 
 set t_Co=256
@@ -48,6 +48,7 @@ nnoremap <leader>g :ALEGoToDefinition<cr>
 nnoremap <leader>r :ALEFindReferences<cr>
 nnoremap <leader>d :ALEDetail<cr>
 nnoremap <leader>h :ALEHover<cr>
+nmap <leader>wk <Plug>VimwikiIndex
 
 " next line is necessary to prevent background rendering bug with kitty term
 let &t_ut=''
@@ -99,8 +100,10 @@ let g:ale_elixir_elixir_ls_release = expand('~/Documents/elixir-ls/bin')
 
 let g:OmniSharp_server_stdio = 1
 
+let g:vimwiki_list = [{'path': '/keybase/private/mjfs/wiki'}]
+
 augroup js_ft
   au!
-  autocmd BufNewFile,BufRead *.jsx   set ft=javascript
-  autocmd BufNewFile,BufRead *.tsx   set ft=typescript
+  autocmd BufNewFile,BufRead *.jsx    set ft=javascript
+  autocmd BufNewFile,BufRead *.tsx    set ft=typescript
 augroup END
