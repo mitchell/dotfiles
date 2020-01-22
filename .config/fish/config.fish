@@ -6,7 +6,8 @@ set -gx PATH $PATH $GOBIN \
     $HOME/.pub-cache/bin \
     $HOME/Documents/scripts \
     $HOME/Documents/flutter/bin \
-    $HOME/.cargo/bin
+    $HOME/.cargo/bin \
+    $HOME/.rbenv/versions/2.7.0/bin
 
 set -g fish_escape_delay_ms 10
 

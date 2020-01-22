@@ -35,13 +35,19 @@ else
     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
+nnoremap <C-p> :FZF<cr>
+
 let mapleader = 'j'
 inoremap <leader>j <Esc>
 
 let mapleader = ','
 nnoremap <leader>n :NERDTree<cr>
 nnoremap <leader>w <C-w>
-nnoremap <C-p> :FZF<cr>
+nnoremap <leader>p :FZF<cr>
+nnoremap <leader>g :ALEGoToDefinition<cr>
+nnoremap <leader>r :ALEFindReferences<cr>
+nnoremap <leader>d :ALEDetail<cr>
+nnoremap <leader>h :ALEHover<cr>
 
 " next line is necessary to prevent background rendering bug with kitty term
 let &t_ut=''
