@@ -20,10 +20,12 @@ set laststatus=2
 set mouse=a
 set nowrap
 set number
-set expandtab
 set textwidth=100
 set noshowmode
 set background=dark
+set tabstop=2
+set shiftwidth=2
+set expandtab
 
 set runtimepath+=/usr/local/opt/fzf
 
@@ -48,6 +50,7 @@ nnoremap <leader>g :ALEGoToDefinition<cr>
 nnoremap <leader>r :ALEFindReferences<cr>
 nnoremap <leader>d :ALEDetail<cr>
 nnoremap <leader>h :ALEHover<cr>
+nnoremap <leader>a :Ack<cr>
 nmap <leader>wk <Plug>VimwikiIndex
 
 " next line is necessary to prevent background rendering bug with kitty term
