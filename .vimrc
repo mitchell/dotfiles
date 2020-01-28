@@ -51,6 +51,7 @@ nnoremap <leader>r :ALEFindReferences<cr>
 nnoremap <leader>d :ALEDetail<cr>
 nnoremap <leader>h :ALEHover<cr>
 nnoremap <leader>a :Ack<cr>
+nnoremap <leader>we :VimwikiAll2HTML<cr>
 nmap <leader>wk <Plug>VimwikiIndex
 
 " next line is necessary to prevent background rendering bug with kitty term
@@ -67,7 +68,6 @@ let g:lightline = {
 
 let g:ale_linters = {
 \   'javascript': ['tsserver', 'eslint', 'stylelint'],
-\   'css': ['stylelint'],
 \   'go': ['golint', 'go vet', 'gopls'],
 \   'typescript': ['tslint', 'tsserver', 'typecheck', 'stylelint'],
 \   'make': ['checkmake'],
