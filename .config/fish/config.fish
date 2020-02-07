@@ -2,6 +2,7 @@ set -gx EDITOR vim
 set -gx GOPATH $HOME/Documents/go
 set -gx GOBIN $GOPATH/bin
 set -gx DOTNET_ENVIRONMENT Development
+set -gx DOTNET_CLI_TELEMETRY_OPTOUT true
 set -gx PATH $PATH $GOBIN \
     $HOME/.pub-cache/bin \
     $HOME/Documents/scripts \

@@ -73,3 +73,6 @@
 [submodule ".vim/bundle/vimwiki"]
 	path = .vim/bundle/vimwiki
 	url = https://github.com/vimwiki/vimwiki.git
+[submodule ".vim/bundle/vim-fsharp"]
+	path = .vim/bundle/vim-fsharp
+	url = https://github.com/fsharp/vim-fsharp.git
