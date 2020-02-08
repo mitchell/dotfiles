@@ -10,11 +10,8 @@ set -gx PATH $PATH $GOBIN \
     $HOME/.cargo/bin \
     $HOME/.dotnet/tools
 
-set -g fish_escape_delay_ms 10
-
-kitty + complete setup fish | source
-
-source (brew --prefix asdf)/asdf.fish
+command -sq kitty; and kitty + complete setup fish | source
+command -sq asdf; and source (brew --prefix asdf)/asdf.fish
 
 # The next line updates PATH for the Google Cloud SDK.
 # if test -f '/Users/m/Documents/google-cloud-sdk/path.fish.inc'; source '/Users/m/Documents/google-cloud-sdk/path.fish.inc'; end
