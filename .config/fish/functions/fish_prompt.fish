@@ -72,8 +72,8 @@ function fish_prompt --description 'Write out the prompt'
             set branch_color yellow
         end
 
-        set -l cur_branch (git branch --show-current)
-        if test -z $cur_branch; set cur_branch 'detached'; end
+        set -l cur_branch (string sub -s 3 (string match -r '^\* .*$' (git branch)))
+        if string match -q '(HEAD detached*' $cur_branch; set cur_branch 'detached'; end
 
         set -l cur_branch_len (string length $cur_branch)
         if test $cur_branch_len -gt 21
