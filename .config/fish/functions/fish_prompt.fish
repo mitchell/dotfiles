@@ -96,13 +96,13 @@ function fish_prompt --description 'Write out the prompt'
     end
 
     # Set go version, by existence of go mod or dep files
-    if test -e ./go.mod; or test -e ./Gopkg.toml
+    if test -e ./go.mod; or test -e ./Gopkg.toml; and which go > /dev/null
         set -l version_str (string match -r 'go\d+\.\d+\.?\d*' (go version))
         set go_version ' with ' (set_color 8eadaf) $version_str (set_color normal)
     end
 
     # Set docker version, by existence of Dockerfile
-    if test -e ./Dockerfile
+    if test -e ./Dockerfile; and which docker > /dev/null
         set -l version_str (string match -r '\d+\.\d+\.?\d*' (docker --version))
         set docker_version ' on ' (set_color blue) 'docker' $version_str (set_color normal)
     end
@@ -113,24 +113,24 @@ function fish_prompt --description 'Write out the prompt'
     end
 
     # Set node (and ts) version, based on existance of package.json (and tsconfig.json)
-    if test -e ./package.json
+    if test -e ./package.json; and which node > /dev/null
         set -l version_str (string sub -s 2 (node -v))
         set node_version ' with ' (set_color brgreen) 'node' $version_str (set_color normal)
 
-        if test -e ./tsconfig.json
+        if test -e ./tsconfig.json; and which tsc > /dev/null
           set -l version_str (string match -r '\d+\.\d+\.?\d*' (tsc -v))
           set node_version $node_version ' and ' (set_color cyan) 'ts' $version_str (set_color normal)
         end
     end
 
     # Set elixir version, based on existance of mix.exs
-    if test -e ./mix.exs
+    if test -e ./mix.exs; and which elixir > /dev/null
         set -l version_str (string sub -s 8 (string match -r 'Elixir \d+\.\d+\.?\d*' (elixir -v)))
         set ex_version ' with ' (set_color magenta) 'ex' $version_str (set_color normal)
     end
 
     # Set dart version, based on existances of pubspec.yaml
-    if test -e ./pubspec.yaml
+    if test -e ./pubspec.yaml; and which dart > /dev/null
         set -l version_str (string match -r '\d+\.\d+\.?\d*' (dart --version 2>| cat))
         set dart_version ' with ' (set_color brblue) 'dart' $version_str (set_color normal)
     end
