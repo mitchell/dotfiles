@@ -76,3 +76,6 @@
 [submodule ".vim/bundle/vim-fsharp"]
 	path = .vim/bundle/vim-fsharp
 	url = https://github.com/fsharp/vim-fsharp.git
+[submodule ".vim/bundle/vim-terraform"]
+	path = .vim/bundle/vim-terraform
+	url = https://github.com/hashivim/vim-terraform.git

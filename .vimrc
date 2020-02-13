@@ -44,7 +44,6 @@ inoremap <leader>j <Esc>
 
 let mapleader = ','
 nnoremap <leader>n :NERDTree<cr>
-nnoremap <leader>w <C-w>
 nnoremap <leader>p :FZF<cr>
 nnoremap <leader>g :ALEGoToDefinition<cr>
 nnoremap <leader>r :ALEFindReferences<cr>
@@ -52,7 +51,6 @@ nnoremap <leader>d :ALEDetail<cr>
 nnoremap <leader>h :ALEHover<cr>
 nnoremap <leader>a :Ack<cr>
 nnoremap <leader>we :VimwikiAll2HTML<cr>
-nmap <leader>wk <Plug>VimwikiIndex
 
 " next line is necessary to prevent background rendering bug with kitty term
 let &t_ut=''
@@ -78,6 +76,7 @@ let g:ale_linters = {
 \   'vim': ['vint'],
 \   'elixir': ['credo', 'elixir-ls'],
 \   'cs': ['OmniSharp'],
+\   'terraform': ['terraform', 'tflint'],
 \}
 
 
@@ -93,6 +92,7 @@ let g:ale_fixers = {
 \   'html': ['prettier'],
 \   'make': ['remove_trailing_lines', 'trim_whitespace'],
 \   'elixir': ['mix_format'],
+\   'terraform': ['terraform'],
 \}
 
 let g:ale_fix_on_save = 1

@@ -61,7 +61,7 @@ function fish_prompt --description 'Write out the prompt'
     if test -n "$SSH_CLIENT"; set user_prefix $USER @ (prompt_hostname) ' '; end
 
     # Show current git branch, based on git commands only.
-    if test -e ./.git; and command -sq git
+    if git status > /dev/null 2>&1
         set -l branch_color green
         set -l git_status (git status)
 
