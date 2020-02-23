@@ -98,7 +98,7 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
 let g:ale_completion_enabled = 1
-let g:ale_completion_delay = 500
+let g:ale_completion_delay = 100
 let g:ale_elixir_elixir_ls_release = expand('~/Documents/elixir-ls/bin')
 
 let g:OmniSharp_server_stdio = 1

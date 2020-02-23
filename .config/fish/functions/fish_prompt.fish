@@ -94,7 +94,7 @@ function fish_prompt --description 'Write out the prompt'
     if test -e ./go.mod; or test -e ./Gopkg.toml; and command -sq go
         if test -z "$go_version"
             set -l version_str (string match -r 'go\d+\.\d+\.?\d*' (go version))
-            set go_version ' with ' (set_color 8eadaf) $version_str (set_color normal)
+            set -g go_version ' with ' (set_color 8eadaf) $version_str (set_color normal)
         end
     else
         set -g go_version
@@ -104,7 +104,7 @@ function fish_prompt --description 'Write out the prompt'
     if test -e ./Dockerfile; and command -sq docker
         if test -z "$docker_version"
             set -l version_str (string match -r '\d+\.\d+\.?\d*' (docker --version))
-            set docker_version ' on ' (set_color blue) 'docker' $version_str (set_color normal)
+            set -g docker_version ' on ' (set_color blue) 'docker' $version_str (set_color normal)
         end
     else
         set -g docker_version
@@ -119,11 +119,11 @@ function fish_prompt --description 'Write out the prompt'
     if test -e ./package.json; and command -sq node
         if test -z "$node_version"
             set -l version_str (string sub -s 2 (node -v))
-            set node_version ' with ' (set_color brgreen) 'node' $version_str (set_color normal)
+            set -g node_version ' with ' (set_color brgreen) 'node' $version_str (set_color normal)
 
             if test -e ./tsconfig.json; and command -sq tsc
                 set -l version_str (string match -r '\d+\.\d+\.?\d*' (tsc -v))
-                set node_version $node_version ' and ' (set_color cyan) 'ts' $version_str (set_color normal)
+                set -g node_version $node_version ' and ' (set_color cyan) 'ts' $version_str (set_color normal)
             end
         end
     else
@@ -134,7 +134,7 @@ function fish_prompt --description 'Write out the prompt'
     if test -e ./mix.exs; and command -sq elixir
         if test -z "$ex_version"
             set -l version_str (string sub -s 8 (string match -r 'Elixir \d+\.\d+\.?\d*' (elixir -v)))
-            set ex_version ' with ' (set_color magenta) 'ex' $version_str (set_color normal)
+            set -g ex_version ' with ' (set_color magenta) 'ex' $version_str (set_color normal)
         end
     else
         set -g ex_version
@@ -144,7 +144,7 @@ function fish_prompt --description 'Write out the prompt'
     if test -e ./pubspec.yaml; and command -sq dart
         if test -z "$dart_version"
             set -l version_str (string match -r '\d+\.\d+\.?\d*' (dart --version 2>| cat))
-            set dart_version ' with ' (set_color brblue) 'dart' $version_str (set_color normal)
+            set -g dart_version ' with ' (set_color brblue) 'dart' $version_str (set_color normal)
         end
     else
         set -g dart_version
