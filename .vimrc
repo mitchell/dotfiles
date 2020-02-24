@@ -34,6 +34,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'fsharp/vim-fsharp'
 Plug 'hashivim/vim-terraform'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 call plug#end()
 
@@ -57,8 +58,6 @@ set background=dark
 set tabstop=2
 set shiftwidth=2
 set expandtab
-
-set runtimepath+=/usr/local/opt/fzf
 
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"

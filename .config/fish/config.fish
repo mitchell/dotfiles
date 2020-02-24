@@ -1,4 +1,4 @@
-set -gx EDITOR vim
+set -gx EDITOR nvim
 set -gx GOPATH $HOME/Documents/go
 set -gx GOBIN $GOPATH/bin
 set -gx DOTNET_ENVIRONMENT Development
