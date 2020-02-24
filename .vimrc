@@ -4,7 +4,38 @@ endif
 
 filetype plugin on
 syntax on
-execute pathogen#infect()
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'mileszs/ack.vim'
+Plug 'w0rp/ale'
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'morhetz/gruvbox'
+Plug 'itchyny/lightline.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'edkolev/tmuxline.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'elixir-editors/vim-elixir'
+Plug 'tpope/vim-endwise'
+Plug 'dag/vim-fish'
+Plug 'airblade/vim-gitgutter'
+Plug 'fatih/vim-go'
+Plug 'jparise/vim-graphql'
+Plug 'pangloss/vim-javascript'
+Plug 'reedes/vim-pencil'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-surround'
+Plug 'cespare/vim-toml'
+Plug 'OmniSharp/omnisharp-vim'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'vimwiki/vimwiki'
+Plug 'fsharp/vim-fsharp'
+Plug 'hashivim/vim-terraform'
+
+call plug#end()
 
 set t_Co=256
 set colorcolumn=100
@@ -51,6 +82,8 @@ nnoremap <leader>d :ALEDetail<cr>
 nnoremap <leader>h :ALEHover<cr>
 nnoremap <leader>a :Ack<cr>
 nnoremap <leader>we :VimwikiAll2HTML<cr>
+nnoremap <leader>z :Goyo 110x100%<cr>
+nnoremap <leader>Z :Goyo<cr>
 
 " next line is necessary to prevent background rendering bug with kitty term
 let &t_ut=''

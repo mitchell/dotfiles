@@ -1,4 +1,4 @@
 function v
-  vim (fzf)
+  nvim (fzf)
 end
 
