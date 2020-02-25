@@ -1,63 +1,52 @@
-if &shell =~# 'fish$'
-  set shell=sh
-endif
-
-filetype plugin on
-syntax on
-
 call plug#begin('~/.vim/plugged')
 
-Plug 'mileszs/ack.vim'
+" Contains lots of sensible configurations, which I have in turn omitted from this file
+Plug 'tpope/vim-sensible'
+
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-endwise'
 Plug 'w0rp/ale'
-Plug 'dart-lang/dart-vim-plugin'
 Plug 'morhetz/gruvbox'
 Plug 'itchyny/lightline.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'edkolev/tmuxline.vim'
-Plug 'leafgarland/typescript-vim'
-Plug 'elixir-editors/vim-elixir'
-Plug 'tpope/vim-endwise'
-Plug 'dag/vim-fish'
 Plug 'airblade/vim-gitgutter'
-Plug 'fatih/vim-go'
-Plug 'jparise/vim-graphql'
-Plug 'pangloss/vim-javascript'
-Plug 'reedes/vim-pencil'
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-surround'
-Plug 'cespare/vim-toml'
-Plug 'OmniSharp/omnisharp-vim'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
 Plug 'vimwiki/vimwiki'
-Plug 'fsharp/vim-fsharp'
-Plug 'hashivim/vim-terraform'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/goyo.vim'
+
+Plug 'mileszs/ack.vim', { 'on': 'Ack' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'reedes/vim-pencil', { 'on': ['HardPencil', 'SoftPencil'] }
+Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
+Plug 'junegunn/fzf', { 'on': 'FZF' }
+
+Plug 'dart-lang/dart-vim-plugin', { 'for': 'dart' }
+Plug 'elixir-editors/vim-elixir', { 'for': 'elixir' }
+Plug 'dag/vim-fish', { 'for': 'fish' }
+Plug 'fatih/vim-go', { 'for': ['go', 'gomod'] }
+Plug 'jparise/vim-graphql', { 'for': 'graphql' }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+Plug 'cespare/vim-toml', { 'for': 'toml' }
+Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
+Plug 'HerringtonDarkholme/yats.vim', { 'for': 'typescript' }
+Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['typescript', 'javascript'] }
+Plug 'fsharp/vim-fsharp', { 'for': 'fsharp' }
+Plug 'hashivim/vim-terraform', { 'for': 'terraform' }
 
 call plug#end()
 
-set t_Co=256
 set colorcolumn=100
-set autoindent
-set showcmd
 set cursorline
-set wildmenu
 set showmatch
 set lazyredraw
-set incsearch
 set hlsearch
-set laststatus=2
 set mouse=a
-set nowrap
 set number
 set textwidth=100
 set noshowmode
 set background=dark
-set tabstop=2
-set shiftwidth=2
-set expandtab
 
 if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -73,7 +62,7 @@ let mapleader = 'j'
 inoremap <leader>j <Esc>
 
 let mapleader = ','
-nnoremap <leader>n :NERDTree<cr>
+nnoremap <leader>n :NERDTreeToggle<cr>
 nnoremap <leader>p :FZF<cr>
 nnoremap <leader>g :ALEGoToDefinition<cr>
 nnoremap <leader>r :ALEFindReferences<cr>
@@ -81,8 +70,8 @@ nnoremap <leader>d :ALEDetail<cr>
 nnoremap <leader>h :ALEHover<cr>
 nnoremap <leader>a :Ack<cr>
 nnoremap <leader>we :VimwikiAll2HTML<cr>
-nnoremap <leader>z :Goyo 110x100%<cr>
-nnoremap <leader>Z :Goyo<cr>
+nnoremap <leader>z :Goyo<cr>
+nnoremap <leader>Z :Goyo 110x100%<cr>
 
 " next line is necessary to prevent background rendering bug with kitty term
 let &t_ut=''

@@ -19,7 +19,7 @@
   merff = merge --ff-only
 
 [core]
-  editor = vim
+  editor = nvim
 
 [color]
   ui = auto
