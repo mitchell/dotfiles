@@ -123,8 +123,15 @@ let g:vimwiki_list = [{'path': '/keybase/private/mjfs/wiki'}]
 
 augroup js_ft
   au!
-  autocmd BufNewFile,BufRead *.jsx    set ft=javascript
-  autocmd BufNewFile,BufRead *.tsx    set ft=typescript
+  autocmd BufNewFile,BufRead *.jsx	set ft=javascript
+  autocmd BufNewFile,BufRead *.tsx	set ft=typescript
+augroup END
+
+augroup wiki_ft
+  au!
+  autocmd BufNewFile,BufRead *.wiki	set tabstop=20 shiftwidth=20 textwidth=80 expandtab
+  autocmd BufNewFile,BufRead *.wiki	Goyo 80
+  autocmd BufNewFile,BufRead *.wiki	HardPencil
 augroup END
 
 if exists('$TMUX')
