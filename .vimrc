@@ -50,6 +50,7 @@ set number
 set textwidth=100
 set noshowmode
 set background=dark
+set nowrap
 
 nnoremap <C-p> :FZF<cr>
 
@@ -119,6 +120,8 @@ let g:ale_elixir_elixir_ls_release = expand('~/Documents/elixir-ls/bin')
 
 let g:OmniSharp_server_stdio = 1
 
+let g:pencil#map#suspend_af = 'K'
+
 let g:vimwiki_list = [{'path': '/keybase/private/mjfs/wiki'}]
 
 augroup js_ft
@@ -129,8 +132,7 @@ augroup END
 
 augroup wiki_ft
   au!
-  autocmd BufNewFile,BufRead *.wiki	set tabstop=20 shiftwidth=20 textwidth=80 expandtab
-  autocmd BufNewFile,BufRead *.wiki	Goyo 80
+  autocmd BufNewFile,BufRead *.wiki	set tabstop=20 shiftwidth=0 textwidth=79 expandtab
   autocmd BufNewFile,BufRead *.wiki	HardPencil
 augroup END
 
