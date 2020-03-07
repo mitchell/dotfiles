@@ -37,6 +37,7 @@ Plug 'HerringtonDarkholme/yats.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'fsharp/vim-fsharp', { 'do': './make' }
 Plug 'hashivim/vim-terraform'
+Plug 'PProvost/vim-ps1'
 
 call plug#end()
 
@@ -47,10 +48,13 @@ set lazyredraw
 set hlsearch
 set mouse=a
 set number
-set textwidth=100
 set noshowmode
 set background=dark
 set nowrap
+set tabstop=2
+set shiftwidth=0
+set expandtab
+set textwidth=100
 
 nnoremap <C-p> :FZF<cr>
 
@@ -68,6 +72,9 @@ nnoremap <leader>a :Ack<cr>
 nnoremap <leader>we :VimwikiAll2HTML<cr>
 nnoremap <leader>z :Goyo<cr>
 nnoremap <leader>Z :Goyo 110x100%<cr>
+
+" Allows you to use // in order to search for the visually selected text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " next line is necessary to prevent background rendering bug with kitty term
 let &t_ut=''
@@ -132,7 +139,7 @@ augroup END
 
 augroup wiki_ft
   au!
-  autocmd BufNewFile,BufRead *.wiki	set tabstop=20 shiftwidth=0 textwidth=79 expandtab
+  autocmd BufNewFile,BufRead *.wiki	set textwidth=79
   autocmd BufNewFile,BufRead *.wiki	HardPencil
 augroup END
 
