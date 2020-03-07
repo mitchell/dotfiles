@@ -27,20 +27,19 @@ rsync -aP ./.yabairc ~/
 rsync -aP ./.skhdrc ~/
 
 echo
-fisher
+eval fisher
 
 set_color normal
 
-
 set -l prompt 'Would you like to set your git user name and email?'
-set -l set_git_user (read -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal")
+read -l -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal" set_git_user
 
 if test -z "$set_git_user"; or test "$set_git_user" = 'y'; or test "$set_git_user" = 'Y'
-   set -l name (read -P 'name: ')
+   read -l -P 'name: ' name
 
    git config --global user.name $name
 
-   set -l email (read -P 'email: ')
+   read -l -P 'email: ' email
 
    git config --global user.email $email
 end
