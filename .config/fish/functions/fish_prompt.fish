@@ -75,10 +75,12 @@ function fish_prompt --description 'Write out the prompt'
         set -l cur_branch (string sub -s 3 (string match -r '^\* .*$' (git branch)))
         if string match -q '(HEAD detached*' $cur_branch; set cur_branch 'detached'; end
 
-        set -l cur_branch_len (string length $cur_branch)
-        if test $cur_branch_len -gt 21
-            set -l sub_str (string sub -l 18 $cur_branch)
-            set cur_branch "$sub_str..."
+        if test -n "$cur_branch"
+            set -l cur_branch_len (string length $cur_branch)
+            if test $cur_branch_len -gt 21
+                set -l sub_str (string sub -l 18 $cur_branch)
+                set cur_branch "$sub_str..."
+            end
         end
 
         if string match 'Your branch is ahead of*' $git_status > /dev/null

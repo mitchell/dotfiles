@@ -15,3 +15,22 @@ command -sq asdf; and source (brew --prefix asdf)/asdf.fish
 
 # The next line updates PATH for the Google Cloud SDK.
 # if test -f '/Users/m/Documents/google-cloud-sdk/path.fish.inc'; source '/Users/m/Documents/google-cloud-sdk/path.fish.inc'; end
+
+# aliases
+function cat; bat --theme ansi-dark $argv; end
+
+function cp; rsync -aP $argv; end
+
+function dm; docker-machine $argv; end
+
+function dm-env; eval (docker-machine env $argv); end
+
+function goland; open -a Goland .;  end
+
+function rider; open -a Rider .;  end
+
+function v; nvim (fzf); end
+
+function vg; vagrant $argv; end
+
+function webstorm; open -a Webstorm .;  end

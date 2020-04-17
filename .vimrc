@@ -16,7 +16,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'junegunn/goyo.vim'
 
 " Conditionally loaded plugins
-Plug 'tpope/vim-fugitive', { 'on': ['G', 'Git'] }
+Plug 'tpope/vim-fugitive', { 'on': ['G', 'Git'], 'for': 'gitcommit' }
 Plug 'mileszs/ack.vim', { 'on': 'Ack' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'reedes/vim-pencil', { 'on': ['HardPencil', 'SoftPencil'] }
@@ -101,6 +101,7 @@ let g:ale_linters = {
 \   'elixir': ['credo', 'elixir-ls'],
 \   'cs': ['OmniSharp'],
 \   'terraform': ['terraform', 'tflint'],
+\   'ruby': ['rubocop', 'solargraph'],
 \}
 
 
@@ -117,6 +118,7 @@ let g:ale_fixers = {
 \   'make': ['remove_trailing_lines', 'trim_whitespace'],
 \   'elixir': ['mix_format'],
 \   'terraform': ['terraform'],
+\   'ruby': ['rubocop'],
 \}
 
 let g:ale_fix_on_save = 1
