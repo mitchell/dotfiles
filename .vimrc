@@ -38,6 +38,7 @@ Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'fsharp/vim-fsharp', { 'do': './make' }
 Plug 'hashivim/vim-terraform'
 Plug 'PProvost/vim-ps1'
+Plug 'vmchale/dhall-vim'
 
 call plug#end()
 
@@ -125,7 +126,7 @@ let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
 let g:ale_completion_enabled = 1
 let g:ale_completion_delay = 100
-let g:ale_elixir_elixir_ls_release = expand('~/Documents/elixir-ls/bin')
+let g:ale_elixir_elixir_ls_release = expand('~/code/elixir-lsp/elixir-ls/bin')
 
 let g:OmniSharp_server_stdio = 1
 
@@ -142,7 +143,6 @@ augroup END
 augroup wiki_ft
   au!
   autocmd BufNewFile,BufRead *.wiki	set textwidth=79
-  autocmd BufNewFile,BufRead *.wiki	HardPencil
 augroup END
 
 if exists('$TMUX')
