@@ -92,7 +92,7 @@ let g:lightline = {
 let g:ale_linters = {
 \   'javascript': ['tsserver', 'eslint', 'stylelint'],
 \   'go': ['golint', 'go vet', 'gopls'],
-\   'typescript': ['tslint', 'tsserver', 'typecheck', 'stylelint'],
+\   'typescript': ['eslint', 'tsserver', 'typecheck', 'stylelint'],
 \   'make': ['checkmake'],
 \   'proto': ['protoc-gen-lint'],
 \   'dockerfile': ['hadolint'],
@@ -109,8 +109,8 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
 \   'graphql': ['prettier'],
-\   'javascript': ['prettier'],
-\   'typescript': ['prettier'],
+\   'javascript': ['eslint'],
+\   'typescript': ['eslint'],
 \   'css': ['prettier'],
 \   'yaml': ['prettier'],
 \   'json': ['prettier'],
@@ -136,8 +136,8 @@ let g:vimwiki_list = [{'path': '/keybase/private/mjfs/wiki'}]
 
 augroup js_ft
   au!
-  autocmd BufNewFile,BufRead *.jsx	set ft=javascript
-  autocmd BufNewFile,BufRead *.tsx	set ft=typescript
+  autocmd BufNewFile,BufRead *.jsx	set ft=javascript.jsx
+  autocmd BufNewFile,BufRead *.tsx	set ft=typescript.tsx
 augroup END
 
 augroup wiki_ft
