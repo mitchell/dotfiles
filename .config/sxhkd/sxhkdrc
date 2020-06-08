@@ -8,7 +8,16 @@ super + Return
 
 # program launcher
 super + @space
-	dmenu_run
+	rofi -width 30 \
+       -lines 10 \
+       -font 'JetBrains Mono 10' \
+       -location 2 \
+       -yoffset 100 \
+       -terminal kitty \
+       -theme gruvbox-light \
+       -combi-modi window,drun,run \
+       -show combi \
+       -modi combi
 
 # make sxhkd reload its configuration files:
 super + Escape
