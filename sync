@@ -21,6 +21,7 @@ rsync -aP ./.config/kitty ~/.config/
 rsync -aP ./.config/nvim ~/.config/
 rsync -aP ./.config/bspwm ~/.config/
 rsync -aP ./.config/sxhkd ~/.config/
+rsync -aP ./.config/picom ~/.config/
 rsync -aP ./.gitconfig ~/
 rsync -aP ./.tmux* ~/
 rsync -aP ./.vim* ~/
