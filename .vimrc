@@ -37,6 +37,7 @@ Plug 'HerringtonDarkholme/yats.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'fsharp/vim-fsharp', { 'do': './make' }
 Plug 'hashivim/vim-terraform'
+Plug 'b4b4r07/vim-hcl'
 Plug 'PProvost/vim-ps1'
 Plug 'vmchale/dhall-vim'
 
@@ -71,8 +72,8 @@ nnoremap <leader>d :ALEDetail<cr>
 nnoremap <leader>h :ALEHover<cr>
 nnoremap <leader>a :Ack<cr>
 nnoremap <leader>we :VimwikiAll2HTML<cr>
-nnoremap <leader>z :Goyo<cr>
-nnoremap <leader>Z :Goyo 110x100%<cr>
+nnoremap <leader>z :Goyo 101x100%<cr>
+nnoremap <leader>Z :Goyo<cr>
 
 " Allows you to use // in order to search for the visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
@@ -82,6 +83,8 @@ let &t_ut=''
 
 let g:gruvbox_italic=1
 colorscheme gruvbox
+
+highlight Normal ctermbg=None
 
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
@@ -103,6 +106,7 @@ let g:ale_linters = {
 \   'cs': ['OmniSharp'],
 \   'terraform': ['terraform', 'tflint'],
 \   'ruby': ['rubocop', 'solargraph'],
+\   'css': ['stylelint'],
 \}
 
 
@@ -111,7 +115,7 @@ let g:ale_fixers = {
 \   'graphql': ['prettier'],
 \   'javascript': ['eslint'],
 \   'typescript': ['eslint'],
-\   'css': ['prettier'],
+\   'css': ['prettier', 'stylelint'],
 \   'yaml': ['prettier'],
 \   'json': ['prettier'],
 \   'dart': ['dartfmt'],
@@ -138,11 +142,6 @@ augroup js_ft
   au!
   autocmd BufNewFile,BufRead *.jsx	set ft=javascript.jsx
   autocmd BufNewFile,BufRead *.tsx	set ft=typescript.tsx
-augroup END
-
-augroup wiki_ft
-  au!
-  autocmd BufNewFile,BufRead *.wiki	set textwidth=79
 augroup END
 
 if exists('$TMUX')
