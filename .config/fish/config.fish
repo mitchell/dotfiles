@@ -4,7 +4,7 @@ function _define_variables
 
     set -gx DOTNET_ENVIRONMENT Development
     set -gx DOTNET_CLI_TELEMETRY_OPTOUT true
-    set -gx DOTNET_ROOT $HOME/.asdf/installs/dotnet-core/(command -sq dotnet; and dotnet --version)
+    set -gx DOTNET_ROOT $HOME/.asdf/installs/dotnet-core/(command -q dotnet; and dotnet --version)
 
     set -gx EDITOR nvim
 
@@ -28,13 +28,13 @@ end
 
 # _source_imports loads any additional fish files in at init
 function _source_imports -a uname
-    command -sq kitty; and kitty + complete setup fish | source
+    command -q kitty; and kitty + complete setup fish | source
 
     switch $uname
         case Linux
             test -e ~/.asdf/asdf.fish; and source ~/.asdf/asdf.fish
         case Darwin
-            command -sq brew
+            command -q brew
             and test -e (brew --prefix asdf)/asdf.fish
             and source (brew --prefix asdf)/asdf.fish
     end
