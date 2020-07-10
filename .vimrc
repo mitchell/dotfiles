@@ -36,8 +36,8 @@ Plug 'OmniSharp/omnisharp-vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'fsharp/vim-fsharp', { 'do': './make' }
-Plug 'hashivim/vim-terraform'
 Plug 'b4b4r07/vim-hcl'
+Plug 'hashivim/vim-terraform'
 Plug 'PProvost/vim-ps1'
 Plug 'vmchale/dhall-vim'
 
@@ -142,6 +142,11 @@ augroup js_ft
   au!
   autocmd BufNewFile,BufRead *.jsx	set ft=javascript.jsx
   autocmd BufNewFile,BufRead *.tsx	set ft=typescript.tsx
+augroup END
+
+augroup wiki_ft
+  au!
+  autocmd BufNewFile,BufRead *.wiki	set tw=70 cc=70
 augroup END
 
 if exists('$TMUX')
