@@ -49,6 +49,7 @@ function _set_aliases -a uname
     alias dm 'docker-machine'
     alias v  'nvim (fzf)'
     alias vg 'vagrant'
+    alias tf 'terraform'
     alias tocb 'xclip -in -selection clipboard'
     alias fromcb 'xclip -out -selection clipboard'
 
