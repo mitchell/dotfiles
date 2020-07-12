@@ -130,13 +130,13 @@ let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
 let g:ale_completion_enabled = 1
 let g:ale_completion_delay = 100
-let g:ale_elixir_elixir_ls_release = expand('~/code/elixir-lsp/elixir-ls/bin')
+let g:ale_elixir_elixir_ls_release = expand('~/code/elixir-lsp/elixir-ls/bin/')
 
 let g:OmniSharp_server_stdio = 1
 
 let g:pencil#map#suspend_af = 'K'
 
-let g:vimwiki_list = [{'path': '/keybase/private/mjfs/wiki'}]
+let g:vimwiki_list = [{'path': expand('~/.wiki/')}]
 
 augroup js_ft
   au!
