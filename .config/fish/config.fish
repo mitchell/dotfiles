@@ -1,5 +1,16 @@
-# _define_variables defines all and exclusively globally exported variables
-function _define_variables
+function main
+  # Determine OS
+  set -l uname (uname)
+
+  # Begin profile init
+  define_variables
+  import_sources $uname
+  set_aliases $uname
+  define_functions $uname
+end
+
+# define_variables defines all and exclusively globally exported variables
+function define_variables
     set -gx AWS_SDK_LOAD_CONFIG true
 
     set -gx DOTNET_ENVIRONMENT Development
@@ -17,8 +28,7 @@ function _define_variables
     set -gx LIBVIRT_DEFAULT_URI 'qemu:///system'
 
     set -gx PATH $PATH $GOBIN \
-        /snap/bin \
-        $HOME/bin \
+        $HOME/.local/bin \
         $HOME/.pub-cache/bin \
         $HOME/code/scripts \
         $HOME/code/flutter/bin \
@@ -26,8 +36,8 @@ function _define_variables
         $HOME/.dotnet/tools
 end
 
-# _source_imports loads any additional fish files in at init
-function _source_imports -a uname
+# import_sources loads any additional fish files in at init
+function import_sources -a uname
     command -q kitty; and kitty + complete setup fish | source
 
     switch $uname
@@ -43,8 +53,8 @@ function _source_imports -a uname
     # if test -f '/Users/m/Documents/google-cloud-sdk/path.fish.inc'; source '/Users/m/Documents/google-cloud-sdk/path.fish.inc'; end
 end
 
-# _set_aliases sets aliases for commonly used command
-function _set_aliases -a uname
+# set_aliases sets aliases for commonly used command
+function set_aliases -a uname
     alias cp 'rsync -aP'
     alias dm 'docker-machine'
     alias v  'nvim (fzf)'
@@ -52,6 +62,7 @@ function _set_aliases -a uname
     alias tf 'terraform'
     alias tocb 'xclip -in -selection clipboard'
     alias fromcb 'xclip -out -selection clipboard'
+    alias ssh-rm-host 'ssh-keygen -f ~/.ssh/known_hosts -R'
 
     switch $uname
         case Linux
@@ -67,8 +78,8 @@ function _set_aliases -a uname
     end
 end
 
-# _define_functions defines a couple of small globally available functions
-function _define_functions -a uname
+# define_functions defines a couple of small globally available functions
+function define_functions -a uname
     function dm-env; eval (docker-machine env $argv); end
 
     function temp -a ft
@@ -103,13 +114,12 @@ function _define_functions -a uname
     end
 
     alias editcb "_editcb $uname"
+
+    function back
+      set log_name (string join _ $argv)
+      nohup $argv > "$log_name.out" &
+      echo "Log file: ./$log_name.out"
+    end
 end
 
-# Determine OS
-set -l uname (uname)
-
-# Begin profile init
-_define_variables
-_source_imports $uname
-_set_aliases $uname
-_define_functions $uname
+main

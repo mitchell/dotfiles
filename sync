@@ -39,11 +39,9 @@ read -l -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal" set_git_
 
 if test -z "$set_git_user"; or test "$set_git_user" = 'y'; or test "$set_git_user" = 'Y'
    read -l -P 'name: ' name
-
-   git config --global user.name $name
-
    read -l -P 'email: ' email
 
+   git config --global user.name $name
    git config --global user.email $email
 end
 
