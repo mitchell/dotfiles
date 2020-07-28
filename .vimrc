@@ -72,8 +72,8 @@ nnoremap <leader>d :ALEDetail<cr>
 nnoremap <leader>h :ALEHover<cr>
 nnoremap <leader>a :Ack<cr>
 nnoremap <leader>we :VimwikiAll2HTML<cr>
+nnoremap <leader>wz :VimwikiIndex<cr> :Goyo<cr>
 nnoremap <leader>z :Goyo 101x100%<cr>
-nnoremap <leader>Z :Goyo<cr>
 
 " Allows you to use // in order to search for the visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
@@ -107,6 +107,7 @@ let g:ale_linters = {
 \   'terraform': ['terraform', 'tflint'],
 \   'ruby': ['rubocop', 'solargraph'],
 \   'css': ['stylelint'],
+\   'sh': ['shellcheck'],
 \}
 
 
