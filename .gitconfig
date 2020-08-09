@@ -1,5 +1,6 @@
 [alias]
   co = checkout
+  sco = restore --staged
   br = branch
   cm = commit
   st = status
