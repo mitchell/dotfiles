@@ -23,8 +23,10 @@ rsync -aP ./.config/bspwm ~/.config/
 rsync -aP ./.config/sxhkd ~/.config/
 rsync -aP ./.config/picom ~/.config/
 rsync -aP ./.gitconfig ~/
-rsync -aP ./.tmux* ~/
-rsync -aP ./.vim* ~/
+rsync -aP ./.tmux-line.conf ~/
+rsync -aP ./.tmux.conf ~/
+rsync -aP ./.vim ~/
+rsync -aP ./.vimrc ~/
 rsync -aP ./.ideavimrc ~/
 rsync -aP ./.yabairc ~/
 rsync -aP ./.skhdrc ~/
