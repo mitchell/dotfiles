@@ -1,56 +1,90 @@
 #!/usr/bin/env fish
 
-echo 'Syncing configuration files to your home dir...'
+function main
+  set start_dir (pwd)
+  set cwd (string match -r '\w+$' $start_dir)
+  set uname (uname)
 
-set_color grey
+  echo 'Syncing configuration files to your home dir...'
+  set_color grey
 
-set -l fwd (pwd)
-set -l cwd (string match -r '\w+$' $fwd)
+  setup_tmp_space $cwd
 
-if test ! "$cwd" = 'dotfiles'
-    cd /var/tmp
-    git clone --recurse-submodules https://github.com/mitchell/dotfiles.git
-    cd ./dotfiles
-    echo
+  sync_files
+
+  set_kitty_font_size $uname
+
+  install_fisher_packages
+
+  set_color normal
+
+  set_git_user
+
+  clean_up_tmp_space $cwd $start_dir
+
+  echo -s \n 'Done syncing.'
 end
 
-if ! test -e ~/.config; mkdir ~/.config; end
-
-rsync -aP ./.config/fish ~/.config/
-rsync -aP ./.config/kitty ~/.config/
-rsync -aP ./.config/nvim ~/.config/
-rsync -aP ./.config/bspwm ~/.config/
-rsync -aP ./.config/sxhkd ~/.config/
-rsync -aP ./.config/picom ~/.config/
-rsync -aP ./.gitconfig ~/
-rsync -aP ./.tmux-line.conf ~/
-rsync -aP ./.tmux.conf ~/
-rsync -aP ./.vim ~/
-rsync -aP ./.vimrc ~/
-rsync -aP ./.ideavimrc ~/
-rsync -aP ./.yabairc ~/
-rsync -aP ./.skhdrc ~/
-
-echo
-eval fisher
-
-set_color normal
-
-set -l prompt 'Would you like to set your git user name and email?'
-read -l -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal" set_git_user
-
-if test -z "$set_git_user"; or test "$set_git_user" = 'y'; or test "$set_git_user" = 'Y'
-   read -l -P 'name: ' name
-   read -l -P 'email: ' email
-
-   git config --global user.name $name
-   git config --global user.email $email
+function setup_tmp_space -a cwd
+  if test ! "$cwd" = 'dotfiles'
+      cd /var/tmp
+      git clone --recurse-submodules https://github.com/mitchell/dotfiles.git
+      cd ./dotfiles
+  end
 end
 
-if test ! "$cwd" = 'dotfiles'
-    cd ..
-    rm -rf ./dotfiles
-    cd $fwd
+function sync_files
+  if ! test -e ~/.config; mkdir ~/.config; end
+
+  rsync -aP ./.config/fish ~/.config/
+  rsync -aP ./.config/kitty ~/.config/
+  rsync -aP ./.config/nvim ~/.config/
+  rsync -aP ./.config/bspwm ~/.config/
+  rsync -aP ./.config/sxhkd ~/.config/
+  rsync -aP ./.config/picom ~/.config/
+  rsync -aP ./.gitconfig ~/
+  rsync -aP ./.tmux-line.conf ~/
+  rsync -aP ./.tmux.conf ~/
+  rsync -aP ./.vim ~/
+  rsync -aP ./.vimrc ~/
+  rsync -aP ./.ideavimrc ~/
+  rsync -aP ./.yabairc ~/
+  rsync -aP ./.skhdrc ~/
 end
 
-echo -s \n 'Done syncing.'
+function set_kitty_font_size -a uname
+  if test "$uname" = 'Darwin'
+    sed -i '' -e 's/font_size 11\.0/font_size 13\.0/' ~/.config/kitty/kitty.conf
+  end
+end
+
+function install_fisher_packages
+  eval fisher
+end
+
+function install_nvim_plugins
+  command -q nvim; and nvim +PlugUpgrade +PlugUpdate +qa
+end
+
+function set_git_user
+  set prompt 'Would you like to set your git user name and email?'
+  read -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal" set_git_user
+
+  if test -z "$set_git_user"; or test "$set_git_user" = 'y'; or test "$set_git_user" = 'Y'
+     read -P 'name: ' name
+     read -P 'email: ' email
+
+     git config --global user.name $name
+     git config --global user.email $email
+  end
+end
+
+function clean_up_tmp_space -a cwd start_dir
+  if test ! "$cwd" = 'dotfiles'
+      cd ..
+      rm -rf ./dotfiles
+      cd $start_dir
+  end
+end
+
+main
