@@ -7,7 +7,7 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias tocb 'xclip -in -selection clipboard'
     alias fromcb 'xclip -out -selection clipboard'
     alias ssh-rm-host 'ssh-keygen -f ~/.ssh/known_hosts -R'
-    alias wiki 'nvim +VimwikiIndex; and exit'
+    alias wiki 'nvim +VimwikiIndex'
 
     switch "$uname"
         case 'Linux'
