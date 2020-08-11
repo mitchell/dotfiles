@@ -50,6 +50,7 @@ function sync_files
   rsync -aP ./.ideavimrc ~/
   rsync -aP ./.yabairc ~/
   rsync -aP ./.skhdrc ~/
+  rsync -aP ./.taskrc ~/
 end
 
 function set_kitty_font_size -a uname
