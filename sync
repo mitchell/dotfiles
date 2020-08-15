@@ -20,6 +20,8 @@ function main
 
   set_git_user
 
+  set_fish_universal_vars
+
   clean_up_tmp_space $cwd $start_dir
 
   echo -s \n 'Done syncing.'
@@ -78,6 +80,10 @@ function set_git_user
      git config --global user.name $name
      git config --global user.email $email
   end
+end
+
+function set_fish_universal_vars
+  source ./fish_universal_vars.fish
 end
 
 function clean_up_tmp_space -a cwd start_dir
