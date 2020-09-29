@@ -4,7 +4,9 @@ setxkbmap -option altwin:swap_alt_win
 setxkbmap -option ctrl:swapcaps
 sxhkd &
 wmname LG3D
+xfce4-panel -d &
 picom -b
+~/.fehbg &
 
 bspc monitor -d I II III IV V VI VII
 

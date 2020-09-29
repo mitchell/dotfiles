@@ -10,11 +10,15 @@ function main
 
     setup_tmp_space $cwd
 
-    sync_files
+    sync_terminal_env
+
+    sync_desktop_env
 
     set_kitty_font_size $uname
 
     install_fisher_packages
+
+    install_nvim_plugins
 
     set_color normal
 
@@ -35,24 +39,35 @@ function setup_tmp_space -a cwd
     end
 end
 
-function sync_files
+function sync_terminal_env
     if ! test -e ~/.config; mkdir ~/.config; end
 
     rsync -aP ./.config/fish ~/.config/
-    rsync -aP ./.config/kitty ~/.config/
     rsync -aP ./.config/nvim ~/.config/
-    rsync -aP ./.config/bspwm ~/.config/
-    rsync -aP ./.config/sxhkd ~/.config/
-    rsync -aP ./.config/picom ~/.config/
     rsync -aP ./.gitconfig ~/
     rsync -aP ./.tmux-line.conf ~/
     rsync -aP ./.tmux.conf ~/
     rsync -aP ./.vim ~/
     rsync -aP ./.vimrc ~/
-    rsync -aP ./.ideavimrc ~/
-    rsync -aP ./.yabairc ~/
-    rsync -aP ./.skhdrc ~/
     rsync -aP ./.taskrc ~/
+end
+
+function sync_desktop_env
+    set prompt 'Would you like to sync the desktop environment?'
+    read -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal" sync_desktop_env
+
+    if test -z "$sync_desktop_env"; or test "$sync_desktop_env" = 'y'; or test "$sync_desktop_env" = 'Y'
+        rsync -aP ./.config/kitty ~/.config/
+        rsync -aP ./.config/bspwm ~/.config/
+        rsync -aP ./.config/sxhkd ~/.config/
+        rsync -aP ./.config/picom ~/.config/
+        rsync -aP ./.config/xfce4 ~/.config/
+        rsync -aP ./.config/qutebrowser ~/.config/
+        rsync -aP ./.config/keepassxc ~/.config/
+        rsync -aP ./.ideavimrc ~/
+        rsync -aP ./.yabairc ~/
+        rsync -aP ./.skhdrc ~/
+    end
 end
 
 function set_kitty_font_size -a uname
@@ -71,9 +86,9 @@ end
 
 function set_git_user
     set prompt 'Would you like to set your git user name and email?'
-    read -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal" set_git_user
+    read -p "set_color red; printf '\n$prompt (y/N) '; set_color normal" set_git_user
 
-    if test -z "$set_git_user"; or test "$set_git_user" = 'y'; or test "$set_git_user" = 'Y'
+    if test "$set_git_user" = 'y'; or test "$set_git_user" = 'Y'
         read -P 'name: ' name
         read -P 'email: ' email
 

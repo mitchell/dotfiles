@@ -1,0 +1,258 @@
+#!/usr/bin/env fish
+
+function main
+    provision_m_env
+    provision_desktop_env
+    provision_libvirt
+    #provision_vagrant
+    #provision_docker
+    #provision_syncthing
+    #provision_wireguard
+    #provision_caddy
+end
+
+function provision_m_env
+    log "Provisioning m's environment." head
+
+    log 'Installing git, neovim, tmux, rsync, curl, and kitty-terminfo...'
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install --yes \
+        git \
+        neovim \
+        tmux \
+        rsync \
+        curl \
+        kitty-terminfo \
+        > /dev/null 2>&1
+
+    log 'Installing fzf, silversearcher, bat, and feh.'
+    sudo apt-get install --yes fzf silversearcher-ag bat feh > /dev/null 2>&1
+
+    log 'Adding fish apt repo and install fish...'
+    sudo apt-get install --yes gpg > /dev/null 2>&1
+
+    echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_10/ /' |
+        sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
+
+    curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key |
+        gpg --dearmor |
+        sudo apt-key add -
+
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install --yes fish > /dev/null 2>&1
+
+    log "Setting m's default shell to fish"
+    sudo chsh -s /usr/bin/fish m
+
+    log 'Running dotfiles sync script.'
+    ./sync
+
+    log 'Installing asdf-vm.'
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.8 > /dev/null 2>&1
+
+    log "Done provisioning m's environment." tail
+end
+
+function provision_desktop_env
+    log 'Provisioning desktop environment.' head
+
+    log 'Installing window manager and compositor.'
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install --yes bspwm sxhkd picom > /dev/null 2>&1
+
+    log 'Installing terminal.'
+    sudo apt-get install --yes kitty > /dev/null 2>&1
+
+    log 'Installing panel.'
+    sudo apt-get install --yes xfce4-panel xfce4-pulseaudio-plugin > /dev/null 2>&1
+
+    log 'Installing and configuring xinit and xclip.'
+    sudo apt-get install --yes xinit xclip > /dev/null 2>&1
+    echo 'exec bspwm' > ~/.xinitrc
+
+    log 'Installing browser.'
+    sudo apt-get install --yes qutebrowser > /dev/null 2>&1
+
+    log 'Installing application launcher.'
+    sudo apt-get install --yes rofi > /dev/null 2>&1
+
+    log 'Installing and configuring theme.'
+    sudo apt-get install --yes arc-theme fonts-ibm-plex unzip > /dev/null 2>&1
+
+    log 'Installing desktop background manager.'
+    sudo apt-get install --yes feh > /dev/null 2>&1
+
+    mkdir _fonts_tmp
+    cd _fonts_tmp
+
+    wget -q https://github.com/JetBrains/JetBrainsMono/releases/download/v2.002/JetBrainsMono-2.002.zip
+    unzip JetBrainsMono-2.002.zip > /dev/null
+    mkdir -p ~/.local/share/fonts/truetype/JetBrainsMono
+    cp ./ttf/*.ttf ~/.local/share/fonts/truetype/JetBrainsMono/
+
+    cd ..
+    rm -r _fonts_tmp
+
+    log 'Installing keepassxc and syncthing.'
+    sudo apt-get install --yes keepassxc syncthing > /dev/null 2>&1
+    sudo systemctl enable syncthing@m
+
+    mkdir -p ~/.config/gtk-3.0
+    echo "
+[Settings]
+gtk-icon-theme-name = Adwaita
+gtk-theme-name = Arc-Dark
+gtk-font-name = IBM Plex Sans 11" > ~/.config/gtk-3.0/settings.ini
+
+    log 'Done provisioning desktop environment.' tail
+end
+
+function provision_libvirt
+    log 'Provisioning Libvirt and KVM.' head
+
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install --yes qemu-system libvirt-clients libvirt-daemon-system > /dev/null 2>&1
+    sudo adduser m libvirt
+
+    log 'Done provisioning Libvirt and KVM' tail
+end
+
+function provision_vagrant
+    log 'Provisioning vagrant and the libvirt provider.' head
+
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install --yes wget unzip > /dev/null 2>&1
+
+    log 'Installing vagrant from upstream.'
+    mkdir ./vagrant; and cd ./vagrant
+    wget -q -O ./vagrant.zip https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_linux_amd64.zip
+    unzip ./vagrant.zip
+    mkdir -p ~/.local/bin
+    mv ./vagrant ~/.local/bin/
+    cd ..; and rm -r ./vagrant
+
+    log 'Installing vagrant libvirt provider.'
+    sudo apt-get --yes build-dep vagrant ruby-libvirt > /dev/null 2>&1
+    sudo apt-get --yes install qemu libvirt-daemon-system libvirt-clients ebtables dnsmasq-base > /dev/null 2>&1
+    sudo apt-get --yes install libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev > /dev/null 2>&1
+    vagrant plugin install vagrant-libvirt
+
+    log 'Done provisioning vagrant and libvirt provider.' tail
+end
+
+function provision_docker
+    log 'Provisioning Docker CE and Docker Compose.' head
+
+    log 'Installing docker dependencies.'
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install --yes \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        gnupg-agent \
+        software-properties-common \
+        > /dev/null 2>&1
+
+    log 'Adding Docker apt repo and install docker-ce.'
+    curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+
+    sudo add-apt-repository \
+        'deb [arch=amd64] https://download.docker.com/linux/debian
+        buster
+        stable'
+
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install --yes docker-ce docker-ce-cli containerd.io > /dev/null 2>&1
+
+    log 'Installing docker-compose.'
+    set uname_m (uname -m)
+    set uname_s (uname -s)
+
+    sudo curl \
+        -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$uname_s-$uname_m" \
+        -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+
+    log 'Adding m to docker group.'
+    sudo adduser m docker
+
+    log 'Done provisioning Docker CE and Docker Compose.' tail
+end
+
+function provision_wireguard
+    log 'Provisioning Wireguard.' head
+
+    log 'Installing wireguard and resolvconf.'
+    set uname_r (uname -r)
+
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install --yes "linux-headers-$uname_r" > /dev/null 2>&1
+    sudo apt-get install --yes wireguard resolvconf > /dev/null 2>&1
+
+    log 'Configuring and enabling wg-quick@m-net.'
+    sudo mv m-net.conf /etc/wireguard/
+
+    sudo systemctl enable wg-quick@.service
+    sudo systemctl enable wg-quick@m-net.service
+
+    log 'Done provisioning Wireguard.' tail
+end
+
+function provision_syncthing
+    log 'Provisioning Syncthing.' head
+
+    log 'Adding Syncthing apt repo and installing syncthing.'
+    curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
+
+    echo "deb https://apt.syncthing.net/ syncthing stable" |
+        sudo tee /etc/apt/sources.list.d/syncthing.list
+
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install --yes syncthing > /dev/null 2>&1
+
+    log 'Configuring and enabled syncthing.'
+    mkdir -p ~/.config/syncthing
+    sudo mv config.xml ~/.config/syncthing/
+
+    sudo systemctl enable syncthing@.service
+    sudo systemctl enable syncthing@m.service
+
+    log 'Done provisioning Syncthing.' tail
+end
+
+function provision_caddy
+    log 'Provisioning Caddy.' head
+
+    log 'Adding Caddy repo and installing caddy.'
+    echo "deb [trusted=yes] https://apt.fury.io/caddy/ /" |
+        sudo tee -a /etc/apt/sources.list.d/caddy-fury.list
+
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install --yes caddy > /dev/null 2>&1
+
+    log 'Configuring and enabling caddy.'
+    sudo mv Caddyfile /etc/caddy/
+
+    sudo systemctl enable caddy.service
+
+    log 'Done provisioning Caddy.' tail
+end
+
+function log -a message level
+    if test "$level" = head
+        echo "
+###########################################################################################
+#
+#--> $message
+#"
+    else if test "$level" = tail
+        echo "#--> $message
+#
+###########################################################################################
+"
+    else
+        echo -e "#--> $message\n#"
+    end
+end
+
+main
