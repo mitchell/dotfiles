@@ -1,16 +1,18 @@
 #!/usr/bin/env fish
+# This run(.fish) script serves as a central place to store frequently run commands for this project.
+# Source: https://github.com/mitchell/run.fish
 
-function main
-    provision_m_env
-    provision_desktop_env
-    provision_libvirt
-    #provision_vagrant
-    #provision_docker
-    #provision_syncthing
-    #provision_wireguard
-    #provision_caddy
-end
+### Config ###
+# Top-level configurations, like function prefixes and argument delimeters
+#
+set -g run_func_prefix 'provision'
+set -g run_arg_delimeter ':'
 
+
+### Commands ###
+# Add, edit, and remove commands freely below.
+# To add a command simply create a function with this naming scheme: {run_func_prefix}_{name}.
+#
 function provision_m_env
     log "Provisioning m's environment." head
 
@@ -76,12 +78,13 @@ function provision_desktop_env
     log 'Installing application launcher.'
     sudo apt-get install --yes rofi > /dev/null 2>&1
 
-    log 'Installing and configuring theme.'
+    log 'Installing theme and fonts.'
     sudo apt-get install --yes arc-theme fonts-ibm-plex unzip > /dev/null 2>&1
 
     log 'Installing desktop background manager.'
     sudo apt-get install --yes feh > /dev/null 2>&1
 
+    log 'Installing JetBrainsMono.'
     mkdir _fonts_tmp
     cd _fonts_tmp
 
@@ -93,16 +96,28 @@ function provision_desktop_env
     cd ..
     rm -r _fonts_tmp
 
-    log 'Installing keepassxc and syncthing.'
-    sudo apt-get install --yes keepassxc syncthing > /dev/null 2>&1
-    sudo systemctl enable syncthing@m
-
+    log 'Configure GTK theme and font.'
     mkdir -p ~/.config/gtk-3.0
     echo "
 [Settings]
 gtk-icon-theme-name = Adwaita
 gtk-theme-name = Arc-Dark
 gtk-font-name = IBM Plex Sans 11" > ~/.config/gtk-3.0/settings.ini
+
+    log 'Done provisioning desktop environment.' tail
+end
+
+function provision_m_net
+    log 'Provisioning m-net.' head
+
+    sudo apt-get update > /dev/null 2>&1
+
+    log 'Installing keepassxc.'
+    sudo apt-get install --yes keepassxc > /dev/null 2>&1
+
+    log 'Installing syncthing.'
+    sudo apt-get install --yes syncthing > /dev/null 2>&1
+    sudo systemctl enable syncthing@m
 
     log 'Done provisioning desktop environment.' tail
 end
@@ -189,35 +204,7 @@ function provision_wireguard
     sudo apt-get install --yes "linux-headers-$uname_r" > /dev/null 2>&1
     sudo apt-get install --yes wireguard resolvconf > /dev/null 2>&1
 
-    log 'Configuring and enabling wg-quick@m-net.'
-    sudo mv m-net.conf /etc/wireguard/
-
-    sudo systemctl enable wg-quick@.service
-    sudo systemctl enable wg-quick@m-net.service
-
     log 'Done provisioning Wireguard.' tail
-end
-
-function provision_syncthing
-    log 'Provisioning Syncthing.' head
-
-    log 'Adding Syncthing apt repo and installing syncthing.'
-    curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
-
-    echo "deb https://apt.syncthing.net/ syncthing stable" |
-        sudo tee /etc/apt/sources.list.d/syncthing.list
-
-    sudo apt-get update > /dev/null 2>&1
-    sudo apt-get install --yes syncthing > /dev/null 2>&1
-
-    log 'Configuring and enabled syncthing.'
-    mkdir -p ~/.config/syncthing
-    sudo mv config.xml ~/.config/syncthing/
-
-    sudo systemctl enable syncthing@.service
-    sudo systemctl enable syncthing@m.service
-
-    log 'Done provisioning Syncthing.' tail
 end
 
 function provision_caddy
@@ -229,11 +216,6 @@ function provision_caddy
 
     sudo apt-get update > /dev/null 2>&1
     sudo apt-get install --yes caddy > /dev/null 2>&1
-
-    log 'Configuring and enabling caddy.'
-    sudo mv Caddyfile /etc/caddy/
-
-    sudo systemctl enable caddy.service
 
     log 'Done provisioning Caddy.' tail
 end
@@ -255,4 +237,57 @@ function log -a message level
     end
 end
 
-main
+### Default Commands ###
+# Below is a set of default commands, like help and commands. Give them a try by doing:
+# ./run help
+# ./run help:hello
+# ./run commands
+#
+function "$run_func_prefix"_commands -d 'List all available commands'
+    functions --names | grep $run_func_prefix'_' | string replace $run_func_prefix'_' ''
+end
+
+function "$run_func_prefix"_help -a command -d 'Print command definition'
+    if test -n "$command"
+        functions $run_func_prefix'_'$command
+    else
+        echo 'Here are the available commands:'
+        $run_func_prefix'_commands'
+        echo \n"To see a command's definition and description do `./run help$run_arg_delimeter{command}`"
+    end
+end
+
+### Command Execution ###
+# Do not edit, unless you want to alter how the script executes commands.
+#
+# This script can execute 1 or more commands like make. It can also receive 1 argument per
+# command or subcommand in the following format: {name}{run_arg_delimeter}{argument}.
+#
+# Examples:
+# ./run hello
+# ./run hey:mitchell
+# ./run lang:fr:mitchell
+# ./run hello hey:mitchell lang:fr
+#
+function main
+    for command in $argv
+        set -l last_status $status
+        test $last_status -gt 0; and exit $last_status
+
+        execute_command $run_func_prefix $command
+    end
+end
+
+function execute_command -a prefix command
+    set -l args (string split --max 1 $run_arg_delimeter $command)
+    set -l func $prefix'_'$args[1]
+
+    if functions -q $func
+        $func $args[2]
+    else
+        echo "$prefix command '$command' does not exist"
+        exit 1
+    end
+end
+
+main $argv

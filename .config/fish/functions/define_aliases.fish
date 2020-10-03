@@ -1,7 +1,7 @@
 function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias cp 'rsync -aP'
     alias dm 'docker-machine'
-    alias v  'nvim (fzf)'
+    alias v  'nvim +FZF'
     alias vg 'vagrant'
     alias tf 'terraform'
     alias tocb 'xclip -in -selection clipboard'

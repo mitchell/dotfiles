@@ -114,8 +114,8 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
 \   'graphql': ['prettier'],
-\   'javascript': ['eslint'],
-\   'typescript': ['eslint'],
+\   'javascript': ['eslint', 'prettier'],
+\   'typescript': ['eslint', 'prettier'],
 \   'css': ['prettier', 'stylelint'],
 \   'yaml': ['prettier'],
 \   'json': ['prettier'],
