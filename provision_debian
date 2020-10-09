@@ -79,7 +79,14 @@ function provision_desktop_env
     sudo apt-get install --yes rofi > /dev/null 2>&1
 
     log 'Installing theme and fonts.'
-    sudo apt-get install --yes arc-theme fonts-ibm-plex unzip > /dev/null 2>&1
+    mkdir ./nordic; and cd ./nordic
+    wget -q -O nordic.tar.xz https://github.com/EliverLara/Nordic/releases/download/v1.9.0/Nordic.tar.xz
+    tar -xf ./nordic.tar.xz
+    mkdir ~/.themes
+    mv ./Nordic/ ~/.themes/
+    cd ..; and rm -r ./nordic
+
+    sudo apt-get install --yes fonts-ibm-plex unzip > /dev/null 2>&1
 
     log 'Installing desktop background manager.'
     sudo apt-get install --yes feh > /dev/null 2>&1
@@ -101,7 +108,7 @@ function provision_desktop_env
     echo "
 [Settings]
 gtk-icon-theme-name = Adwaita
-gtk-theme-name = Arc-Dark
+gtk-theme-name = Nordic
 gtk-font-name = IBM Plex Sans 11" > ~/.config/gtk-3.0/settings.ini
 
     log 'Done provisioning desktop environment.' tail
@@ -126,7 +133,12 @@ function provision_libvirt
     log 'Provisioning Libvirt and KVM.' head
 
     sudo apt-get update > /dev/null 2>&1
-    sudo apt-get install --yes qemu-system libvirt-clients libvirt-daemon-system > /dev/null 2>&1
+    sudo apt-get install --yes \
+        qemu-system \
+        libvirt-clients \
+        libvirt-daemon-system \
+        virt-manager \
+        > /dev/null 2>&1
     sudo adduser m libvirt
 
     log 'Done provisioning Libvirt and KVM' tail
@@ -136,20 +148,11 @@ function provision_vagrant
     log 'Provisioning vagrant and the libvirt provider.' head
 
     sudo apt-get update > /dev/null 2>&1
-    sudo apt-get install --yes wget unzip > /dev/null 2>&1
 
-    log 'Installing vagrant from upstream.'
-    mkdir ./vagrant; and cd ./vagrant
-    wget -q -O ./vagrant.zip https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_linux_amd64.zip
-    unzip ./vagrant.zip
-    mkdir -p ~/.local/bin
-    mv ./vagrant ~/.local/bin/
-    cd ..; and rm -r ./vagrant
+    log 'Installing vagrant from apt'
+    sudo apt-get install --yes vagrant-libvirt libvirt-daemon-system > /dev/null 2>&1
 
     log 'Installing vagrant libvirt provider.'
-    sudo apt-get --yes build-dep vagrant ruby-libvirt > /dev/null 2>&1
-    sudo apt-get --yes install qemu libvirt-daemon-system libvirt-clients ebtables dnsmasq-base > /dev/null 2>&1
-    sudo apt-get --yes install libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev > /dev/null 2>&1
     vagrant plugin install vagrant-libvirt
 
     log 'Done provisioning vagrant and libvirt provider.' tail

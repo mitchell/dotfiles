@@ -39,7 +39,7 @@ settings:
   content.xss_auditing:
     global: false
   downloads.location.directory:
-    global: null
+    global: ~/downloads
   downloads.location.prompt:
     global: true
   downloads.location.remember:
@@ -63,9 +63,11 @@ settings:
   editor.encoding:
     global: utf-8
   fonts.default_family:
-    global: IBM Plex Mono
+    global: JetBrains Mono
+  fonts.default_size:
+    global: 8pt
   fonts.web.family.fixed:
-    global: IBM Plex Mono
+    global: JetBrains Mono
   fonts.web.family.sans_serif:
     global: IBM Plex Sans
   fonts.web.family.serif:
@@ -75,8 +77,8 @@ settings:
   fonts.web.size.default:
     global: 16
   url.default_page:
-    global: http://wiki.m
+    global: http://search.m
   url.start_pages:
-    global: http://wiki.m
+    global: http://search.m
   window.title_format:
     global: '{perc}{host}{title_sep}qutebrowser'

@@ -12,7 +12,7 @@ function main
 
     sync_terminal_env
 
-    sync_desktop_env
+    set_fish_universal_vars
 
     set_kitty_font_size $uname
 
@@ -20,11 +20,11 @@ function main
 
     install_nvim_plugins
 
-    set_color normal
-
     set_git_user
 
-    set_fish_universal_vars
+    sync_desktop_env
+
+    set_color normal
 
     clean_up_tmp_space $cwd $start_dir
 
@@ -54,9 +54,10 @@ end
 
 function sync_desktop_env
     set prompt 'Would you like to sync the desktop environment?'
-    read -p "set_color red; printf '\n$prompt (Y/n) '; set_color normal" sync_desktop_env
+    read -p "set_color red; printf '\n$prompt (y/N) '; set_color normal" sync_desktop_env
 
-    if test -z "$sync_desktop_env"; or test "$sync_desktop_env" = 'y'; or test "$sync_desktop_env" = 'Y'
+    if test "$sync_desktop_env" = 'y'; or test "$sync_desktop_env" = 'Y'
+        set_color grey
         rsync -aP ./.config/kitty ~/.config/
         rsync -aP ./.config/bspwm ~/.config/
         rsync -aP ./.config/sxhkd ~/.config/

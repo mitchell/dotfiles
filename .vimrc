@@ -95,7 +95,7 @@ let g:lightline = {
 let g:ale_linters = {
 \   'javascript': ['tsserver', 'eslint', 'stylelint'],
 \   'go': ['golint', 'go vet', 'gopls'],
-\   'typescript': ['eslint', 'tsserver', 'typecheck', 'stylelint'],
+\   'typescript': ['eslint', 'tsserver', 'stylelint'],
 \   'make': ['checkmake'],
 \   'proto': ['protoc-gen-lint'],
 \   'dockerfile': ['hadolint'],

@@ -4,8 +4,8 @@ function main
     log 'Upgrading debian to unstable.' head
 
     echo '
-deb http://deb.debian.org/debian unstable main contrib non-free
-deb-src http://deb.debian.org/debian unstable main contrib non-free' | sudo tee /etc/apt/sources.list
+deb http://ftp.us.debian.org/debian unstable main contrib non-free
+deb-src http://ftp.us.debian.org/debian unstable main contrib non-free' | sudo tee /etc/apt/sources.list
 
     sudo apt-get update > /dev/null 2>&1
     sudo apt-get dist-upgrade --yes
