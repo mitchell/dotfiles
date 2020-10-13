@@ -1,9 +1,9 @@
 #!/usr/bin/env fish
 
 function main
-    set start_dir (pwd)
-    set cwd (string match -r '\w+$' $start_dir)
-    set uname (uname)
+    set -l start_dir (pwd)
+    set -l cwd (string match -r '\w+$' $start_dir)
+    set -l uname (uname)
 
     echo 'Syncing configuration files to your home dir...'
     set_color grey
@@ -55,7 +55,7 @@ function sync_terminal_env
 end
 
 function sync_desktop_env
-    set prompt 'Would you like to sync the desktop environment?'
+    set -l prompt 'Would you like to sync the desktop environment?'
     read -p "set_color red; printf '\n$prompt (y/N) '; set_color normal" sync_desktop_env
 
     if test "$sync_desktop_env" = 'y'; or test "$sync_desktop_env" = 'Y'
@@ -88,7 +88,7 @@ function install_nvim_plugins
 end
 
 function set_git_user
-    set prompt 'Would you like to set your git user name and email?'
+    set -l prompt 'Would you like to set your git user name and email?'
     read -p "set_color red; printf '\n$prompt (y/N) '; set_color normal" set_git_user
 
     if test "$set_git_user" = 'y'; or test "$set_git_user" = 'Y'
