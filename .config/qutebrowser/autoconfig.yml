@@ -78,6 +78,9 @@ settings:
     global: 16
   url.default_page:
     global: http://search.m
+  url.searchengines:
+    global:
+      DEFAULT: http://search.m/?q={}&categories=general,it
   url.start_pages:
     global: http://search.m
   window.title_format:

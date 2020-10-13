@@ -17,7 +17,7 @@ function provision_m_env
     log "Provisioning m's environment." head
 
     log 'Installing git, neovim, tmux, rsync, curl, and kitty-terminfo...'
-    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
     sudo apt-get install --yes \
         git \
         neovim \
@@ -25,23 +25,23 @@ function provision_m_env
         rsync \
         curl \
         kitty-terminfo \
-        > /dev/null 2>&1
+        >/dev/null 2>&1
 
     log 'Installing fzf, silversearcher, bat, and feh.'
-    sudo apt-get install --yes fzf silversearcher-ag bat feh > /dev/null 2>&1
+    sudo apt-get install --yes fzf silversearcher-ag bat feh >/dev/null 2>&1
 
     log 'Adding fish apt repo and install fish...'
-    sudo apt-get install --yes gpg > /dev/null 2>&1
+    sudo apt-get install --yes gpg >/dev/null 2>&1
 
     echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_10/ /' |
-        sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
+    sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
 
     curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key |
-        gpg --dearmor |
-        sudo apt-key add -
+    gpg --dearmor |
+    sudo apt-key add -
 
-    sudo apt-get update > /dev/null 2>&1
-    sudo apt-get install --yes fish > /dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
+    sudo apt-get install --yes fish >/dev/null 2>&1
 
     log "Setting m's default shell to fish"
     sudo chsh -s /usr/bin/fish m
@@ -50,7 +50,7 @@ function provision_m_env
     ./sync
 
     log 'Installing asdf-vm.'
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.8 > /dev/null 2>&1
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.8 >/dev/null 2>&1
 
     log "Done provisioning m's environment." tail
 end
@@ -59,24 +59,24 @@ function provision_desktop_env
     log 'Provisioning desktop environment.' head
 
     log 'Installing window manager and compositor.'
-    sudo apt-get update > /dev/null 2>&1
-    sudo apt-get install --yes bspwm sxhkd picom > /dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
+    sudo apt-get install --yes bspwm sxhkd picom >/dev/null 2>&1
 
     log 'Installing terminal.'
-    sudo apt-get install --yes kitty > /dev/null 2>&1
+    sudo apt-get install --yes kitty >/dev/null 2>&1
 
     log 'Installing panel.'
-    sudo apt-get install --yes xfce4-panel xfce4-pulseaudio-plugin > /dev/null 2>&1
+    sudo apt-get install --yes xfce4-panel xfce4-pulseaudio-plugin >/dev/null 2>&1
 
     log 'Installing and configuring xinit and xclip.'
-    sudo apt-get install --yes xinit xclip > /dev/null 2>&1
-    echo 'exec bspwm' > ~/.xinitrc
+    sudo apt-get install --yes xinit xclip >/dev/null 2>&1
+    echo 'exec bspwm' >~/.xinitrc
 
     log 'Installing browser.'
-    sudo apt-get install --yes qutebrowser > /dev/null 2>&1
+    sudo apt-get install --yes qutebrowser >/dev/null 2>&1
 
     log 'Installing application launcher.'
-    sudo apt-get install --yes rofi > /dev/null 2>&1
+    sudo apt-get install --yes rofi >/dev/null 2>&1
 
     log 'Installing theme and fonts.'
     mkdir ./nordic; and cd ./nordic
@@ -86,17 +86,20 @@ function provision_desktop_env
     mv ./Nordic/ ~/.themes/
     cd ..; and rm -r ./nordic
 
-    sudo apt-get install --yes fonts-ibm-plex unzip > /dev/null 2>&1
+    sudo apt-get install --yes fonts-ibm-plex unzip >/dev/null 2>&1
 
     log 'Installing desktop background manager.'
-    sudo apt-get install --yes feh > /dev/null 2>&1
+    sudo apt-get install --yes feh >/dev/null 2>&1
+
+    log 'Installing screen saver.'
+    sudo apt-get install --yes xfce4-screensaver >/dev/null 2>&1
 
     log 'Installing JetBrainsMono.'
     mkdir _fonts_tmp
     cd _fonts_tmp
 
     wget -q https://github.com/JetBrains/JetBrainsMono/releases/download/v2.002/JetBrainsMono-2.002.zip
-    unzip JetBrainsMono-2.002.zip > /dev/null
+    unzip JetBrainsMono-2.002.zip >/dev/null
     mkdir -p ~/.local/share/fonts/truetype/JetBrainsMono
     cp ./ttf/*.ttf ~/.local/share/fonts/truetype/JetBrainsMono/
 
@@ -109,7 +112,7 @@ function provision_desktop_env
 [Settings]
 gtk-icon-theme-name = Adwaita
 gtk-theme-name = Nordic
-gtk-font-name = IBM Plex Sans 11" > ~/.config/gtk-3.0/settings.ini
+gtk-font-name = IBM Plex Sans 11" >~/.config/gtk-3.0/settings.ini
 
     log 'Done provisioning desktop environment.' tail
 end
@@ -117,13 +120,13 @@ end
 function provision_m_net
     log 'Provisioning m-net.' head
 
-    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
 
     log 'Installing keepassxc.'
-    sudo apt-get install --yes keepassxc > /dev/null 2>&1
+    sudo apt-get install --yes keepassxc >/dev/null 2>&1
 
     log 'Installing syncthing.'
-    sudo apt-get install --yes syncthing > /dev/null 2>&1
+    sudo apt-get install --yes syncthing >/dev/null 2>&1
     sudo systemctl enable syncthing@m
 
     log 'Done provisioning desktop environment.' tail
@@ -132,13 +135,13 @@ end
 function provision_libvirt
     log 'Provisioning Libvirt and KVM.' head
 
-    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
     sudo apt-get install --yes \
         qemu-system \
         libvirt-clients \
         libvirt-daemon-system \
         virt-manager \
-        > /dev/null 2>&1
+        >/dev/null 2>&1
     sudo adduser m libvirt
 
     log 'Done provisioning Libvirt and KVM' tail
@@ -147,10 +150,10 @@ end
 function provision_vagrant
     log 'Provisioning vagrant and the libvirt provider.' head
 
-    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
 
     log 'Installing vagrant from apt'
-    sudo apt-get install --yes vagrant-libvirt libvirt-daemon-system > /dev/null 2>&1
+    sudo apt-get install --yes vagrant-libvirt libvirt-daemon-system >/dev/null 2>&1
 
     log 'Installing vagrant libvirt provider.'
     vagrant plugin install vagrant-libvirt
@@ -162,14 +165,14 @@ function provision_docker
     log 'Provisioning Docker CE and Docker Compose.' head
 
     log 'Installing docker dependencies.'
-    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
     sudo apt-get install --yes \
         apt-transport-https \
         ca-certificates \
         curl \
         gnupg-agent \
         software-properties-common \
-        > /dev/null 2>&1
+        >/dev/null 2>&1
 
     log 'Adding Docker apt repo and install docker-ce.'
     curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
@@ -179,8 +182,8 @@ function provision_docker
         buster
         stable'
 
-    sudo apt-get update > /dev/null 2>&1
-    sudo apt-get install --yes docker-ce docker-ce-cli containerd.io > /dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
+    sudo apt-get install --yes docker-ce docker-ce-cli containerd.io >/dev/null 2>&1
 
     log 'Installing docker-compose.'
     set uname_m (uname -m)
@@ -203,9 +206,9 @@ function provision_wireguard
     log 'Installing wireguard and resolvconf.'
     set uname_r (uname -r)
 
-    sudo apt-get update > /dev/null 2>&1
-    sudo apt-get install --yes "linux-headers-$uname_r" > /dev/null 2>&1
-    sudo apt-get install --yes wireguard resolvconf > /dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
+    sudo apt-get install --yes "linux-headers-$uname_r" >/dev/null 2>&1
+    sudo apt-get install --yes wireguard resolvconf >/dev/null 2>&1
 
     log 'Done provisioning Wireguard.' tail
 end
@@ -215,10 +218,10 @@ function provision_caddy
 
     log 'Adding Caddy repo and installing caddy.'
     echo "deb [trusted=yes] https://apt.fury.io/caddy/ /" |
-        sudo tee -a /etc/apt/sources.list.d/caddy-fury.list
+    sudo tee -a /etc/apt/sources.list.d/caddy-fury.list
 
-    sudo apt-get update > /dev/null 2>&1
-    sudo apt-get install --yes caddy > /dev/null 2>&1
+    sudo apt-get update >/dev/null 2>&1
+    sudo apt-get install --yes caddy >/dev/null 2>&1
 
     log 'Done provisioning Caddy.' tail
 end

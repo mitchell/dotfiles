@@ -5,6 +5,7 @@ setxkbmap -option ctrl:swapcaps
 sxhkd &
 wmname LG3D
 xfce4-panel -d &
+xfce4-screensaver &
 picom -b
 ~/.fehbg &
 

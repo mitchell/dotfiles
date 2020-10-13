@@ -29,7 +29,7 @@ super + Escape
 
 # lock screen
 alt + l
-  xflock4
+  xfce4-screensaver-command --lock
 
 #
 # bspwm hotkeys

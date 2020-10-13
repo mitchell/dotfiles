@@ -40,7 +40,9 @@ function setup_tmp_space -a cwd
 end
 
 function sync_terminal_env
-    if ! test -e ~/.config; mkdir ~/.config; end
+    if ! test -e ~/.config
+        mkdir ~/.config
+    end
 
     rsync -aP ./.config/fish ~/.config/
     rsync -aP ./.config/nvim ~/.config/
