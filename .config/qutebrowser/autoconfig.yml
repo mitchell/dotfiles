@@ -16,7 +16,7 @@ settings:
   auto_save.interval:
     global: 15000
   auto_save.session:
-    global: true
+    global: false
   backend:
     global: webengine
   bindings.commands:
@@ -24,8 +24,12 @@ settings:
       insert: {}
   colors.webpage.darkmode.enabled:
     global: false
+  completion.web_history.max_items:
+    global: 0
   content.autoplay:
     global: false
+  content.cache.size:
+    global: 0
   content.cookies.accept:
     global: no-3rdparty
   content.cookies.store:
@@ -80,7 +84,7 @@ settings:
     global: http://search.m
   url.searchengines:
     global:
-      DEFAULT: http://search.m/?q={}&categories=general,it
+      DEFAULT: http://search.m/?q={}
   url.start_pages:
     global: http://search.m
   window.title_format:

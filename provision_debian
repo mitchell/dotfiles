@@ -1,5 +1,4 @@
 #!/usr/bin/env fish
-# This run(.fish) script serves as a central place to store frequently run commands for this project.
 # Source: https://github.com/mitchell/run.fish
 
 ### Config ###
@@ -8,12 +7,14 @@
 set -g run_func_prefix 'provision'
 set -g run_arg_delimeter ':'
 
+function define_aliases
+end
 
 ### Commands ###
 # Add, edit, and remove commands freely below.
 # To add a command simply create a function with this naming scheme: {run_func_prefix}_{name}.
 #
-function provision_m_env
+function provision_m_env -d 'Provision m environment (fish, git, neovim, etc.)'
     log "Provisioning m's environment." head
 
     log 'Installing git, neovim, tmux, rsync, curl, and kitty-terminfo...'
@@ -55,7 +56,7 @@ function provision_m_env
     log "Done provisioning m's environment." tail
 end
 
-function provision_desktop_env
+function provision_desktop_env -d 'Provision bspwm based desktop environment'
     log 'Provisioning desktop environment.' head
 
     log 'Installing window manager and compositor.'
@@ -117,7 +118,7 @@ gtk-font-name = IBM Plex Sans 11" >~/.config/gtk-3.0/settings.ini
     log 'Done provisioning desktop environment.' tail
 end
 
-function provision_m_net
+function provision_m_net -d 'Provision applications to join m-net'
     log 'Provisioning m-net.' head
 
     sudo apt-get update >/dev/null 2>&1
@@ -132,7 +133,7 @@ function provision_m_net
     log 'Done provisioning desktop environment.' tail
 end
 
-function provision_libvirt
+function provision_libvirt -d 'Provision libvirt and virt-manager'
     log 'Provisioning Libvirt and KVM.' head
 
     sudo apt-get update >/dev/null 2>&1
@@ -147,7 +148,7 @@ function provision_libvirt
     log 'Done provisioning Libvirt and KVM' tail
 end
 
-function provision_vagrant
+function provision_vagrant -d 'Provision vagrant with libvirt plugin'
     log 'Provisioning vagrant and the libvirt provider.' head
 
     sudo apt-get update >/dev/null 2>&1
@@ -161,7 +162,7 @@ function provision_vagrant
     log 'Done provisioning vagrant and libvirt provider.' tail
 end
 
-function provision_docker
+function provision_docker -d 'Provision docker and docker-compose'
     log 'Provisioning Docker CE and Docker Compose.' head
 
     log 'Installing docker dependencies.'
@@ -200,7 +201,7 @@ function provision_docker
     log 'Done provisioning Docker CE and Docker Compose.' tail
 end
 
-function provision_wireguard
+function provision_wireguard -d 'Provision wireguard'
     log 'Provisioning Wireguard.' head
 
     log 'Installing wireguard and resolvconf.'
@@ -213,7 +214,7 @@ function provision_wireguard
     log 'Done provisioning Wireguard.' tail
 end
 
-function provision_caddy
+function provision_caddy -d 'Provision caddy and disable service'
     log 'Provisioning Caddy.' head
 
     log 'Adding Caddy repo and installing caddy.'
@@ -222,6 +223,10 @@ function provision_caddy
 
     sudo apt-get update >/dev/null 2>&1
     sudo apt-get install --yes caddy >/dev/null 2>&1
+
+    log 'Disabling and stopping service.'
+    sudo systemctl disable caddy.service
+    sudo systemctl stop caddy.service
 
     log 'Done provisioning Caddy.' tail
 end
@@ -243,56 +248,63 @@ function log -a message level
     end
 end
 
-### Default Commands ###
-# Below is a set of default commands, like help and commands. Give them a try by doing:
-# ./run help
-# ./run help:hello
-# ./run commands
-#
-function "$run_func_prefix"_commands -d 'List all available commands'
-    functions --names | grep $run_func_prefix'_' | string replace $run_func_prefix'_' ''
-end
-
-function "$run_func_prefix"_help -a command -d 'Print command definition'
-    if test -n "$command"
-        functions $run_func_prefix'_'$command
-    else
-        echo 'Here are the available commands:'
-        $run_func_prefix'_commands'
-        echo \n"To see a command's definition and description do `./run help$run_arg_delimeter{command}`"
-    end
-end
-
-### Command Execution ###
-# Do not edit, unless you want to alter how the script executes commands.
-#
-# This script can execute 1 or more commands like make. It can also receive 1 argument per
-# command or subcommand in the following format: {name}{run_arg_delimeter}{argument}.
-#
-# Examples:
-# ./run hello
-# ./run hey:mitchell
-# ./run lang:fr:mitchell
-# ./run hello hey:mitchell lang:fr
-#
 function main
-    for command in $argv
-        set -l last_status $status
-        test $last_status -gt 0; and exit $last_status
+    alias $run_func_prefix\_default=$run_func_prefix\_help
+    define_aliases
 
-        execute_command $run_func_prefix $command
+    for command in $argv
+        and execute_command $run_func_prefix $command
+    end
+
+    and if test -z "$argv"
+        execute_command $run_func_prefix default
     end
 end
 
 function execute_command -a prefix command
     set -l args (string split --max 1 $run_arg_delimeter $command)
-    set -l func $prefix'_'$args[1]
+    set -l func $prefix\_$args[1]
+
+    define_default_functions $prefix
 
     if functions -q $func
         $func $args[2]
+    else if test -z "$command"
+        execute_command $prefix default
     else
         echo "$prefix command '$command' does not exist"
         exit 1
+    end
+end
+
+function define_default_functions
+    set -g prefix $argv[1]
+
+    function _$prefix\_commands -d 'List all available commands'
+        set -l names (functions --names | grep $prefix\_)
+
+        for name in $names
+            set -l details (functions -D -v $name)
+            set -l description $details[5]
+            set -l short_name (string replace $prefix\_ '' $name)
+
+            if test (string length $short_name) -ge 8
+                echo $short_name\t$description
+            else
+                echo $short_name\t\t$description
+            end
+        end
+    end
+
+    function $prefix\_help -a command -d 'Print help menu or command definition'
+        if test -n "$command"
+            functions $prefix\_$command
+        else
+            echo 'Here are the available commands:'\n
+            _$prefix\_commands
+            echo \n"To see a command's definition do `run help$run_arg_delimeter{command}`"
+            echo "To see a subcommand group's help menu do `run {command}$run_arg_delimeter""help`"
+        end
     end
 end
 

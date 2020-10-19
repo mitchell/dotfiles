@@ -26,7 +26,7 @@ Plug 'junegunn/fzf', { 'on': 'FZF' }
 " Language specific plugins
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'elixir-editors/vim-elixir'
-Plug 'dag/vim-fish'
+Plug 'georgewitteman/vim-fish'
 Plug 'fatih/vim-go'
 Plug 'jparise/vim-graphql'
 Plug 'pangloss/vim-javascript'
@@ -73,6 +73,7 @@ nnoremap <leader>h :ALEHover<cr>
 nnoremap <leader>a :Ack<cr>
 nnoremap <leader>we :VimwikiAll2HTML<cr>
 nnoremap <leader>wz :VimwikiIndex<cr> :Goyo<cr>
+nnoremap <leader>wg :VimwikiGoto
 nnoremap <leader>z :Goyo 101x100%<cr>
 
 " Allows you to use // in order to search for the visually selected text
@@ -139,15 +140,20 @@ let g:pencil#map#suspend_af = 'K'
 
 let g:vimwiki_list = [{'path': expand('~/.wiki/')}]
 
-augroup js_ft
+augroup ft_jsx
   au!
-  autocmd BufNewFile,BufRead *.jsx	set ft=javascript.jsx
-  autocmd BufNewFile,BufRead *.tsx	set ft=typescript.tsx
+  autocmd BufNewFile,BufRead *.jsx  set filetype=javascript.jsx
+  autocmd BufNewFile,BufRead *.tsx  set filetype=typescript.tsx
 augroup END
 
-augroup wiki_ft
+augroup ft_wiki
   au!
-  autocmd BufNewFile,BufRead *.wiki	set tw=70 cc=70
+  autocmd FileType vimwiki  set textwidth=70 colorcolumn=70
+augroup END
+
+augroup ft_fish
+  au!
+  autocmd FileType fish  set tabstop=4
 augroup END
 
 if exists('$TMUX')
