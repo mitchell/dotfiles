@@ -18,6 +18,7 @@
   rum = rebase master@{u}
   puff = pull --ff-only
   merff = merge --ff-only
+  fa = fetch --all
 
 [core]
   editor = nvim
