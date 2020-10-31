@@ -14,6 +14,13 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'vimwiki/vimwiki'
 Plug 'junegunn/goyo.vim'
+Plug 'junegunn/fzf'
+Plug 'autozimu/LanguageClient-neovim', {
+     \ 'branch': 'next',
+     \ 'do': 'bash install.sh',
+     \ }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
 
 " Conditionally loaded plugins
 Plug 'tpope/vim-fugitive', { 'on': ['G', 'Git'], 'for': 'gitcommit' }
@@ -21,7 +28,6 @@ Plug 'mileszs/ack.vim', { 'on': 'Ack' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'reedes/vim-pencil', { 'on': ['HardPencil', 'SoftPencil'] }
 Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
-Plug 'junegunn/fzf', { 'on': 'FZF' }
 
 " Language specific plugins
 Plug 'dart-lang/dart-vim-plugin'
@@ -35,7 +41,7 @@ Plug 'cespare/vim-toml'
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'fsharp/vim-fsharp', { 'do': './make' }
+Plug 'ionide/Ionide-vim'
 Plug 'b4b4r07/vim-hcl'
 Plug 'hashivim/vim-terraform'
 Plug 'PProvost/vim-ps1'
@@ -64,12 +70,16 @@ let mapleader = 'j'
 inoremap <leader>j <Esc>
 
 let mapleader = ','
+nmap <leader>g <Plug>(lcn-definition)
+nmap <leader>r <Plug>(lcn-references)
+nmap <leader>m <Plug>(lcn-menu)
+nmap <leader>h <Plug>(lcn-hover)
+nmap <leader>c <Plug>(lcn-code-lens-action)
+nmap <leader>d <Plug>(lcn-explain-error)
+nnoremap <leader>ls :LanguageClientStop<cr>
+nnoremap <leader>ll :LanguageClientStart<cr>
 nnoremap <leader>n :NERDTreeToggle<cr>
 nnoremap <leader>p :FZF<cr>
-nnoremap <leader>g :ALEGoToDefinition<cr>
-nnoremap <leader>r :ALEFindReferences<cr>
-nnoremap <leader>d :ALEDetail<cr>
-nnoremap <leader>h :ALEHover<cr>
 nnoremap <leader>a :Ack<cr>
 nnoremap <leader>we :VimwikiAll2HTML<cr>
 nnoremap <leader>wz :VimwikiIndex<cr> :Goyo<cr>
@@ -87,52 +97,63 @@ colorscheme gruvbox
 
 highlight Normal ctermbg=None
 
+let g:deoplete#enable_at_startup = 1
+
+let g:LanguageClient_serverCommands = {
+    \ 'javascript': ['typescript-language-server', '--stdio'],
+    \ 'javascript.jsx': ['typescript-language-server', '--stdio'],
+    \ 'typescript': ['typescript-language-server', '--stdio'],
+    \ 'typescript.tsx': ['typescript-language-server', '--stdio'],
+    \ 'elixir': ['~/code/elixir-lsp/elixir-ls/bin/language_server.sh'],
+    \ 'go': ['gopls'],
+    \ 'fsharp': ['dotnet', '~/code/fsprojects/fsharp-language-server/bin/FSharpLanguageServer.dll'],
+    \ }
+
+
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
 let g:lightline = {
-\   'colorscheme': 'gruvbox',
-\}
+    \ 'colorscheme': 'gruvbox',
+    \ }
 
 let g:ale_linters = {
-\   'javascript': ['tsserver', 'eslint', 'stylelint'],
-\   'go': ['golint', 'go vet', 'gopls'],
-\   'typescript': ['eslint', 'tsserver', 'stylelint'],
-\   'make': ['checkmake'],
-\   'proto': ['protoc-gen-lint'],
-\   'dockerfile': ['hadolint'],
-\   'dart': ['language_server', 'dartanalyzer'],
-\   'fish': ['fish'],
-\   'vim': ['vint'],
-\   'elixir': ['credo', 'elixir-ls'],
-\   'cs': ['OmniSharp'],
-\   'terraform': ['terraform', 'tflint'],
-\   'ruby': ['rubocop', 'solargraph'],
-\   'css': ['stylelint'],
-\   'sh': ['shellcheck'],
-\}
+    \ 'javascript': ['eslint', 'stylelint'],
+    \ 'go': ['golint', 'go vet'],
+    \ 'typescript': ['eslint', 'stylelint'],
+    \ 'make': ['checkmake'],
+    \ 'proto': ['protoc-gen-lint'],
+    \ 'dockerfile': ['hadolint'],
+    \ 'dart': ['dartanalyzer'],
+    \ 'fish': ['fish'],
+    \ 'vim': ['vint'],
+    \ 'elixir': ['credo'],
+    \ 'cs': ['OmniSharp'],
+    \ 'terraform': ['tflint'],
+    \ 'ruby': ['rubocop'],
+    \ 'css': ['stylelint'],
+    \ 'sh': ['shellcheck'],
+    \ }
 
 
 let g:ale_fixers = {
-\   'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
-\   'graphql': ['prettier'],
-\   'javascript': ['eslint', 'prettier'],
-\   'typescript': ['eslint', 'prettier'],
-\   'css': ['prettier', 'stylelint'],
-\   'yaml': ['prettier'],
-\   'json': ['prettier'],
-\   'dart': ['dartfmt'],
-\   'html': ['prettier'],
-\   'make': ['remove_trailing_lines', 'trim_whitespace'],
-\   'elixir': ['mix_format'],
-\   'terraform': ['terraform'],
-\   'ruby': ['rubocop'],
-\}
+    \ 'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
+    \ 'graphql': ['prettier'],
+    \ 'javascript': ['eslint', 'prettier'],
+    \ 'typescript': ['eslint', 'prettier'],
+    \ 'css': ['prettier', 'stylelint'],
+    \ 'yaml': ['prettier'],
+    \ 'json': ['prettier'],
+    \ 'dart': ['dartfmt'],
+    \ 'html': ['prettier'],
+    \ 'make': ['remove_trailing_lines', 'trim_whitespace'],
+    \ 'elixir': ['mix_format'],
+    \ 'terraform': ['terraform'],
+    \ 'ruby': ['rubocop'],
+    \ }
 
 let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
-let g:ale_completion_enabled = 1
-let g:ale_completion_delay = 100
-let g:ale_elixir_elixir_ls_release = expand('~/code/elixir-lsp/elixir-ls/bin/')
+let g:ale_completion_enabled = 0
 
 let g:OmniSharp_server_stdio = 1
 
@@ -154,6 +175,14 @@ augroup END
 augroup ft_fish
   au!
   autocmd FileType fish  set tabstop=4
+augroup END
+
+augroup ft_cs
+  au!
+  autocmd FileType cs  nmap <leader>g <Plug>(omnisharp_go_to_definition)
+  autocmd FileType cs  nmap <leader>r <Plug>(omnisharp_find_usages)
+  autocmd FileType cs  nmap <leader>h <Plug>(omnisharp_preview_definition)
+  autocmd FileType cs  nmap <leader>c <Plug>(omnisharp_code_actions)
 augroup END
 
 if exists('$TMUX')
