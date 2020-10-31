@@ -27,16 +27,22 @@ function swim_format -d 'Format fish scripts'
 end
 
 function swim_sync -d 'Run the sync script'
-    ./sync
+    ./sync $argv
 end
 
 function swim_install_arch -d 'Run the install_arch script'
-    ./install_arch
+    ./install_arch $argv
 end
 
-function swim_provision_linux -a distro -d 'Run the provision_linux script with the specified distro'
-    if test -n "$distro"
-        set -g distro $distro
+function swim_upgrade_debi -d 'Run the debian_upgrade script'
+    ./upgrade_debian $argv
+end
+
+function swim_provision -d 'Run the provision_linux script with the specified distro'
+    argparse 'd/distro=' -- $argv
+
+    if test -n "$_flag_d"
+        set -g distro $_flag_d
     end
 
     ./provision_linux $argv[2..-1]

@@ -1,11 +1,12 @@
 #!/usr/bin/env fish
 
 function main
+    argparse 'd/desktop' 'g/git' -- $argv
     set -l start_dir (pwd)
     set -l cwd (string match -r '\w+$' $start_dir)
     set -l uname (uname)
 
-    echo 'Syncing configuration files to your home dir...'
+    log 'Syncing shell environment configurations'
     set_color grey
 
     setup_tmp_space $cwd
@@ -14,20 +15,29 @@ function main
 
     set_fish_universal_vars
 
-    set_kitty_font_size $uname
-
     install_fisher_packages
 
     install_nvim_plugins
 
-    set_git_user
+    if test -n "$_flag_d"
+        set_color normal
+        log 'Syncing desktop environment configurations'
+        set_color grey
 
-    sync_desktop_env
+        sync_desktop_env
+        set_kitty_font_size $uname
+    end
 
-    set_color normal
+    if test -n "$_flag_g"
+        set_color normal
+        log 'Set git user'
+        set_git_user
+        set_color grey
+    end
 
     clean_up_tmp_space $cwd $start_dir
 
+    set_color normal
     echo -s \n 'Done syncing.'
 end
 
@@ -55,22 +65,16 @@ function sync_terminal_env
 end
 
 function sync_desktop_env
-    set -l prompt 'Would you like to sync the desktop environment?'
-    read -p "set_color red; printf '\n$prompt (y/N) '; set_color normal" sync_desktop_env
-
-    if test "$sync_desktop_env" = 'y'; or test "$sync_desktop_env" = 'Y'
-        set_color grey
-        rsync -aP ./.config/kitty ~/.config/
-        rsync -aP ./.config/bspwm ~/.config/
-        rsync -aP ./.config/sxhkd ~/.config/
-        rsync -aP ./.config/picom ~/.config/
-        rsync -aP ./.config/xfce4 ~/.config/
-        rsync -aP ./.config/qutebrowser ~/.config/
-        rsync -aP ./.config/polybar ~/.config/
-        rsync -aP ./.ideavimrc ~/
-        rsync -aP ./.yabairc ~/
-        rsync -aP ./.skhdrc ~/
-    end
+    rsync -aP ./.config/kitty ~/.config/
+    rsync -aP ./.config/bspwm ~/.config/
+    rsync -aP ./.config/sxhkd ~/.config/
+    rsync -aP ./.config/picom ~/.config/
+    rsync -aP ./.config/xfce4 ~/.config/
+    rsync -aP ./.config/qutebrowser ~/.config/
+    rsync -aP ./.config/polybar ~/.config/
+    rsync -aP ./.ideavimrc ~/
+    rsync -aP ./.yabairc ~/
+    rsync -aP ./.skhdrc ~/
 end
 
 function set_kitty_font_size -a uname
@@ -88,16 +92,12 @@ function install_nvim_plugins
 end
 
 function set_git_user
-    set -l prompt 'Would you like to set your git user name and email?'
-    read -p "set_color red; printf '\n$prompt (y/N) '; set_color normal" set_git_user
+    echo 'Please set your git user:'
+    read -P 'name: ' name
+    read -P 'email: ' email
 
-    if test "$set_git_user" = 'y'; or test "$set_git_user" = 'Y'
-        read -P 'name: ' name
-        read -P 'email: ' email
-
-        git config --global user.name $name
-        git config --global user.email $email
-    end
+    git config --global user.name $name
+    git config --global user.email $email
 end
 
 function set_fish_universal_vars
@@ -112,4 +112,8 @@ function clean_up_tmp_space -a cwd start_dir
     end
 end
 
-main
+function log -a message
+    echo \n"---------------- $message ----------------"\n
+end
+
+main $argv
