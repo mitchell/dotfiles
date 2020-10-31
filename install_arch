@@ -1,20 +1,23 @@
 #!/usr/bin/env fish
 
 function main
-    log 'Choose timezone'
+    log 'Enter your configuration'
     read -P 'Timezone: ' -l timezone
+    read -P 'Hostname: ' -l new_host_name
+    read -P 'Network interface: ' -l net_interface
+    read -P 'Is your disk encrypted? (y/N) ' -l is_encrypt
+    read -P 'Username: ' -l username
+    read -P 'Boot mode (bios/uefi): ' -l boot_mode
+    read -P 'Grub target: ' -l device
+
     set_timezone $timezone
 
     set_locale
 
-    log 'Choose hostname'
-    read -P 'Hostname: ' -l new_host_name
     set_hostname $new_host_name
 
-    configure_wired_network 'enp1s0'
+    configure_wired_network $net_interface
 
-    log 'Disc encryption'
-    read -P 'Is your disk encrypted? (y/N)' -l is_encrypt
     if test "$is_encrypt" = 'y'; or test "$is_encrypt" = 'Y'
         add_lvm2_mkinitcpio_hook true
     else
@@ -23,13 +26,8 @@ function main
 
     configure_sudo
 
-    log 'Choose username'
-    read -P 'Username: ' -l username
     create_admin_user $username
 
-    log 'Configure grub'
-    read -P 'Boot mode (bios/uefi): ' -l boot_mode
-    read -P 'Grub target: ' -l device
     install_grub $boot_mode $device
 
     install_openssh
