@@ -1,0 +1,143 @@
+#!/usr/bin/env fish
+
+function main
+    log 'Choose timezone'
+    read -P 'Timezone: ' -l timezone
+    set_timezone $timezone
+
+    set_locale
+
+    log 'Choose hostname'
+    read -P 'Hostname: ' -l new_host_name
+    set_hostname $new_host_name
+
+    configure_wired_network 'enp1s0'
+
+    log 'Disc encryption'
+    read -P 'Is your disk encrypted? (y/N)' -l is_encrypt
+    if test "$is_encrypt" = 'y'; or test "$is_encrypt" = 'Y'
+        add_lvm2_mkinitcpio_hook true
+    else
+        add_lvm2_mkinitcpio_hook
+    end
+
+    configure_sudo
+
+    log 'Choose username'
+    read -P 'Username: ' -l username
+    create_admin_user $username
+
+    log 'Configure grub'
+    read -P 'Boot mode (bios/uefi): ' -l boot_mode
+    read -P 'Grub target: ' -l device
+    install_grub $boot_mode $device
+
+    install_openssh
+end
+
+function install
+    pacman --sync --noconfirm $argv
+end
+
+function log -a message level
+    set message "---------------- $message ----------------"
+    echo \n$message\n
+end
+
+function set_timezone -a timezone
+    log "Setting timezone to $timezone"
+    ln -sf /usr/share/zoneinfo/$timezone /etc/localtime
+
+    log "Syncronising to hardware clock"
+    hwclock --systohc
+end
+
+
+function set_locale
+    log 'Setting locale to en_US.UTF-8 and generating it'
+    sed -i 's/#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
+    locale-gen
+    echo 'LANG=en_US.UTF-8' >/etc/locale.conf
+end
+
+
+function set_hostname -a new_hostname
+    log "Setting hostname to $new_hostname"
+    echo $new_hostname >/etc/hostname
+    echo "
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   $new_hostname.local $new_hostname" >>/etc/hosts
+end
+
+
+function configure_wired_network -a interface
+    log "Configuring DHCP managed wired interface $interface"
+    echo "
+[Match]
+Name=$interface
+
+[Network]
+DHCP=yes" >/etc/systemd/network/20-wired.network
+
+    ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
+    log 'Enabling systemd networkd and resolved services'
+    systemctl enable systemd-networkd.service
+    systemctl enable systemd-resolved.service
+end
+
+
+function add_lvm2_mkinitcpio_hook -a is_encrypt
+    log 'Adding lvm2 mkinitcpio hook'
+    install lvm2
+
+    set -l hooks 'lvm2'
+    if test -n "$is_encrypt"
+        set hooks 'encrypt' $hooks
+    end
+
+    sed -i "s/modconf block filesystems/modconf block $hooks filesystems/" /etc/mkinitcpio.conf
+    mkinitcpio -P
+end
+
+
+function configure_sudo
+    log 'Adding and configuring sudo group'
+    install sudo
+    groupadd sudo
+    set -lx EDITOR sed -i 's/#\s%sudo/%sudo/'
+    visudo
+end
+
+function create_admin_user -a username
+    log "Creating user $username and adding to sudo group"
+    useradd -m $username
+    passwd $username
+    gpasswd -a $username sudo
+end
+
+function install_grub -a boot_mode target
+    log "Installing grub to target $target"
+
+    switch $boot_mode
+        case bios
+            install grub
+            grub-install --target=i386-pc $target
+        case uefi
+            install grub efibootmgr
+            grub-install --target=x86_64-efi --efi-directory=$target --bootloader-id=GRUB
+    end
+
+    grub-mkconfig -o /boot/grub/grub.cfg
+end
+
+function install_openssh
+    log 'Installing openssh'
+    install openssh
+
+    log 'Enabling sshd service'
+    systemctl enable sshd.service
+end
+
+main

@@ -1,0 +1,210 @@
+#!/usr/bin/env fish
+# Source: https://github.com/mitchell/swim.fish
+
+### Config ###
+
+set -g cmd_func_prefix 'provision'
+
+if test -z "$distro"
+    set -g distro 'arch'
+end
+
+
+### Commands ###
+# Add, edit, and remove commands freely below.
+# To add a command simply create a function with this naming scheme: {run_func_prefix}_{name}.
+
+function provision_default -d 'Provisioning terminal, desktop, and m-net'
+    provision_terminal_env
+    and provision_desktop_env
+    and provision_m_net
+end
+
+function provision_terminal_env -d 'Install base terminal utilities and sync configurations'
+    set -l base_pkgs \
+        fish \
+        git \
+        neovim \
+        tmux \
+        rsync \
+        curl \
+        kitty-terminfo \
+        fzf \
+        bat
+
+    set -l arch_pkgs \
+        $base_pkgs \
+        python-neovim \
+        the_silver_searcher
+
+    set -l debian_pkgs \
+        $base_pkgs \
+        silversearcher-ag
+
+    log 'Installing base terminal utilities'
+    install_pkgs
+
+    log 'Setting m\'s default shell to fish'
+    sudo chsh -s /usr/bin/fish m
+
+    log 'Running sync script'
+    ./sync
+
+    log 'Installing asdf-vm'
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+    cd ~/.asdf
+    git checkout (git describe --abbrev=0 --tags)
+end
+
+function provision_desktop_env -d 'Install base desktop utilities and configure theme'
+    set -l base_pkgs \
+        xclip \
+        bspwm \
+        sxhkd \
+        picom \
+        feh \
+        xfce4-screensaver \
+        rofi \
+        kitty \
+        qutebrowser \
+        wget \
+        unzip
+
+    set -l arch_pkgs \
+        $base_pkgs \
+        xorg-server \
+        xorg-xinit \
+        ttf-ibm-plex \
+        ttf-jetbrains-mono \
+        pavucontrol \
+        pulseaudio \
+        wmname
+
+    set -l debian_pkgs \
+        $base_pkgs \
+        xinit \
+        fonts-ibm-plex \
+        suckless-tools \
+        polybar
+
+    log 'Installing base desktop environment utilities'
+    install_pkgs
+
+    log 'Setting xinitrc'
+    echo 'exec bspwm' >~/.xinitrc
+
+    log 'Installing Nordic theme'
+    mkdir _tmp_nordic; and cd ./_tmp_nordic
+    wget -q -O nordic.tar.xz https://github.com/EliverLara/Nordic/releases/download/v1.9.0/Nordic.tar.xz
+    tar -xf ./nordic.tar.xz
+    mkdir ~/.themes
+    mv ./Nordic/ ~/.themes/
+    cd ..; and rm -r ./_tmp_nordic
+
+    if test $distro = debian
+        log 'Installing JetBrains Mono font manually'
+        mkdir _tmp_fonts; and cd ./_tmp_fonts
+        wget -q https://github.com/JetBrains/JetBrainsMono/releases/download/v2.002/JetBrainsMono-2.002.zip
+        unzip JetBrainsMono-2.002.zip >/dev/null
+        mkdir -p ~/.local/share/fonts/truetype/JetBrainsMono
+        cp ./ttf/*.ttf ~/.local/share/fonts/truetype/JetBrainsMono/
+        cd ..; and rm -r ./_tmp_fonts
+    end
+
+    if test $distro = arch
+        log 'Installing polybar from AUR'
+        install_pkgs --needed base-devel
+
+        git clone https://aur.archlinux.org/polybar.git _tmp_polybar
+        and ./_tmp_polybar
+        makepkg --syncdeps --install --clean --noconfirm
+        cd ..
+        rm -rf ./_tmp_polybar
+    end
+
+    log 'Setting gtk theme'
+    mkdir ~/.config/gtk-3.0
+    echo "
+[Settings]
+gtk-icon-theme-name = Adwaita
+gtk-theme-name = Nordic
+gtk-font-name = IBM Plex Sans 11" >~/.config/gtk-3.0/settings.ini
+end
+
+function provision_m_net -d 'Install syncthing and keepassxc'
+    log 'Installing m-net utilities'
+    install_pkgs \
+        keepassxc \
+        syncthing
+
+    log 'Enabling syncthing service'
+    sudo systemctl enable syncthing@m.service
+end
+
+function provision_libvirt -d 'Provision libvirt and virt-manager'
+    log 'Installing libvirt, qemu, and virt-manager'
+    install_libvirt
+end
+
+function provision_vagrant -d 'Provision vagrant with libvirt'
+    install_libvirt
+
+    log 'Installing vagrant and libvirt plugin'
+    set -l arch_pkgs vagrant
+    set -l debian_pkgs vagrant-libvirt
+
+    install_pkgs
+
+    vagrant plugin install vagrant-libvirt
+end
+
+function install_libvirt
+    set -l base_pkgs \
+        virt-manager
+
+    set -l arch_pkgs \
+        $base_pkgs \
+        libvirt \
+        qemu \
+        dnsmasq \
+        ebtables
+
+    set -l debian_pkgs \
+        $base_pkgs \
+        qemu-system \
+        libvirt-clients \
+        libvirt-daemon-system
+
+    install_pkgs
+
+    log 'Adding m to libvirt group and enabling libvirtd service'
+    switch $distro
+        case debian
+            sudo adduser m libvirt
+        case arch
+            sudo gpasswd -a m libvirt
+    end
+
+    sudo systemctl enable libvirtd.service
+end
+
+function install_pkgs -S
+    switch $distro
+        case arch
+            sudo pacman --sync --refresh --noconfirm $arch_pkgs $argv
+        case debian
+            sudo apt-get update >/dev/null 2>&1
+            sudo apt-get install --yes $debian_pkgs $argv
+    end
+end
+
+function log -a message
+    echo \n"---------------- $message ----------------"\n
+end
+
+function main
+    curl -fsS https://git.mjfs.us/mitchell/swim.fish/raw/branch/master/functions/sw.fish | source
+    run_swim_command $cmd_func_prefix $argv
+end
+
+main $argv

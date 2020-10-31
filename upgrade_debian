@@ -1,35 +1,21 @@
 #!/usr/bin/env fish
 
 function main
-    log 'Upgrading debian to unstable.' head
-
+    log 'Update apt sources list'
     echo '
 deb http://ftp.us.debian.org/debian unstable main contrib non-free
 deb-src http://ftp.us.debian.org/debian unstable main contrib non-free' | sudo tee /etc/apt/sources.list
 
+    log 'Upgrading debian to unstable'
     sudo apt-get update >/dev/null 2>&1
     sudo apt-get dist-upgrade --yes
 
-    log 'Done upgrading debian to unstable and rebooting.' tail
-
+    log 'Rebooting'
     sudo reboot
 end
 
-function log -a message level
-    if test "$level" = head
-        echo "
-###########################################################################################
-#
-#--> $message"
-    else if test "$level" = tail
-        echo "#
-#--> $message
-#
-###########################################################################################
-"
-    else
-        echo -e "#\n#--> $message"
-    end
+function log -a message
+    echo \n"---------------- $message ----------------"\n
 end
 
 main
