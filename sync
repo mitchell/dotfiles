@@ -66,6 +66,7 @@ function sync_desktop_env
         rsync -aP ./.config/picom ~/.config/
         rsync -aP ./.config/xfce4 ~/.config/
         rsync -aP ./.config/qutebrowser ~/.config/
+        rsync -aP ./.config/polybar ~/.config/
         rsync -aP ./.ideavimrc ~/
         rsync -aP ./.yabairc ~/
         rsync -aP ./.skhdrc ~/
