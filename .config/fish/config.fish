@@ -7,6 +7,7 @@ function configure_fish
     define_global_variables
     import_sources $uname
     define_aliases $uname
+    ssh_agent_startup
 end
 
 configure_fish

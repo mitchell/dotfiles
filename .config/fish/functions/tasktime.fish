@@ -4,6 +4,6 @@ function tasktime -a id time -d 'Set a time to check-in on task progress using p
 
     task $id start
 
-    fish -c "send_push '\"Half-time: $desc\"' $half_time" > /dev/null & disown
-    fish -c "send_push '\"Timer over: $desc\"' $time" > /dev/null & disown
+    fish -c "send_push '\"Half-time: $desc\"' $half_time" >/dev/null & disown
+    fish -c "send_push '\"Timer over: $desc\"' $time" >/dev/null & disown
 end

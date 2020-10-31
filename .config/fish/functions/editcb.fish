@@ -6,18 +6,18 @@ function editcb -a ft -d 'Opens your editor to the cliboard\'s current contents.
 
     switch "$uname"
         case 'Linux'
-            xclip -out -selection clipboard > $file
+            xclip -out -selection clipboard >$file
         case 'Darwin'
-            pbpaste > $file
+            pbpaste >$file
     end
 
     $EDITOR $file
 
     switch "$uname"
         case 'Linux'
-            xclip -in -selection clipboard < $file
+            xclip -in -selection clipboard <$file
         case 'Darwin'
-            pbcopy < $file
+            pbcopy <$file
     end
 
     rm $file

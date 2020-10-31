@@ -16,8 +16,8 @@ set -U fish_color_operator 00a6b2
 set -U fish_color_param 839496
 set -U fish_color_quote 657b83
 set -U fish_color_redirection 6c71c4
-set -U fish_color_search_match 'bryellow'  '--background=black'
-set -U fish_color_selection 'white'  '--bold'  '--background=brblack'
+set -U fish_color_search_match 'bryellow' '--background=black'
+set -U fish_color_selection 'white' '--bold' '--background=brblack'
 set -U fish_color_status red
 set -U fish_color_user brgreen
 set -U fish_color_valid_path --underline
@@ -25,5 +25,5 @@ set -U fish_greeting
 set -U fish_key_bindings fish_vi_key_bindings
 set -U fish_pager_color_completion B3A06D
 set -U fish_pager_color_description B3A06D
-set -U fish_pager_color_prefix 'cyan'  '--underline'
-set -U fish_pager_color_progress 'brwhite'  '--background=cyan'
+set -U fish_pager_color_prefix 'cyan' '--underline'
+set -U fish_pager_color_progress 'brwhite' '--background=cyan'

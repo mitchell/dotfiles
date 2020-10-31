@@ -3,7 +3,10 @@ function import_sources -a uname -d 'Loads any additional fish files needed at i
 
     switch "$uname"
         case 'Linux'
-            test -e ~/.asdf/asdf.fish; and source ~/.asdf/asdf.fish
+            test -e ~/.asdf/asdf.fish
+            and source ~/.asdf/asdf.fish
+            and mkdir -p ~/.config/fish/completions
+            and cp ~/.asdf/completions/asdf.fish ~/.config/fish/completions
         case 'Darwin'
             command -q brew
             and test -e (brew --prefix asdf)/asdf.fish
