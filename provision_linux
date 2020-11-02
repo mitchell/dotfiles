@@ -48,7 +48,7 @@ function provision_terminal_env -d 'Install base terminal utilities and sync con
     sudo chsh -s /usr/bin/fish m
 
     log 'Running sync script'
-    ./sync
+    ./sync --desktop
 
     log 'Installing asdf-vm'
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf
