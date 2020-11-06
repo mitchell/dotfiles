@@ -88,7 +88,6 @@ end
 
 function add_lvm2_mkinitcpio_hook -a is_encrypt
     log 'Adding lvm2 mkinitcpio hook'
-    install lvm2
 
     set -l hooks 'lvm2'
     if test -n "$is_encrypt"
@@ -96,7 +95,9 @@ function add_lvm2_mkinitcpio_hook -a is_encrypt
     end
 
     sed -i "s/modconf block filesystems/modconf block $hooks filesystems/" /etc/mkinitcpio.conf
-    mkinitcpio -P
+
+    log 'Installing lvm2'
+    install lvm2
 end
 
 

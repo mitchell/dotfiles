@@ -3,13 +3,14 @@
 function main
     argparse 'd/desktop' 'g/git' -- $argv
     set -l start_dir (pwd)
+    set -l tmp_dir (mktemp --directory 2>/dev/null; or mktemp -d -t 'dotfiles')
     set -l cwd (string match -r '\w+$' $start_dir)
     set -l uname (uname)
 
     log 'Syncing shell environment configurations'
     set_color grey
 
-    setup_tmp_space $cwd
+    setup_tmp_space $cwd $tmp_dir
 
     sync_terminal_env
 
@@ -69,7 +70,6 @@ function sync_desktop_env
     rsync -aP ./.config/bspwm ~/.config/
     rsync -aP ./.config/sxhkd ~/.config/
     rsync -aP ./.config/picom ~/.config/
-    rsync -aP ./.config/xfce4 ~/.config/
     rsync -aP ./.config/qutebrowser ~/.config/
     rsync -aP ./.config/polybar ~/.config/
     rsync -aP ./.ideavimrc ~/

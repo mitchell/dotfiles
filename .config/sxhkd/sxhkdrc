@@ -8,7 +8,7 @@ super + Return
 
 # browser
 super + shift + Return
-	firefox
+	qutebrowser
 
 # program launcher
 super + @space

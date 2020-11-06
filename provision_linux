@@ -43,6 +43,7 @@ function provision_terminal_env -d 'Install base terminal utilities and sync con
 
     log 'Installing base terminal utilities'
     install_pkgs
+    or return $status
 
     log 'Setting m\'s default shell to fish'
     sudo chsh -s /usr/bin/fish m
@@ -52,8 +53,8 @@ function provision_terminal_env -d 'Install base terminal utilities and sync con
 
     log 'Installing asdf-vm'
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-    cd ~/.asdf
-    git checkout (git describe --abbrev=0 --tags)
+    and cd ~/.asdf
+    and git checkout (git describe --abbrev=0 --tags)
 end
 
 function provision_desktop_env -d 'Install base desktop utilities and configure theme'
@@ -89,37 +90,49 @@ function provision_desktop_env -d 'Install base desktop utilities and configure 
 
     log 'Installing base desktop environment utilities'
     install_pkgs
+    or return $status
 
     log 'Setting xinitrc'
     echo 'exec bspwm' >~/.xinitrc
 
-    log 'Installing Nordic theme'
-    mkdir _tmp_nordic; and cd ./_tmp_nordic
-    wget -q -O nordic.tar.xz https://github.com/EliverLara/Nordic/releases/download/v1.9.0/Nordic.tar.xz
-    tar -xf ./nordic.tar.xz
-    mkdir ~/.themes
-    mv ./Nordic/ ~/.themes/
-    cd ..; and rm -r ./_tmp_nordic
+    log 'Installing arc-gruvbox theme'
+    mkdir -p ~/.themes
+    xzcat ./oomox-arc-gruvbox.tar.xz | tar --extract --directory=$HOME/.themes
 
     if test $distro = debian
         log 'Installing JetBrains Mono font manually'
-        mkdir _tmp_fonts; and cd ./_tmp_fonts
+
+        set -l cwd (pwd)
+        set -l tmp_dir (mktemp --directory)
+
+        cd $tmp_dir
+
         wget -q https://github.com/JetBrains/JetBrainsMono/releases/download/v2.002/JetBrainsMono-2.002.zip
-        unzip JetBrainsMono-2.002.zip >/dev/null
-        mkdir -p ~/.local/share/fonts/truetype/JetBrainsMono
-        cp ./ttf/*.ttf ~/.local/share/fonts/truetype/JetBrainsMono/
-        cd ..; and rm -r ./_tmp_fonts
+        and unzip -q JetBrainsMono-2.002.zip
+        and mkdir -p ~/.local/share/fonts/truetype/JetBrainsMono
+        and cp ./ttf/*.ttf ~/.local/share/fonts/truetype/JetBrainsMono/
+
+        cd $cwd
+        rm -r $tmp_dir
     end
 
     if test $distro = arch
-        log 'Installing polybar from AUR'
-        install_pkgs --needed base-devel
+        log 'Installing pikaur from AUR'
 
-        git clone https://aur.archlinux.org/polybar.git _tmp_polybar
-        and ./_tmp_polybar
-        makepkg --syncdeps --install --clean --noconfirm
-        cd ..
-        rm -rf ./_tmp_polybar
+        install_pkgs --needed base-devel 
+
+        set -l cwd (pwd)
+        set -l tmp_dir (mktemp --directory)
+
+        git clone https://aur.archlinux.org/pikaur.git $tmp_dir
+        and cd $tmp_dir
+        and makepkg --clean --install --rmdeps --syncdeps --noconfirm
+
+        and log 'Installing polybar from AUR'
+        and pikaur --sync --noconfirm polybar
+
+        cd $cwd
+        rm -rf $tmp_dir
     end
 
     log 'Setting gtk theme'
@@ -127,7 +140,7 @@ function provision_desktop_env -d 'Install base desktop utilities and configure 
     echo "
 [Settings]
 gtk-icon-theme-name = Adwaita
-gtk-theme-name = Nordic
+gtk-theme-name = oomox-arc-gruvbox
 gtk-font-name = IBM Plex Sans 11" >~/.config/gtk-3.0/settings.ini
 end
 
@@ -136,6 +149,7 @@ function provision_m_net -d 'Install syncthing and keepassxc'
     install_pkgs \
         keepassxc \
         syncthing
+    or return $status
 
     log 'Enabling syncthing service'
     sudo systemctl enable syncthing@m.service
@@ -148,12 +162,14 @@ end
 
 function provision_vagrant -d 'Provision vagrant with libvirt'
     install_libvirt
+    or return $status
 
     log 'Installing vagrant and libvirt plugin'
     set -l arch_pkgs vagrant
     set -l debian_pkgs vagrant-libvirt
 
     install_pkgs
+    or return $status
 
     vagrant plugin install vagrant-libvirt
 end
@@ -191,9 +207,11 @@ end
 function install_pkgs -S
     switch $distro
         case arch
-            sudo pacman --sync --refresh --noconfirm $arch_pkgs $argv
+            sudo pacman --sync --refresh --sysupgrade --noconfirm
+            sudo pacman --sync --noconfirm $arch_pkgs $argv
         case debian
             sudo apt-get update >/dev/null 2>&1
+            sudo apt-get upgrade --yes
             sudo apt-get install --yes $debian_pkgs $argv
     end
 end
