@@ -1,8 +1,5 @@
-# Borrowed from bobthefish theme (https://github.com/oh-my-fish/theme-bobthefish).
+# Some functions borrowed from bobthefish theme (https://github.com/oh-my-fish/theme-bobthefish).
 # Copyright (c) 2013-2014 Justin Hileman.
-#
-# Modifications:
-# - Remove lines 75, 76, 78 of original file. Setting '<' as the default left arrow glyph.
 #
 # You can override some default right prompt options in your config.fish:
 #     set -g theme_date_format "+%a %H:%M"

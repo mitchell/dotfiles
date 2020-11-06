@@ -27,31 +27,29 @@ function fish_prompt --description 'Write out the prompt'
                 set color_cwd $fish_color_cwd
             end
 
-            set suffix '#~>'
+            set suffix '#'
 
             if test $fish_key_bindings = 'fish_vi_key_bindings'
                 switch "$fish_bind_mode"
                     case 'insert'
                         set suffix (set_color brblue) $suffix (set_color normal)
-                    case 'default'
-                        set suffix '###'
                     case 'visual'
-                        set suffix (set_color bryellow) '<~#' (set_color normal)
+                        set suffix (set_color bryellow) $suffix (set_color normal)
                 end
             end
         case '*'
             set color_cwd $fish_color_cwd
 
-            set suffix '$~>'
+            set suffix '>'
 
             if test $fish_key_bindings = 'fish_vi_key_bindings'
                 switch "$fish_bind_mode"
                     case 'insert'
                         set suffix (set_color brblue) $suffix (set_color normal)
                     case 'default'
-                        set suffix '<$>'
+                        set suffix '^'
                     case 'visual'
-                        set suffix (set_color bryellow) '<~$' (set_color normal)
+                        set suffix (set_color bryellow) 'v' (set_color normal)
                 end
             end
     end
@@ -96,6 +94,11 @@ function fish_prompt --description 'Write out the prompt'
         set git_branch ' on ' (set_color $branch_color) $cur_branch (set_color normal)
     end
 
+    # Set user prefix, based on docker machine name
+    if test -n "$DOCKER_MACHINE_NAME"
+        set user_prefix (set_color blue) $DOCKER_MACHINE_NAME (set_color normal) ' '
+    end
+
     # Set go version, by existence of go mod or dep files
     if test -e ./go.mod; or test -e ./Gopkg.toml; and command -sq go
         if test -z "$go_version"
@@ -114,11 +117,6 @@ function fish_prompt --description 'Write out the prompt'
         end
     else
         set -g docker_version
-    end
-
-    # Set user prefix, based on docker machine name
-    if test -n "$DOCKER_MACHINE_NAME"
-        set user_prefix (set_color blue) $DOCKER_MACHINE_NAME (set_color normal) ' '
     end
 
     # Set node (and ts) version, based on existance of package.json (and tsconfig.json)

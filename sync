@@ -36,17 +36,16 @@ function main
         set_color grey
     end
 
-    clean_up_tmp_space $cwd $start_dir
+    clean_up_tmp_space $cwd $start_dir $tmp_dir
 
     set_color normal
     echo -s \n 'Done syncing.'
 end
 
-function setup_tmp_space -a cwd
+function setup_tmp_space -a cwd tmp_dir
     if test ! "$cwd" = 'dotfiles'
-        cd /var/tmp
-        git clone --recurse-submodules https://github.com/mitchell/dotfiles.git
-        cd ./dotfiles
+        git clone --recurse-submodules https://github.com/mitchell/dotfiles.git $tmp_dir
+        cd $tmp_dir
     end
 end
 
@@ -104,11 +103,10 @@ function set_fish_universal_vars
     source ./fish_universal_vars.fish
 end
 
-function clean_up_tmp_space -a cwd start_dir
+function clean_up_tmp_space -a cwd start_dir tmp_dir
     if test ! "$cwd" = 'dotfiles'
-        cd ..
-        rm -rf ./dotfiles
         cd $start_dir
+        rm -r $tmp_dir
     end
 end
 
