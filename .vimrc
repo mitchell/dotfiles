@@ -107,6 +107,7 @@ let g:LanguageClient_serverCommands = {
     \ 'elixir': ['~/code/elixir-lsp/elixir-ls/bin/language_server.sh'],
     \ 'go': ['gopls'],
     \ 'fsharp': ['dotnet', '~/code/fsprojects/fsharp-language-server/bin/FSharpLanguageServer.dll'],
+    \ 'dhall': ['dhall-lsp-server'],
     \ }
 
 
