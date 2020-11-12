@@ -1,5 +1,4 @@
 #!/usr/bin/env fish
-# Source: https://github.com/mitchell/swim.fish
 
 ### Config ###
 
@@ -21,6 +20,22 @@ function provision_default -d 'Provisioning terminal, desktop, and m-net'
 end
 
 function provision_terminal_env -d 'Install base terminal utilities and sync configurations'
+    if test $distro = arch
+        log 'Installing pikaur from AUR'
+
+        install_pkgs --needed base-devel
+
+        set -l cwd (pwd)
+        set -l tmp_dir (mktemp --directory)
+
+        git clone https://aur.archlinux.org/pikaur.git $tmp_dir
+        and cd $tmp_dir
+        and makepkg --clean --install --rmdeps --syncdeps --noconfirm
+
+        cd $cwd
+        rm -rf $tmp_dir
+    end
+
     set -l base_pkgs \
         fish \
         git \
@@ -79,7 +94,8 @@ function provision_desktop_env -d 'Install base desktop utilities and configure 
         ttf-jetbrains-mono \
         pavucontrol \
         pulseaudio \
-        wmname
+        wmname \
+        polybar
 
     set -l debian_pkgs \
         $base_pkgs \
@@ -114,25 +130,6 @@ function provision_desktop_env -d 'Install base desktop utilities and configure 
 
         cd $cwd
         rm -r $tmp_dir
-    end
-
-    if test $distro = arch
-        log 'Installing pikaur from AUR'
-
-        install_pkgs --needed base-devel 
-
-        set -l cwd (pwd)
-        set -l tmp_dir (mktemp --directory)
-
-        git clone https://aur.archlinux.org/pikaur.git $tmp_dir
-        and cd $tmp_dir
-        and makepkg --clean --install --rmdeps --syncdeps --noconfirm
-
-        and log 'Installing polybar from AUR'
-        and pikaur --sync --noconfirm polybar
-
-        cd $cwd
-        rm -rf $tmp_dir
     end
 
     log 'Setting gtk theme'
@@ -207,8 +204,14 @@ end
 function install_pkgs -S
     switch $distro
         case arch
-            sudo pacman --sync --refresh --sysupgrade --noconfirm
-            sudo pacman --sync --noconfirm $arch_pkgs $argv
+            set -l cmd pacman
+
+            if command -q pikaur
+                set cmd pikaur
+            end
+
+            sudo $cmd --sync --refresh --sysupgrade --noconfirm
+            sudo $cmd --sync --noconfirm $arch_pkgs $argv
         case debian
             sudo apt-get update >/dev/null 2>&1
             sudo apt-get upgrade --yes
