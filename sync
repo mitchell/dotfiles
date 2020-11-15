@@ -25,14 +25,14 @@ function main
         log 'Syncing desktop environment configurations'
         set_color grey
 
-        sync_desktop_env
+        sync_desktop_env $uname
         set_kitty_font_size $uname
     end
 
     if test -n "$_flag_g"
         set_color normal
-        log 'Set git user'
-        set_git_user
+        log 'Sync git config'
+        sync_git_config
         set_color grey
     end
 
@@ -56,7 +56,6 @@ function sync_terminal_env
 
     rsync -aP ./.config/fish ~/.config/
     rsync -aP ./.config/nvim ~/.config/
-    rsync -aP ./.gitconfig ~/
     rsync -aP ./.tmux-line.conf ~/
     rsync -aP ./.tmux.conf ~/
     rsync -aP ./.vim ~/
@@ -64,16 +63,22 @@ function sync_terminal_env
     rsync -aP ./.taskrc ~/
 end
 
-function sync_desktop_env
+function sync_desktop_env -a uname
     rsync -aP ./.config/kitty ~/.config/
-    rsync -aP ./.config/bspwm ~/.config/
-    rsync -aP ./.config/sxhkd ~/.config/
-    rsync -aP ./.config/picom ~/.config/
     rsync -aP ./.config/qutebrowser ~/.config/
-    rsync -aP ./.config/polybar ~/.config/
     rsync -aP ./.ideavimrc ~/
-    rsync -aP ./.yabairc ~/
-    rsync -aP ./.skhdrc ~/
+
+    switch $uname
+        case Darwin
+            rsync -aP ./.yabairc ~/
+            rsync -aP ./.skhdrc ~/
+
+        case Linux
+            rsync -aP ./.config/bspwm ~/.config/
+            rsync -aP ./.config/sxhkd ~/.config/
+            rsync -aP ./.config/picom ~/.config/
+            rsync -aP ./.config/polybar ~/.config/
+    end
 end
 
 function set_kitty_font_size -a uname
@@ -90,7 +95,9 @@ function install_nvim_plugins
     command -q nvim; and nvim +PlugUpgrade +PlugUpdate +qa
 end
 
-function set_git_user
+function sync_git_config
+    rsync -aP ./.gitconfig ~/
+
     echo 'Please set your git user:'
     read -P 'name: ' name
     read -P 'email: ' email

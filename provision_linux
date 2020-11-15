@@ -213,9 +213,9 @@ function install_pkgs -S
             sudo $cmd --sync --refresh --sysupgrade --noconfirm
             sudo $cmd --sync --noconfirm $arch_pkgs $argv
         case debian
-            sudo apt-get update >/dev/null 2>&1
-            sudo apt-get upgrade --yes
-            sudo apt-get install --yes $debian_pkgs $argv
+            sudo apt-get --quiet --yes update
+            sudo apt-get --quiet --yes upgrade
+            sudo apt-get --quiet --yes install $debian_pkgs $argv
     end
 end
 
