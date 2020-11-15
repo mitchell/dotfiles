@@ -79,7 +79,6 @@ function provision_desktop_env -d 'Install base desktop utilities and configure 
         sxhkd \
         picom \
         feh \
-        xfce4-screensaver \
         rofi \
         kitty \
         qutebrowser \
