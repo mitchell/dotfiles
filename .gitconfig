@@ -5,7 +5,7 @@
   cm = commit
   st = status
   rb = rebase
-  push--fwl = push --force-with-lease
+  pfwl = push --force-with-lease
   llog = log --date=local
   flog = log --pretty=fuller --decorate
   lol = log --graph --decorate --oneline
