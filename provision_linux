@@ -36,6 +36,19 @@ function provision_terminal_env -d 'Install base terminal utilities and sync con
         rm -rf $tmp_dir
     end
 
+    if test $distro = debian
+        log 'Adding fish apt repo'
+
+        install_pkgs gpg
+
+        echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_10/ /' |
+        sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
+
+        curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key |
+        gpg --dearmor |
+        sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg >/dev/null
+    end
+
     set -l base_pkgs \
         fish \
         git \
@@ -45,12 +58,12 @@ function provision_terminal_env -d 'Install base terminal utilities and sync con
         curl \
         kitty-terminfo \
         fzf \
-        bat
 
     set -l arch_pkgs \
         $base_pkgs \
         python-neovim \
-        the_silver_searcher
+        the_silver_searcher \
+        bat
 
     set -l debian_pkgs \
         $base_pkgs \

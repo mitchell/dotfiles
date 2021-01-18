@@ -82,13 +82,16 @@ function configure_wired_network -a interface
 Name=$interface
 
 [Network]
-DHCP=yes" >/etc/systemd/network/20-wired.network
-
-    ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+DHCP=yes
+IPv6PrivacyExtensions=yes" >/etc/systemd/network/20-wired.network
 
     log 'Enabling systemd networkd and resolved services'
     systemctl enable systemd-networkd.service
     systemctl enable systemd-resolved.service
+    systemctl start systemd-networkd.service
+    systemctl start systemd-resolved.service
+
+    ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 end
 
 
@@ -111,8 +114,9 @@ function configure_sudo
     log 'Adding and configuring sudo group'
     install sudo
     groupadd sudo
-    set -lx EDITOR sed -i 's/#\s%sudo/%sudo/'
-    visudo
+
+    echo "# Enable sudo group
+%sudo ALL=(ALL) ALL" | sudo tee /etc/sudoers.d/sudo_group
 end
 
 function create_admin_user -a username
