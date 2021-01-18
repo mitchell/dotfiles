@@ -104,7 +104,6 @@ type = internal/fs
 interval = 25
 
 mount-0 = /
-mount-1 = /home
 
 label-mounted = %{F#458588}%mountpoint%%{F-}: %percentage_used%%
 label-mounted-underline = ${colors.primary}
@@ -209,7 +208,7 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = enp37s0
+interface = br0
 interval = 3.0
 
 format-connected-underline = ${colors.secondary}
