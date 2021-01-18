@@ -1,5 +1,6 @@
 function import_sources -a uname -d 'Loads any additional fish files needed at init.'
     command -q kitty; and kitty + complete setup fish | source
+    test -f ~/.asdf/plugins/dotnet-core/set-dotnet-home.fish; and source ~/.asdf/plugins/dotnet-core/set-dotnet-home.fish
 
     switch "$uname"
         case 'Linux'

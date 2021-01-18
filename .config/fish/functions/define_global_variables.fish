@@ -3,7 +3,6 @@ function define_global_variables -d 'Defines all and exclusively globally export
 
     set -gx DOTNET_ENVIRONMENT Development
     set -gx DOTNET_CLI_TELEMETRY_OPTOUT true
-    set -gx DOTNET_ROOT $HOME/.asdf/installs/dotnet-core/(command -q dotnet; and dotnet --version)
 
     set -gx EDITOR nvim
     set -gx BROWSER qutebrowser
