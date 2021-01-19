@@ -16,15 +16,42 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
 
     switch "$uname"
         case 'Linux'
-            alias bat 'batcat --theme ansi-dark'
             alias goland 'command goland'
             alias rider 'command rider'
             alias webstorm 'command webstorm'
             alias sctl 'sudo systemctl'
+            alias uctl 'systemctl --user'
         case 'Darwin'
-            alias bat 'bat --theme ansi-dark'
             alias goland 'open -a Goland'
             alias rider 'open -a Rider'
             alias webstorm 'open -a Webstorm'
+    end
+
+    # Linux distro specific aliases below
+
+    set -l distro
+
+    for line in (cat /etc/os-release)
+        set -l items (string split --max 1 '=' $line)
+
+        if test $items[1] = 'ID'
+            set distro $items[2]
+        end
+    end
+
+    switch "$distro"
+        case 'arch'
+            alias get 'pikaur -Syu'
+            alias getu 'pikaur -Syu'
+            alias gets 'pikaur'
+            alias getr 'pikaur -Rsu'
+        case 'debian'
+            alias get 'sudo apt update; and sudo apt install'
+            alias getu 'sudo apt update; and sudo apt upgrade'
+            alias gets 'sudo apt update; and apt search'
+
+            function getr -d 'Alias for apt uninstall and autoremove'
+                sudo apt purge $argv; and sudo apt autoremove
+            end
     end
 end
