@@ -5,6 +5,7 @@ function vm_inst -a name os_variant install_source
         'd/disk-size=' \
         'b/bridge=' \
         'i/import' \
+        'n/netboot' \
         -- $argv
 
     set -l memory '4096'
@@ -39,6 +40,10 @@ function vm_inst -a name os_variant install_source
         set inst_args $inst_args \
             --disk $install_source \
             --import
+    else if test -n "$_flag_n"
+        set inst_args $inst_args \
+            --disk size=$disk_size,sparse=yes \
+            --pxe
     else
         set inst_args $inst_args \
             --disk size=$disk_size,sparse=yes \
