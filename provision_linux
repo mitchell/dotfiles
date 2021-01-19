@@ -3,11 +3,15 @@
 ### Config ###
 
 set -g cmd_func_prefix 'provision'
+set -g distro
 
-if test -z "$distro"
-    set -g distro 'arch'
+for line in (cat /etc/os-release)
+    set -l items (string split --max 1 '=' $line)
+
+    if test $items[1] = 'ID'
+        set distro $items[2]
+    end
 end
-
 
 ### Commands ###
 # Add, edit, and remove commands freely below.
