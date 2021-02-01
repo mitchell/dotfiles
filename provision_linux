@@ -189,7 +189,9 @@ end
 
 function install_libvirt
     set -l base_pkgs \
-        virt-manager
+        virt-manager \
+        virt-install \
+        virt-viewer
 
     set -l arch_pkgs \
         $base_pkgs \
