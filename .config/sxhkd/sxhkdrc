@@ -31,6 +31,32 @@ super + Escape
 alt + l
   physlock
 
+# media controls
+super + {@minus,@equal}
+  pactl set-sink-volume '@DEFAULT_SINK@' {-,+}10%
+
+XF86AudioRaiseVolume
+  pactl set-sink-volume '@DEFAULT_SINK@' +10%
+
+XF86AudioLowerVolume
+  pactl set-sink-volume '@DEFAULT_SINK@' -10%
+
+XF86AudioPlay
+  playerctl play
+
+XF86AudioPause
+  playerctl pause
+
+XF86AudioNext
+  playerctl next
+
+XF86AudioPrev
+  playerctl previous
+
+# brightness
+super + shift + {@underscore,@plus}
+  light -{U,A} 10
+
 #
 # bspwm hotkeys
 #
