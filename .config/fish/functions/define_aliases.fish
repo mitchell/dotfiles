@@ -25,6 +25,11 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
             alias goland 'open -a Goland'
             alias rider 'open -a Rider'
             alias webstorm 'open -a Webstorm'
+
+            alias get 'brew install'
+            alias getu 'brew upgrade'
+            alias gets 'brew search'
+            alias getr 'brew uninstall'
     end
 
     # Linux distro specific aliases below
@@ -41,13 +46,13 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
 
     switch "$distro"
         case 'arch'
-            alias get 'pikaur -Syu'
+            alias get 'pikaur -S'
             alias getu 'pikaur -Syu'
             alias gets 'pikaur'
             alias getr 'pikaur -Rsu'
         case 'debian'
             alias get 'sudo apt update; and sudo apt install'
-            alias getu 'sudo apt update; and sudo apt upgrade'
+            alias getu 'sudo apt update; and sudo apt upgrade; and sudo apt autoremove; and sudo apt autoclean'
             alias gets 'sudo apt update; and apt search'
 
             function getr -d 'Alias for apt uninstall and autoremove'
