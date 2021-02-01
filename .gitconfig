@@ -12,6 +12,7 @@
   lola = log --graph --decorate --oneline --all --date-order
   blog = log origin/master... --left-right
   ds = diff --staged
+  amend = commit --amend -C HEAD
   fixup = commit --fixup
   squash = commit --squash
   unstage = reset HEAD
