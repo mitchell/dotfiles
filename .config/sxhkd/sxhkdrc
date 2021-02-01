@@ -14,7 +14,7 @@ super + shift + Return
 super + @space
 	rofi -width 30 \
        -lines 10 \
-       -font 'JetBrains Mono 10' \
+       -font 'JetBrains Mono 15' \
        -location 2 \
        -yoffset 100 \
        -terminal kitty \
