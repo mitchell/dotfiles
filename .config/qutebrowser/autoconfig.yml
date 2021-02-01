@@ -34,6 +34,8 @@ settings:
     global: no-3rdparty
   content.cookies.store:
     global: false
+  content.javascript.enabled:
+    global: false
   content.local_storage:
     global: true
   content.notifications:
