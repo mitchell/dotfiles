@@ -91,3 +91,5 @@ settings:
     global: http://search.m
   window.title_format:
     global: '{perc}{host}{title_sep}qutebrowser'
+  zoom.default:
+    global: 125%

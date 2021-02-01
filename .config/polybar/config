@@ -30,7 +30,7 @@ alert = #cc241d
 [bar/m-bar]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 26
+height = 38
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 0.0
@@ -42,7 +42,7 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-size = 10
+border-size = 18
 border-color = #00000000
 
 padding-left = 0
@@ -51,8 +51,8 @@ padding-right = 0
 module-margin-left = 0
 module-margin-right = 2
 
-font-0 = IBM Plex Sans:size=10;3
-font-1 = JetBrains Mono:size=10;3
+font-0 = IBM Plex Sans:size=14;3
+font-1 = JetBrains Mono:size=15;3
 #font-2 = JetBrains Mono:pixelsize=10;1
 #font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 #font-2 = siji:pixelsize=10;1
@@ -208,7 +208,7 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = br0
+interface = enp125s0u1u4
 interval = 3.0
 
 format-connected-underline = ${colors.secondary}
