@@ -6,7 +6,6 @@ then
   touch ~/.bspwm_no_lock
 fi
 
-setxkbmap -option altwin:swap_alt_win
 setxkbmap -option ctrl:swapcaps
 xset s off -dpms
 
@@ -15,17 +14,20 @@ picom -b
 
 wmname LG3D
 
-killall -q polybar
-polybar m-bar &
-
 xfce4-screensaver &
 ~/.fehbg &
+
+killall -q polybar barrier barrierc cbatticon pasystray
+polybar m-bar &
+cbatticon &
+pasystray &
+barrier &
 
 bspc monitor -d I II III IV V VI VII
 
 bspc config border_width   2
-bspc config window_gap     10
-bspc config top_padding    -10
+bspc config window_gap     18
+bspc config top_padding    -18
 
 bspc config split_ratio         0.52
 bspc config borderless_monocle  false
