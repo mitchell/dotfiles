@@ -100,7 +100,11 @@ function provision_desktop_env -d 'Install base desktop utilities and configure 
         kitty \
         qutebrowser \
         wget \
-        unzip
+        unzip \
+        physlock \
+        pulseaudio \
+        playerctl
+
 
     set -l arch_pkgs \
         $base_pkgs \
@@ -109,9 +113,10 @@ function provision_desktop_env -d 'Install base desktop utilities and configure 
         ttf-ibm-plex \
         ttf-jetbrains-mono \
         pavucontrol \
-        pulseaudio \
+        pulseaudio-alsa \
         wmname \
-        polybar
+        polybar \
+        light
 
     set -l debian_pkgs \
         $base_pkgs \
