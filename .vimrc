@@ -105,7 +105,7 @@ let g:deoplete#enable_at_startup = 1
 let g:LanguageClient_serverCommands = {
     \ 'javascript': ['typescript-language-server', '--stdio'],
     \ 'javascript.jsx': ['typescript-language-server', '--stdio'],
-    \ 'typescript': ['typescript-language-server', '--stdio'],
+    \ 'typescript': ['deno', 'lsp', '--quiet', '--unstable'],
     \ 'typescript.tsx': ['typescript-language-server', '--stdio'],
     \ 'elixir': ['~/code/elixir-lsp/elixir-ls/bin/language_server.sh'],
     \ 'go': ['gopls'],
@@ -123,7 +123,7 @@ let g:lightline = {
 let g:ale_linters = {
     \ 'javascript': ['eslint', 'stylelint'],
     \ 'go': ['golint', 'go vet'],
-    \ 'typescript': ['eslint', 'stylelint'],
+    \ 'typescript': ['deno'],
     \ 'make': ['checkmake'],
     \ 'proto': ['protoc-gen-lint'],
     \ 'dockerfile': ['hadolint'],
@@ -143,7 +143,7 @@ let g:ale_fixers = {
     \ 'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
     \ 'graphql': ['prettier'],
     \ 'javascript': ['eslint', 'prettier'],
-    \ 'typescript': ['eslint', 'prettier'],
+    \ 'typescript': ['deno'],
     \ 'css': ['prettier', 'stylelint'],
     \ 'yaml': ['prettier'],
     \ 'json': ['prettier'],
