@@ -42,7 +42,7 @@ XF86AudioLowerVolume
   pactl set-sink-volume '@DEFAULT_SINK@' -10%
 
 XF86AudioPlay
-  playerctl play
+  playerctl play-pause
 
 XF86AudioPause
   playerctl pause
