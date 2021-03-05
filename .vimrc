@@ -64,6 +64,8 @@ set shiftwidth=0
 set expandtab
 set textwidth=100
 set cmdheight=2
+set ignorecase
+set smartcase
 
 nnoremap <C-p> :FZF<cr>
 
