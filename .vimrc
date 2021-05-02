@@ -102,6 +102,7 @@ highlight Normal ctermbg=None
 
 let g:deoplete#enable_at_startup = 1
 
+let g:LanguageClient_autoStart = 0
 let g:LanguageClient_serverCommands = {
     \ 'javascript': ['typescript-language-server', '--stdio'],
     \ 'javascript.jsx': ['typescript-language-server', '--stdio'],

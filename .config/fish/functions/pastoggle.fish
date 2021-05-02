@@ -8,6 +8,9 @@ function pastoggle -d 'Toggle the pulseaudio server between pc.lan and laptop.la
         set remote 'pc.lan'
     end
 
+    ssh $remote true
+    or return $status
+
     if test -f "$config"
         rm $config
         and systemctl --user restart pulseaudio.service
