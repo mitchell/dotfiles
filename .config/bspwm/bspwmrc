@@ -14,11 +14,13 @@ picom -b
 
 wmname LG3D
 
-killall -q polybar
-polybar m-bar &
-
 xfce4-screensaver &
 ~/.fehbg &
+
+killall -q polybar barrier barriers pasystray
+polybar m-bar &
+barrier &
+pasystray &
 
 bspc monitor -d I II III IV V VI VII
 
