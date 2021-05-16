@@ -8,6 +8,7 @@ function configure_fish
     import_sources $uname
     define_aliases $uname
     ssh_agent_startup
+    start_x_at_login
 end
 
 configure_fish
