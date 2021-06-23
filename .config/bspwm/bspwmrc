@@ -14,16 +14,18 @@ xfce4-screensaver &
 ~/.fehbg &
 
 killall -q polybar barrier barrierc cbatticon pasystray
-polybar m-bar &
+MONITOR=eDP polybar m-bar-laptop &
+MONITOR=DisplayPort-2 polybar m-bar &
 cbatticon &
 pasystray &
 keepassxc &
 
-bspc monitor -d I II III IV V VI VII
+bspc monitor eDP -d I II III IV V
+bspc monitor DisplayPort-2 -d I II III IV
 
 bspc config border_width   2
-bspc config window_gap     18
-bspc config top_padding    -18
+bspc config window_gap     14
+bspc config top_padding    -14
 
 bspc config split_ratio         0.52
 bspc config borderless_monocle  false

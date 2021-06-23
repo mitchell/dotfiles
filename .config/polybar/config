@@ -28,7 +28,59 @@ secondary = #458588
 alert = #cc241d
 
 [bar/m-bar]
-;monitor = ${env:MONITOR:HDMI-1}
+monitor = ${env:MONITOR:DisplayPort-2}
+width = 100%
+height = 26
+;offset-x = 1%
+;offset-y = 1%
+radius = 0.0
+fixed-center = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = #f00
+
+border-size = 14
+border-color = #00000000
+
+padding-left = 0
+padding-right = 0
+
+module-margin-left = 0
+module-margin-right = 2
+
+font-0 = IBM Plex Sans:size=10;3
+font-1 = JetBrains Mono:size=10;3
+#font-2 = JetBrains Mono:pixelsize=10;1
+#font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
+#font-2 = siji:pixelsize=10;1
+
+modules-left = bspwm
+modules-center = xwindow
+modules-right = pulseaudio cpu memory filesystem eth date xkeyboard powermenu
+
+tray-position = right
+tray-padding = 2
+tray-background = ${colors.background}
+
+wm-restack = bspwm
+;wm-restack = i3
+
+;override-redirect = true
+
+scroll-up = bspwm-desknext
+scroll-down = bspwm-deskprev
+
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[bar/m-bar-laptop]
+monitor = ${env:MONITOR:eDP}
 width = 100%
 height = 38
 ;offset-x = 1%
@@ -42,7 +94,7 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-size = 18
+border-size = 14
 border-color = #00000000
 
 padding-left = 0
@@ -208,7 +260,7 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = enp125s0u1u4
+interface = enp0s20f0u7c4i2
 interval = 3.0
 
 format-connected-underline = ${colors.secondary}
