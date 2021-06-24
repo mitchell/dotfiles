@@ -9,6 +9,7 @@ sxhkd &
 picom -b
 
 wmname LG3D
+ssh vpn true || true
 
 xfce4-screensaver &
 ~/.fehbg &
