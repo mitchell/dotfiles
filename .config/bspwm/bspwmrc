@@ -6,6 +6,7 @@ if ! test -e ~/.bspwm_no_lock
 end
 
 setxkbmap -option ctrl:swapcaps
+setxkbmap -option altwin:swap_alt_win
 xset s off -dpms
 
 sxhkd &
@@ -20,7 +21,6 @@ killall -q polybar barrier barrierc cbatticon pasystray
 polybar m-bar &
 cbatticon &
 pasystray &
-barrier &
 keepassxc &
 
 bspc monitor -d I II III IV V VI VII
