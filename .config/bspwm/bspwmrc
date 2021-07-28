@@ -15,13 +15,13 @@ xfce4-screensaver &
 
 killall -q polybar barrier barrierc cbatticon pasystray
 MONITOR=eDP polybar m-bar-laptop &
-MONITOR=DisplayPort-2 polybar m-bar &
+MONITOR=DisplayPort-0 polybar m-bar &
 cbatticon &
 pasystray &
 keepassxc &
 
 bspc monitor eDP -d I II III IV V
-bspc monitor DisplayPort-2 -d I II III IV
+bspc monitor DisplayPort-0 -d I II III IV
 
 bspc config border_width   2
 bspc config window_gap     14
