@@ -112,6 +112,7 @@ let g:LanguageClient_serverCommands = {
     \ 'go': ['gopls'],
     \ 'fsharp': ['dotnet', '~/code/fsprojects/fsharp-language-server/bin/FSharpLanguageServer.dll'],
     \ 'dhall': ['dhall-lsp-server'],
+    \ 'python': ['/home/m/.asdf/shims/pyls'],
     \ }
 
 
@@ -137,6 +138,7 @@ let g:ale_linters = {
     \ 'ruby': ['rubocop'],
     \ 'css': ['stylelint'],
     \ 'sh': ['shellcheck'],
+    \ 'python': ['pyflakes', 'pycodestyle'],
     \ }
 
 
@@ -154,6 +156,7 @@ let g:ale_fixers = {
     \ 'elixir': ['mix_format'],
     \ 'terraform': ['terraform'],
     \ 'ruby': ['rubocop'],
+    \ 'python': ['yapf'],
     \ }
 
 let g:ale_fix_on_save = 1
