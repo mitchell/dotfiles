@@ -138,7 +138,7 @@ let g:ale_linters = {
     \ 'ruby': ['rubocop'],
     \ 'css': ['stylelint'],
     \ 'sh': ['shellcheck'],
-    \ 'python': ['pyflakes', 'pycodestyle'],
+    \ 'python': ['pylint'],
     \ }
 
 
@@ -156,7 +156,7 @@ let g:ale_fixers = {
     \ 'elixir': ['mix_format'],
     \ 'terraform': ['terraform'],
     \ 'ruby': ['rubocop'],
-    \ 'python': ['yapf'],
+    \ 'python': ['black'],
     \ }
 
 let g:ale_fix_on_save = 1
