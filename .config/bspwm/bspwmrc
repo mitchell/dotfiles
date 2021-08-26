@@ -21,6 +21,7 @@ killall -q polybar barrier barriers pasystray
 polybar m-bar &
 barrier &
 pasystray &
+keepassxc &
 
 bspc monitor -d I II III IV V VI VII
 
