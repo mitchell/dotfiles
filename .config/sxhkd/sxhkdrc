@@ -36,16 +36,16 @@ XF86AudioLowerVolume
   pactl set-sink-volume '@DEFAULT_SINK@' -10%
 
 XF86AudioPlay
-  playerctl play-pause
+  playerctl play-pause; or ssh scimitar.lan playerctl play-pause
 
 XF86AudioPause
-  playerctl play-pause
+  playerctl play-pause; or ssh scimitar.lan playerctl play-pause
 
 XF86AudioNext
-  playerctl next
+  playerctl next; or ssh scimitar.lan playerctl next
 
 XF86AudioPrev
-  playerctl previous
+  playerctl previous; or ssh scimitar.lan playerctl previous
 
 # brightness
 super + shift + {@underscore,@plus}

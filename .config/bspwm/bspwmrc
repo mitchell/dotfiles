@@ -1,16 +1,13 @@
 #!/usr/bin/fish
 
-#if ! test -e ~/.bspwm_no_lock
-#  slock &
-#  touch ~/.bspwm_no_lock
-#end
+if ! test -e ~/.bspwm_no_lock
+  slock &
+  touch ~/.bspwm_no_lock
+end
 
 if test $DISPLAY = ":0"
-    setxkbmap -option ctrl:swapcaps
-    setxkbmap -option altwin:swap_alt_win
     xset s off -dpms
-    xinput set-prop 'MSFT0001:00 04F3:317C Touchpad' 'libinput Tapping Enabled' 1
-    xinput set-prop 'MSFT0001:00 04F3:317C Touchpad' 'libinput Middle Emulation Enabled' 1
+    xinput set-prop 'Logitech USB Receiver' 'libinput Accel Profile Enabled' 0 1 0
 end
 
 sxhkd &
