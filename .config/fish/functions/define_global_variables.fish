@@ -5,7 +5,7 @@ function define_global_variables -d 'Defines all and exclusively globally export
     set -gx DOTNET_CLI_TELEMETRY_OPTOUT true
 
     set -gx EDITOR nvim
-    set -gx BROWSER qutebrowser
+    set -gx BROWSER firefox
 
     set -gx FZF_CTRL_T_COMMAND 'ag --hidden --ignore .git -g ""'
     set -gx FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git -g ""'
