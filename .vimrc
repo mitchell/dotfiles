@@ -116,7 +116,7 @@ let g:LanguageClient_serverCommands = {
     \ }
 
 
-let g:ackprg = 'ag --nogroup --nocolor --column'
+let g:ackprg = 'ag --nogroup --nocolor --column --hidden'
 
 let g:lightline = {
     \ 'colorscheme': 'gruvbox',
