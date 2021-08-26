@@ -21,6 +21,7 @@ polybar m-bar &
 cbatticon &
 pasystray &
 barrier &
+keepassxc &
 
 bspc monitor -d I II III IV V VI VII
 
