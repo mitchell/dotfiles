@@ -165,6 +165,8 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
+rm -f $HOME/.bspwm_no_lock
+
 exec bspwm' >~/.xinitrc
 
     log 'Installing arc-gruvbox theme'

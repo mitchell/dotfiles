@@ -1,6 +1,11 @@
 #!/bin/sh
 
-slock &
+if [ ! -e ~/.bspwm_no_lock ]
+then
+  slock &
+  touch ~/.bspwm_no_lock
+fi
+
 setxkbmap -option altwin:swap_alt_win
 setxkbmap -option ctrl:swapcaps
 xset s off -dpms
