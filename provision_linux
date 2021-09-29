@@ -67,7 +67,8 @@ function provision_terminal_env -d 'Install base terminal utilities and sync con
         $base_pkgs \
         python-neovim \
         the_silver_searcher \
-        bat
+        bat \
+        sysz
 
     set -l debian_pkgs \
         $base_pkgs \
