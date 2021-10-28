@@ -16,6 +16,7 @@ function btre -a device -d 'Reconnect to a known bluetooth device'
     bluetoothctl pair $devices[$index]
     bluetoothctl trust $devices[$index]
     bluetoothctl connect $devices[$index]
+    sleep 2
 
     pkill bluetoothctl
 end

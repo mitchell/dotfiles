@@ -62,6 +62,7 @@ function provision_terminal_env -d 'Install base terminal utilities and sync con
         curl \
         kitty-terminfo \
         fzf \
+        nnn
 
     set -l arch_pkgs \
         $base_pkgs \
