@@ -10,7 +10,7 @@ setxkbmap -option ctrl:swapcaps
 xset s off -dpms
 
 sxhkd &
-picom -b
+picom -b --experimental-backends
 
 wmname LG3D
 
@@ -22,8 +22,9 @@ polybar m-bar &
 barrier &
 pasystray &
 keepassxc &
+polybar m-bar-tv &
 
-bspc monitor -d I II III IV V VI VII
+bspc monitor DP-2 -d I II III IV V VI VII
 
 bspc config border_width   2
 bspc config window_gap     10
