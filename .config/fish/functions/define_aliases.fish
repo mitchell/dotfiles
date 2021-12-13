@@ -1,14 +1,10 @@
 function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias rcp 'rsync -aP'
-    alias dm 'docker-machine'
-    alias v 'nvim +FZF'
-    alias j 'joplin'
     alias vg 'vagrant'
     alias tf 'terraform'
     alias tocb 'xclip -in -selection clipboard'
     alias fromcb 'xclip -out -selection clipboard'
     alias ssh-rm 'ssh-keygen -f ~/.ssh/known_hosts -R'
-    alias wiki 'nvim +VimwikiIndex'
     alias age-p 'age --armor --passphrase'
     alias age-d 'age --decrypt --identity ~/.secrets/id_ed25519'
     alias age-e 'age --armor --recipient (cat ~/.secrets/id_ed25519.pub)'
@@ -27,10 +23,11 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
             alias rider 'open -a Rider'
             alias webstorm 'open -a Webstorm'
 
-            alias get 'brew install'
-            alias getu 'brew upgrade'
-            alias gets 'brew search'
-            alias getr 'brew uninstall'
+            alias pkm 'brew search'
+            alias pkmi 'brew install'
+            alias pkmf 'brew update'
+            alias pkmu 'brew upgrade'
+            alias pkmr 'brew uninstall'
     end
 
     # Linux distro specific aliases below
@@ -47,16 +44,18 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
 
     switch "$distro"
         case 'arch'
-            alias get 'pikaur -S'
-            alias getu 'pikaur -Syu'
-            alias gets 'pikaur'
-            alias getr 'pikaur -Rsu'
+            alias pkm 'pikaur'
+            alias pkmi 'pikaur --sync'
+            alias pkmf 'pikaur --sync --refresh'
+            alias pkmu 'pikaur --sync --sysupgrade'
+            alias pkmr 'pikaur -Rsu'
         case 'debian'
-            alias get 'sudo apt update; and sudo apt install'
-            alias getu 'sudo apt update; and sudo apt upgrade; and sudo apt autoremove; and sudo apt autoclean'
-            alias gets 'sudo apt update; and apt search'
+            alias pkm 'apt search'
+            alias pkmi 'sudo apt install'
+            alias pkmf 'sudo apt update'
+            alias pkmu 'sudo apt upgrade; and sudo apt autoremove; and sudo apt autoclean'
 
-            function getr -d 'Alias for apt uninstall and autoremove'
+            function pkmr -d 'Alias for apt uninstall and autoremove'
                 sudo apt purge $argv; and sudo apt autoremove
             end
     end
