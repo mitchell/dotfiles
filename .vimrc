@@ -46,6 +46,7 @@ if !exists('g:vscode')
   Plug 'hashivim/vim-terraform'
   Plug 'PProvost/vim-ps1'
   Plug 'vmchale/dhall-vim'
+  Plug 'baskerville/vim-sxhkdrc'
 endif
 
 call plug#end()

@@ -3,22 +3,23 @@
 function main
     argparse 'd/desktop' 'g/git' -- $argv
     set -l start_dir (pwd)
-    set -l tmp_dir (mktemp --directory 2>/dev/null; or mktemp -d -t 'dotfiles')
-    set -l cwd (string match -r '\w+$' $start_dir)
-    set -l uname (uname)
+    and set -l tmp_dir (mktemp --directory 2>/dev/null; or mktemp -d -t 'dotfiles')
+    and set -l cwd (string match -r '\w+$' $start_dir)
+    and set -l uname (uname)
+    or return $status
 
     log 'Syncing shell environment configurations'
     set_color grey
 
     setup_tmp_space $cwd $tmp_dir
 
-    sync_terminal_env
+    and sync_terminal_env
 
-    set_fish_universal_vars
+    and set_fish_universal_vars
 
-    install_fisher_packages
+    and install_fisher_packages
 
-    install_nvim_plugins
+    and install_nvim_plugins
 
     if test -n "$_flag_d"
         set_color normal
@@ -37,6 +38,7 @@ function main
     end
 
     clean_up_tmp_space $cwd $start_dir $tmp_dir
+    or return $status
 
     set_color normal
     echo -s \n 'Done syncing.'
@@ -45,7 +47,7 @@ end
 function setup_tmp_space -a cwd tmp_dir
     if test ! "$cwd" = 'dotfiles'
         git clone --recurse-submodules https://github.com/mitchell/dotfiles.git $tmp_dir
-        cd $tmp_dir
+        and cd $tmp_dir
     end
 end
 
@@ -55,29 +57,31 @@ function sync_terminal_env
     end
 
     rsync -aP ./.config/fish ~/.config/
-    rsync -aP ./.config/nvim ~/.config/
-    rsync -aP ./.tmux-line.conf ~/
-    rsync -aP ./.tmux.conf ~/
-    rsync -aP ./.vim ~/
-    rsync -aP ./.vimrc ~/
-    rsync -aP ./.taskrc ~/
+    and rsync -aP ./.config/nvim ~/.config/
+    and rsync -aP ./.tmux-line.conf ~/
+    and rsync -aP ./.tmux.conf ~/
+    and rsync -aP ./.vim ~/
+    and rsync -aP ./.vimrc ~/
+    and rsync -aP ./.taskrc ~/
 end
 
 function sync_desktop_env -a uname
     rsync -aP ./.config/kitty ~/.config/
-    rsync -aP ./.config/qutebrowser ~/.config/
-    rsync -aP ./.ideavimrc ~/
+    and rsync -aP ./.config/qutebrowser ~/.config/
+    and rsync -aP ./.ideavimrc ~/
+    or return 1
 
     switch $uname
         case Darwin
             rsync -aP ./.yabairc ~/
-            rsync -aP ./.skhdrc ~/
+            and rsync -aP ./.skhdrc ~/
 
         case Linux
             rsync -aP ./.config/bspwm ~/.config/
-            rsync -aP ./.config/sxhkd ~/.config/
-            rsync -aP ./.config/picom ~/.config/
-            rsync -aP ./.config/polybar ~/.config/
+            and rsync -aP ./.config/sxhkd ~/.config/
+            and rsync -aP ./.config/picom ~/.config/
+            and rsync -aP ./.config/polybar ~/.config/
+            and rsync -aP ./.config/conky ~/.config/
     end
 end
 
@@ -113,12 +117,12 @@ end
 function clean_up_tmp_space -a cwd start_dir tmp_dir
     if test ! "$cwd" = 'dotfiles'
         cd $start_dir
-        rm -r $tmp_dir
+        and rm -r $tmp_dir
     end
 end
 
 function log -a message
-    echo \n"---------------- $message ----------------"\n
+    echo \n"--- $message ---"\n
 end
 
 main $argv

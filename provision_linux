@@ -2,13 +2,13 @@
 
 ### Config ###
 
-set -g cmd_func_prefix 'provision'
+set -g cmd_func_prefix provision
 set -g distro
 
 for line in (cat /etc/os-release)
     set -l items (string split --max 1 '=' $line)
 
-    if test $items[1] = 'ID'
+    if test $items[1] = ID
         set distro $items[2]
     end
 end
@@ -45,12 +45,11 @@ function provision_terminal_env -d 'Install base terminal utilities and sync con
 
         install_pkgs gpg
 
-        echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_10/ /' |
-        sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
-
-        curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key |
-        gpg --dearmor |
-        sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg >/dev/null
+        echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /' |
+            sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
+        and curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key |
+            gpg --dearmor |
+            sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg >/dev/null
     end
 
     set -l base_pkgs \

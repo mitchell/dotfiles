@@ -5,4 +5,5 @@ function fish_user_key_bindings
     bind --mode insert ,p 'nvim +FZF; commandline -f repaint'
     bind --mode insert ,w 'nvim +VimwikiIndex; commandline -f repaint'
     bind --mode insert ,n 'n; commandline -f repaint'
+    bind --mode insert ,s 'sysz; commandline -f repaint'
 end
