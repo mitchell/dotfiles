@@ -31,28 +31,6 @@ function format -d 'Format fish scripts'
     fish_indent --write $src_fish_files
 end
 
-function sync -d 'Run the sync script'
-    ./sync $argv
-end
-
-function install_arch -d 'Run the install_arch script'
-    ./install_arch $argv
-end
-
-function upgrade_debi -d 'Run the debian_upgrade script'
-    ./upgrade_debian $argv
-end
-
-function provision -d 'Run the provision_linux script with the specified distro'
-    argparse 'd/distro=' -- $argv
-
-    if test -n "$_flag_d"
-        set -g distro $_flag_d
-    end
-
-    ./provision_linux $argv[2..-1]
-end
-
 # --- execution/help handling ---
 
 function help -a function_name -d 'Displays help for internal function'

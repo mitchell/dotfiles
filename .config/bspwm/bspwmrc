@@ -1,10 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env fish
 
-if [ ! -e ~/.bspwm_no_lock ]
-then
+if ! test -e ~/.bspwm_no_lock
   slock &
   touch ~/.bspwm_no_lock
-fi
+end
 
 setxkbmap -option altwin:swap_alt_win
 setxkbmap -option ctrl:swapcaps

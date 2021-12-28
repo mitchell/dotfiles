@@ -1,5 +1,7 @@
 #!/usr/bin/env fish
 # Source: https://github.com/mitchell/run.fish
+#
+# OUTDATED USE ./provision_linux
 
 ### Config ###
 # Top-level configurations, like function prefixes and argument delimeters

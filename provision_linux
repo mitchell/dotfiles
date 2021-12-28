@@ -1,4 +1,15 @@
 #!/usr/bin/env fish
+#
+set general_help '
+A collection of useful functions for provisioning arch/debian linux.
+
+Either run a function like ./provision_linux <function> [arg [arg [...]]
+or source the file and run them as commands:
+$ source ./provision_linux
+$ lint [args]
+
+Run ./provision_linux <function_name> to see it\'s definition.
+'
 
 ### Config ###
 
@@ -14,8 +25,6 @@ for line in (cat /etc/os-release)
 end
 
 ### Commands ###
-# Add, edit, and remove commands freely below.
-# To add a command simply create a function with this naming scheme: {run_func_prefix}_{name}.
 
 function provision_default -d 'Provisioning terminal, desktop, and m-net'
     provision_terminal_env
@@ -102,8 +111,10 @@ function provision_desktop_env -d 'Install base desktop utilities and configure 
         wget \
         unzip \
         physlock \
-        pulseaudio \
-        playerctl
+        pipewire \
+        playerctl \
+        tar \
+        xz
 
 
     set -l arch_pkgs \
@@ -113,8 +124,9 @@ function provision_desktop_env -d 'Install base desktop utilities and configure 
         ttf-ibm-plex \
         ttf-jetbrains-mono \
         pavucontrol \
-        pulseaudio-alsa \
         wmname \
+        pipewire-pulse \
+        pipewire-alsa \
         polybar \
         light \
         slock
@@ -202,6 +214,7 @@ end
 function provision_m_net -d 'Install syncthing and keepassxc'
     log 'Installing m-net utilities'
     install_pkgs \
+        wireguard-tools \
         keepassxc \
         syncthing
     or return $status
@@ -280,12 +293,25 @@ function install_pkgs -S
 end
 
 function log -a message
-    echo \n"---------------- $message ----------------"\n
+    echo \n"--- $message ---"\n
 end
 
-function main
-    curl -fsS https://git.mjfs.us/mitchell/swim.fish/raw/branch/master/functions/sw.fish | source
-    run_swim_command $cmd_func_prefix $argv
+# --- execution/help handling ---
+
+function help -a function_name -d 'Displays help for internal function'
+    if test -n "$function_name"
+        functions $function_name
+    else
+        echo $general_help
+    end
 end
 
-main $argv
+argparse --ignore-unknown h/help -- $argv
+
+if test -n "$_flag_h"
+    help $argv
+else if test -n "$argv"
+    $argv
+else
+    echo $general_help
+end
