@@ -18,6 +18,7 @@ This repo contains my preferred configurations for:
 - sxhkd (Linux)
 - yabaiwm (macOS)
 - skhd (macOS)
+- conky
 
 ## Scripts
 
@@ -47,7 +48,7 @@ To run sync script using curl: `curl https://raw.githubusercontent.com/mitchell/
 
 Upgrade from Debian stable to unstable.
 
-### `provision_debian`
+### `provision_linux`
 
 Dependencies
 
@@ -55,5 +56,5 @@ Dependencies
 
 **Description**
 
-Provision various environments and tools on Debian. Run `./run help` and peek inside for more
-information.
+Provision various environments and tools on Debian or Arch linux. Has
+commands for terminal_env, desktop_env, and more. Take a peek.
