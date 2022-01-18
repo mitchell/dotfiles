@@ -8,6 +8,8 @@ end
 setxkbmap -option ctrl:swapcaps
 setxkbmap -option altwin:swap_alt_win
 xset s off -dpms
+xinput set-prop 'MSFT0001:00 04F3:317C Touchpad' 'libinput Tapping Enabled' 1
+xinput set-prop 'MSFT0001:00 04F3:317C Touchpad' 'libinput Middle Emulation Enabled' 1
 
 sxhkd &
 picom -b
@@ -22,6 +24,7 @@ polybar m-bar &
 cbatticon &
 pasystray &
 keepassxc &
+barrier &
 
 bspc monitor -d I II III IV V VI VII
 
