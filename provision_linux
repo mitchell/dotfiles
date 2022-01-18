@@ -13,7 +13,6 @@ Run ./provision_linux <function_name> to see it\'s definition.
 
 ### Config ###
 
-set -g cmd_func_prefix provision
 set -g distro
 
 for line in (cat /etc/os-release)
@@ -26,13 +25,7 @@ end
 
 ### Commands ###
 
-function provision_default -d 'Provisioning terminal, desktop, and m-net'
-    provision_terminal_env
-    and provision_desktop_env
-    and provision_m_net
-end
-
-function provision_terminal_env -d 'Install base terminal utilities and sync configurations'
+function terminal_env -d 'Install base terminal utilities and sync configurations'
     if test $distro = arch
         log 'Installing pikaur from AUR'
 
@@ -87,7 +80,7 @@ function provision_terminal_env -d 'Install base terminal utilities and sync con
     and git checkout (git describe --abbrev=0 --tags)
 end
 
-function provision_desktop_env -d 'Install base desktop utilities and configure theme'
+function desktop_env -d 'Install base desktop utilities and configure theme'
     set -l base_pkgs \
         xclip \
         bspwm \
@@ -200,7 +193,7 @@ gtk-theme-name = oomox-arc-gruvbox
 gtk-font-name = IBM Plex Sans 11" >~/.config/gtk-3.0/settings.ini
 end
 
-function provision_m_net -d 'Install syncthing and keepassxc'
+function m_net -d 'Install syncthing and keepassxc'
     log 'Installing m-net utilities'
     install_pkgs \
         wireguard-tools \
@@ -212,12 +205,12 @@ function provision_m_net -d 'Install syncthing and keepassxc'
     sudo systemctl enable syncthing@m.service
 end
 
-function provision_libvirt -d 'Provision libvirt and virt-manager'
+function libvirt -d 'Provision libvirt and virt-manager'
     log 'Installing libvirt, qemu, and virt-manager'
     install_libvirt
 end
 
-function provision_vagrant -d 'Provision vagrant with libvirt'
+function vagrant -d 'Provision vagrant with libvirt'
     install_libvirt
     or return $status
 
