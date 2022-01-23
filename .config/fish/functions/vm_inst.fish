@@ -4,8 +4,10 @@ function vm_inst -a name os_variant install_source
         'c/cpus=' \
         'd/disk-size=' \
         'b/bridge=' \
+        s/backing_store \
         i/import \
         n/netboot \
+        --ignore-unknown \
         -- $argv
 
     set -l memory 4096
@@ -44,6 +46,10 @@ function vm_inst -a name os_variant install_source
         set inst_args $inst_args \
             --disk $install_source \
             --import
+    else if test -n "$_flag_s"
+        set inst_args $inst_args \
+            --disk size=$disk_size,sparse=yes,backing_store=$install_source \
+            --import
     else if test -n "$_flag_n"
         set inst_args $inst_args \
             --disk size=$disk_size,sparse=yes \
@@ -54,5 +60,5 @@ function vm_inst -a name os_variant install_source
             --cdrom $install_source
     end
 
-    virt-install $inst_args
+    virt-install $inst_args $argv
 end
