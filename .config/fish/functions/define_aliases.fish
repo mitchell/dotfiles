@@ -33,31 +33,18 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
 
     # Linux distro specific aliases below
 
-    set -l distro
+    #set -l distro
 
-    for line in (cat /etc/os-release)
-        set -l items (string split --max 1 '=' $line)
+    #for line in (cat /etc/os-release)
+    #    set -l items (string split --max 1 '=' $line)
 
-        if test $items[1] = 'ID'
-            set distro $items[2]
-        end
-    end
+    #    if test $items[1] = 'ID'
+    #        set distro $items[2]
+    #    end
+    #end
 
-    switch "$distro"
-        case 'arch'
-            alias pkm 'pikaur'
-            alias pkmi 'pikaur --sync'
-            alias pkmf 'pikaur --sync --refresh'
-            alias pkmu 'pikaur --sync --sysupgrade'
-            alias pkmr 'pikaur -Rsu'
-        case 'debian'
-            alias pkm 'apt search'
-            alias pkmi 'sudo apt install'
-            alias pkmf 'sudo apt update'
-            alias pkmu 'sudo apt upgrade; and sudo apt autoremove; and sudo apt autoclean'
-
-            function pkmr -d 'Alias for apt uninstall and autoremove'
-                sudo apt purge $argv; and sudo apt autoremove
-            end
-    end
+    #switch "$distro"
+    #    case 'arch'
+    #    case 'debian'
+    #end
 end
