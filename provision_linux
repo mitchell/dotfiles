@@ -228,13 +228,14 @@ function install_libvirt
     set -l base_pkgs \
         virt-manager \
         virt-install \
-        virt-viewer
+        virt-viewer \
+        dnsmasq \
+        dmidecode
 
     set -l arch_pkgs \
         $base_pkgs \
         libvirt \
         qemu \
-        dnsmasq \
         ebtables
 
     set -l debian_pkgs \
@@ -259,18 +260,18 @@ end
 function install_pkgs -S
     switch $distro
         case arch
-            set -l cmd pacman
+            set -l cmd sudo pacman
 
             if command -q pikaur
                 set cmd pikaur
             end
 
-            sudo $cmd --sync --refresh --sysupgrade --noconfirm
-            sudo $cmd --sync --noconfirm $arch_pkgs $argv
+            $cmd --sync --refresh --sysupgrade --noconfirm
+            and $cmd --sync --noconfirm $arch_pkgs $argv
         case debian
             sudo apt-get --quiet --yes update
-            sudo apt-get --quiet --yes upgrade
-            sudo apt-get --quiet --yes install $debian_pkgs $argv
+            and sudo apt-get --quiet --yes upgrade
+            and sudo apt-get --quiet --yes install $debian_pkgs $argv
     end
 end
 

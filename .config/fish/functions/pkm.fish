@@ -26,6 +26,7 @@ end
 
 function _pacman_commander -a pkm command
     set -l args $argv[3..]
+    set pkm (string split ' ' $pkm)
 
     switch $command
         case i install
@@ -48,6 +49,7 @@ end
 
 function _apt_commander -a pkm command
     set -l args $argv[3..]
+    set pkm (string split ' ' $pkm)
 
     switch $command
         case i install
