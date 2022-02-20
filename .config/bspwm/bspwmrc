@@ -32,8 +32,9 @@ bspc config gapless_monocle     false
 
 bspc config focused_border_color  '#92971a'
 
-bspc rule -a 'firefox:*:Picture-in-Picture' state=floating sticky=on
+bspc rule -a 'firefox:*:Picture-in-Picture' sticky=on
 bspc rule -a 'origin.exe:*' state=floating
+bspc rule -a 'mpv:*' sticky=on
 # bspc rule -a Gimp desktop='^8' state=floating follow=on
 # bspc rule -a Chromium desktop='^2'
 # bspc rule -a mplayer2 state=floating
