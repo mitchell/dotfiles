@@ -56,6 +56,10 @@ function sync_terminal_env
         mkdir ~/.config
     end
 
+    if ! test -e ~/code/scripts
+        mkdir -p ~/code/scripts
+    end
+
     rsync -aP ./.config/fish ~/.config/
     and rsync -aP ./.config/nvim ~/.config/
     and rsync -aP ./.tmux-line.conf ~/
@@ -63,6 +67,7 @@ function sync_terminal_env
     and rsync -aP ./.vim ~/
     and rsync -aP ./.vimrc ~/
     and rsync -aP ./.taskrc ~/
+    and rsync -aP ./scripts/ ~/code/scripts/
 end
 
 function sync_desktop_env -a uname
