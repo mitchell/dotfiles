@@ -32,8 +32,15 @@ function _pacman_commander -a pkm command
         case i install
             $pkm --sync $args
         case f fetch
-            reflector --latest 50 --fastest 3 --sort age --protocol https --thread 4 |
-                sudo tee /etc/pacman.d/mirrorlist
+            argparse r/reflector -- $args
+
+            sudo true
+
+            if set -q _flag_reflector
+                reflector --latest 50 --fastest 3 --sort age --protocol https --thread 4 |
+                    sudo tee /etc/pacman.d/mirrorlist
+            end
+
             and $pkm --sync --refresh
         case u update
             $pkm --sync --sysupgrade $args
