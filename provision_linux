@@ -51,7 +51,8 @@ function terminal_env -d 'Install base terminal utilities and sync configuration
         curl \
         kitty-terminfo \
         fzf \
-        nnn
+        nnn \
+        mosh
 
     set -l arch_pkgs \
         $base_pkgs \
