@@ -11,7 +11,7 @@ function configure_fish
     import_sources $uname
     define_aliases $uname
 
-    if set -qx SSH_CONNECTION
+    if not set -qx SSH_CONNECTION
         ssh_agent_startup
     end
 end
