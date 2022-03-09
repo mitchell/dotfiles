@@ -1,2 +1,2 @@
 #!/usr/bin/sh
-kitty tmux new-session -s jmpv jellyfin-mpv-shim
+kitty fish -c jmpv

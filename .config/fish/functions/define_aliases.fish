@@ -1,4 +1,5 @@
 function define_aliases -a uname -d 'Defines aliases for commonly used commands'
+    alias q 'exit'
     alias rcp 'rsync -aP'
     alias vg 'vagrant'
     alias tf 'terraform'

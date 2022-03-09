@@ -1,2 +1,2 @@
 #!/bin/sh
-kitty tmux new -s glance mosh arch@khetanna.lan -- glances --sparkline\; neww mosh serenity.lan -- glances --sparkline
+kitty fish -C glance
