@@ -11,7 +11,7 @@ function configure_fish
     import_sources $uname
     define_aliases $uname
 
-    if not set -qx SSH_CONNECTION
+    if status is-interactive; and not set -qx SSH_CONNECTION
         ssh_agent_startup
     end
 end
