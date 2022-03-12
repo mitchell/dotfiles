@@ -1,2 +1,2 @@
-#!/usr/bin/sh
-kitty fish -c "sesh $1"
+#!/usr/bin/env fish
+kitty fish -c "sesh $argv"
