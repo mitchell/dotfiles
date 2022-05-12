@@ -35,6 +35,8 @@ function ytmpv -d 'A script to help queue youtube videos on MPV'
                         $urls
 
                 break
+            case e edit
+                $EDITOR $queue
             case f fg
                 tmux attach -t ytmpv
             case h help
