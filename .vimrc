@@ -41,7 +41,6 @@ if !exists('g:vscode')
   Plug 'OmniSharp/omnisharp-vim'
   Plug 'HerringtonDarkholme/yats.vim'
   Plug 'MaxMEllon/vim-jsx-pretty'
-  Plug 'ionide/Ionide-vim'
   Plug 'b4b4r07/vim-hcl'
   Plug 'hashivim/vim-terraform'
   Plug 'PProvost/vim-ps1'
