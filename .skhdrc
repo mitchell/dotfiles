@@ -2,7 +2,7 @@
 cmd - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
 
 # open web browser
-shift + cmd - return : /Applications/qutebrowser.app/Contents/MacOS/qutebrowser
+shift + cmd - return : /Applications/Firefox.app/Contents/MacOS/firefox
 
 # focus window
 alt - h : yabai -m window --focus west
