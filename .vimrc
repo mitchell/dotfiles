@@ -10,9 +10,10 @@ Plug 'itchyny/lightline.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'vimwiki/vimwiki'
-Plug 'junegunn/goyo.vim'
 Plug 'junegunn/fzf'
 Plug 'reedes/vim-pencil', { 'on': ['HardPencil', 'SoftPencil'] }
+Plug 'junegunn/goyo.vim', { 'on': 'Goyo'}
+Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
 
 if !exists('g:vscode')
   Plug 'morhetz/gruvbox'
@@ -27,7 +28,6 @@ if !exists('g:vscode')
   Plug 'mileszs/ack.vim', { 'on': 'Ack' }
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
   Plug 'mcchrish/nnn.vim', { 'on': 'NnnPicker' }
-  Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
 
   " Language specific plugins
   Plug 'dart-lang/dart-vim-plugin'
@@ -88,7 +88,9 @@ nnoremap <leader>a :Ack<cr>
 nnoremap <leader>we :VimwikiAll2HTML<cr>
 nnoremap <leader>wz :VimwikiIndex<cr> :Goyo<cr>
 nnoremap <leader>wg :VimwikiGoto
-nnoremap <leader>z :Goyo 101x100%<cr>
+nnoremap <leader>z :Goyo<cr>
+nnoremap <leader>Z :Goyo 101x100%<cr>
+nnoremap <leader>l :Limelight<cr>
 
 " Allows you to use // in order to search for the visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
@@ -174,6 +176,8 @@ let g:vimwiki_list = [{'path': expand('~/.wiki/')}]
 let g:nnn#layout = {'left': '~20%'}
 let g:nnn#command = 'nnn -eHo'
 
+let g:limelight_conceal_ctermfg = 'darkgrey'
+
 augroup ft_jsx
   au!
   autocmd BufNewFile,BufRead *.jsx  set filetype=javascript.jsx
@@ -205,3 +209,10 @@ else
     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
+
+augroup goyo_hooks
+  au!
+  autocmd User GoyoEnter Limelight
+  autocmd User GoyoLeave Limelight!
+  autocmd User GoyoLeave hi Normal ctermbg=NONE
+augroup END
