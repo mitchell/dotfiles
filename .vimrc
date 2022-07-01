@@ -89,8 +89,9 @@ nnoremap <leader>we :VimwikiAll2HTML<cr>
 nnoremap <leader>wz :VimwikiIndex<cr> :Goyo<cr>
 nnoremap <leader>wg :VimwikiGoto
 nnoremap <leader>z :Goyo<cr>
-nnoremap <leader>Z :Goyo 101x100%<cr>
+nnoremap <leader>Z :Goyo 105<cr>
 nnoremap <leader>l :Limelight<cr>
+nnoremap <leader>L :Limelight!<cr>
 
 " Allows you to use // in order to search for the visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
@@ -176,7 +177,10 @@ let g:vimwiki_list = [{'path': expand('~/.wiki/')}]
 let g:nnn#layout = {'left': '~20%'}
 let g:nnn#command = 'nnn -eHo'
 
-let g:limelight_conceal_ctermfg = 'darkgrey'
+let g:limelight_conceal_ctermfg = 'grey'
+
+let g:goyo_width = 85
+let g:goyo_height = '100%'
 
 augroup ft_jsx
   au!
@@ -212,7 +216,7 @@ endif
 
 augroup goyo_hooks
   au!
-  autocmd User GoyoEnter Limelight
-  autocmd User GoyoLeave Limelight!
+  autocmd User GoyoEnter set number
+
   autocmd User GoyoLeave hi Normal ctermbg=NONE
 augroup END
