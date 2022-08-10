@@ -16,7 +16,7 @@ function define_global_variables -d 'Defines all and exclusively globally export
 
     set -gx LIBVIRT_DEFAULT_URI 'qemu:///system'
 
-    set -gx ANDROID_SDK_ROOT $HOME/Android/Sdk
+    set -gx ANDROID_HOME $HOME/Android/Sdk
 
     set -gx PATH $PATH $GOBIN \
         $HOME/.local/bin \
@@ -25,6 +25,7 @@ function define_global_variables -d 'Defines all and exclusively globally export
         $HOME/code/flutter/bin \
         $HOME/.cargo/bin \
         $HOME/.dotnet/tools \
-        $ANDROID_SDK_ROOT/emulator \
-        $ANDROID_SDK_ROOT/platform-tools
+        $ANDROID_HOME/emulator \
+        $ANDROID_HOME/platform-tools \
+        $ANDROID_HOME/tools
 end
