@@ -46,6 +46,7 @@ if !exists('g:vscode')
   Plug 'PProvost/vim-ps1'
   Plug 'vmchale/dhall-vim'
   Plug 'baskerville/vim-sxhkdrc'
+  Plug 'keith/swift.vim'
 endif
 
 call plug#end()
@@ -67,6 +68,7 @@ set textwidth=100
 set cmdheight=2
 set ignorecase
 set smartcase
+set shortmess+=c
 
 nnoremap <C-p> :FZF<cr>
 
@@ -88,8 +90,8 @@ nnoremap <leader>a :Ack<cr>
 nnoremap <leader>we :VimwikiAll2HTML<cr>
 nnoremap <leader>wz :VimwikiIndex<cr> :Goyo<cr>
 nnoremap <leader>wg :VimwikiGoto
-nnoremap <leader>z :Goyo<cr>
-nnoremap <leader>Z :Goyo 105<cr>
+nnoremap <leader>z :Goyo 105<cr>
+nnoremap <leader>Z :Goyo<cr>
 nnoremap <leader>l :Limelight<cr>
 nnoremap <leader>L :Limelight!<cr>
 
