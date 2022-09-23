@@ -1,8 +1,20 @@
 function redisco
-    while pgrep Discord >/dev/null 2>&1
-        pkill Discord
-        sleep 1
+    set -l to_kill discord
+
+    if test -n "$argv"
+        set to_kill $argv
     end
 
-    discord >/dev/null 2>&1 & disown
+    pgrep -fia $to_kill
+    or return
+
+    read -P 'continue? [Y/n]> ' -l confirm
+
+    if test "$confirm" = 'n'
+        return
+    end
+
+    pkill -fi $to_kill
+
+    nohup $to_kill &> /dev/null & disown
 end

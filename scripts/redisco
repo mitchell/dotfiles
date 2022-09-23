@@ -1,2 +1,2 @@
 #!/usr/bin/env fish
-redisco
+kitty fish -c "redisco $argv"
