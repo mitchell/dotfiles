@@ -9,8 +9,6 @@ Plug 'tpope/vim-endwise'
 Plug 'itchyny/lightline.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/goyo.vim', { 'on': 'Goyo'}
-Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
 Plug 'reedes/vim-pencil', { 'on': ['HardPencil', 'SoftPencil'] }
 
 if !exists('g:vscode')
@@ -26,17 +24,16 @@ if !exists('g:vscode')
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-tree/nvim-web-devicons'
 
+    Plug 'ms-jpq/coq_nvim'
     Plug 'folke/noice.nvim'
     Plug 'ggandor/leap.nvim'
+    Plug 'folke/zen-mode.nvim'
+    Plug 'folke/twilight.nvim'
+    Plug 'neovim/nvim-lspconfig'
     Plug 'ellisonleao/gruvbox.nvim'
     Plug 'nvim-neo-tree/neo-tree.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'simrat39/symbols-outline.nvim'
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'autozimu/LanguageClient-neovim', {
-         \ 'branch': 'next',
-         \ 'do': 'bash install.sh',
-         \ }
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 
          \ 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
          \ }
@@ -94,27 +91,23 @@ let mapleader = 'j'
 inoremap <leader>j <Esc>
 
 let mapleader = ','
-nnoremap <leader>z <cmd>Goyo 105<cr>
-nnoremap <leader>Z <cmd>Goyo<cr>
-nnoremap <leader>l <cmd>Limelight<cr>
-nnoremap <leader>L <cmd>Limelight!<cr>
+nnoremap <leader>f <cmd>ALEFix<cr>
 
 if has('nvim')
-  nmap <leader>g <Plug>(lcn-definition)
-  nmap <leader>r <Plug>(lcn-references)
-  nmap <leader>m <Plug>(lcn-menu)
-  nmap <leader>h <Plug>(lcn-hover)
-  nmap <leader>c <Plug>(lcn-code-lens-action)
-  nmap <leader>d <Plug>(lcn-explain-error)
-  nnoremap <leader>ls <cmd>LanguageClientStop<cr>
-  nnoremap <leader>ll <cmd>LanguageClientStart<cr>
-
   nnoremap <leader>n <cmd>Neotree<cr>
-  nnoremap <leader>b <cmd>Neotree float buffers<cr>
-  nnoremap <leader>p <cmd>Telescope git_files<cr>
-  nnoremap <leader>f <cmd>Telescope find_files<cr>
-  nnoremap <leader>a <cmd>Telescope grep_string<cr>
   nnoremap <leader>t <cmd>Telescope<cr>
+  nnoremap <leader>p <cmd>Telescope git_files<cr>
+  nnoremap <C-p> <cmd>Telescope find_files<cr>
+  nnoremap <leader>s <cmd>Telescope treesitter<cr>
+  nnoremap <leader>ga <cmd>Telescope grep_string<cr>
+  nnoremap <leader>gg <cmd>Telescope lsp_definitions<cr>
+  nnoremap <leader>gr <cmd>Telescope lsp_references<cr>
+  nnoremap <leader>gi <cmd>Telescope lsp_implementations<cr>
+  nnoremap <leader>gd <cmd>Telescope lsp_type_definitions<cr>
+  nnoremap <leader>o <cmd>SymbolsOutline<cr>
+  nnoremap <leader>z <cmd>ZenMode<cr>
+  nnoremap <leader>l <cmd>Twilight<cr>
+  nnoremap <leader>c <cmd>COQnow<cr>
 else
   nnoremap <leader>n <cmd>NnnPicker<cr>
   nnoremap <leader>p <cmd>FZF<cr>
@@ -131,23 +124,6 @@ let g:gruvbox_italic=1
 colorscheme gruvbox
 
 highlight Normal ctermbg=None
-
-let g:deoplete#enable_at_startup = 1
-
-let g:LanguageClient_autoStart = 0
-let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['typescript-language-server', '--stdio'],
-    \ 'javascript.jsx': ['typescript-language-server', '--stdio'],
-    \ 'typescript': ['typescript-language-server', '--stdio'],
-    \ 'typescript.tsx': ['typescript-language-server', '--stdio'],
-    \ 'elixir': ['~/code/elixir-lsp/elixir-ls/bin/language_server.sh'],
-    \ 'eelixir': ['~/code/elixir-lsp/elixir-ls/bin/language_server.sh'],
-    \ 'go': ['gopls'],
-    \ 'fsharp': ['dotnet', '~/code/fsprojects/fsharp-language-server/bin/FSharpLanguageServer.dll'],
-    \ 'dhall': ['dhall-lsp-server'],
-    \ 'python': ['/home/m/.asdf/shims/pyls'],
-    \ }
-
 
 let g:ackprg = 'ag --nogroup --nocolor --column --hidden'
 
@@ -192,7 +168,6 @@ let g:ale_fixers = {
     \ 'python': ['black'],
     \ }
 
-let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 1
 let g:ale_completion_enabled = 0
 
@@ -200,25 +175,13 @@ let g:OmniSharp_server_stdio = 1
 
 let g:pencil#map#suspend_af = 'K'
 
-let g:vimwiki_list = [{'path': expand('~/.wiki/')}]
-
 let g:nnn#layout = {'left': '~20%'}
 let g:nnn#command = 'nnn -eHo'
-
-let g:limelight_conceal_ctermfg = 'grey'
-
-let g:goyo_width = 85
-let g:goyo_height = '100%'
 
 augroup ft_jsx
   au!
   autocmd BufNewFile,BufRead *.jsx  set filetype=javascript.jsx
   autocmd BufNewFile,BufRead *.tsx  set filetype=typescript.tsx
-augroup END
-
-augroup ft_wiki
-  au!
-  autocmd FileType vimwiki  set textwidth=70 colorcolumn=70
 augroup END
 
 augroup ft_fish
@@ -234,17 +197,3 @@ augroup ft_cs
   autocmd FileType cs  nmap <leader>c <Plug>(omnisharp_code_actions)
 augroup END
 
-if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
-
-augroup goyo_hooks
-  au!
-  autocmd User GoyoEnter set number
-
-  autocmd User GoyoLeave hi Normal ctermbg=NONE
-augroup END
