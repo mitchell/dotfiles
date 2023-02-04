@@ -9,44 +9,61 @@ Plug 'tpope/vim-endwise'
 Plug 'itchyny/lightline.vim'
 Plug 'edkolev/tmuxline.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'vimwiki/vimwiki'
-Plug 'junegunn/fzf'
-Plug 'reedes/vim-pencil', { 'on': ['HardPencil', 'SoftPencil'] }
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo'}
 Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
+Plug 'reedes/vim-pencil', { 'on': ['HardPencil', 'SoftPencil'] }
 
 if !exists('g:vscode')
-  Plug 'morhetz/gruvbox'
   Plug 'w0rp/ale'
-  Plug 'autozimu/LanguageClient-neovim', {
-       \ 'branch': 'next',
-       \ 'do': 'bash install.sh',
-       \ }
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
   Plug 'tpope/vim-fugitive', { 'on': ['G', 'Git'], 'for': 'gitcommit' }
   Plug 'mileszs/ack.vim', { 'on': 'Ack' }
-  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-  Plug 'mcchrish/nnn.vim', { 'on': 'NnnPicker' }
 
-  " Language specific plugins
-  Plug 'dart-lang/dart-vim-plugin'
-  Plug 'elixir-editors/vim-elixir'
-  Plug 'georgewitteman/vim-fish'
-  Plug 'fatih/vim-go'
-  Plug 'jparise/vim-graphql'
-  Plug 'pangloss/vim-javascript'
-  Plug 'vim-ruby/vim-ruby'
-  Plug 'cespare/vim-toml'
-  Plug 'OmniSharp/omnisharp-vim'
-  Plug 'HerringtonDarkholme/yats.vim'
-  Plug 'MaxMEllon/vim-jsx-pretty'
-  Plug 'b4b4r07/vim-hcl'
-  Plug 'hashivim/vim-terraform'
-  Plug 'PProvost/vim-ps1'
-  Plug 'vmchale/dhall-vim'
-  Plug 'baskerville/vim-sxhkdrc'
-  Plug 'keith/swift.vim'
+  if has('nvim')
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'BurntSushi/ripgrep'
+    Plug 'MunifTanjim/nui.nvim'
+    Plug 'rcarriga/nvim-notify'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-tree/nvim-web-devicons'
+
+    Plug 'folke/noice.nvim'
+    Plug 'ggandor/leap.nvim'
+    Plug 'ellisonleao/gruvbox.nvim'
+    Plug 'nvim-neo-tree/neo-tree.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+    Plug 'simrat39/symbols-outline.nvim'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'autozimu/LanguageClient-neovim', {
+         \ 'branch': 'next',
+         \ 'do': 'bash install.sh',
+         \ }
+    Plug 'nvim-telescope/telescope-fzf-native.nvim', { 
+         \ 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+         \ }
+  else
+    Plug 'morhetz/gruvbox'
+    Plug 'junegunn/fzf'
+    Plug 'mcchrish/nnn.vim'
+
+    " Language specific plugins
+    Plug 'dart-lang/dart-vim-plugin'
+    Plug 'elixir-editors/vim-elixir'
+    Plug 'georgewitteman/vim-fish'
+    Plug 'fatih/vim-go'
+    Plug 'jparise/vim-graphql'
+    Plug 'pangloss/vim-javascript'
+    Plug 'vim-ruby/vim-ruby'
+    Plug 'cespare/vim-toml'
+    Plug 'OmniSharp/omnisharp-vim'
+    Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'MaxMEllon/vim-jsx-pretty'
+    Plug 'b4b4r07/vim-hcl'
+    Plug 'hashivim/vim-terraform'
+    Plug 'PProvost/vim-ps1'
+    Plug 'vmchale/dhall-vim'
+    Plug 'baskerville/vim-sxhkdrc'
+    Plug 'keith/swift.vim'
+  endif
 endif
 
 call plug#end()
@@ -54,7 +71,6 @@ call plug#end()
 set colorcolumn=100
 set cursorline
 set showmatch
-set lazyredraw
 set hlsearch
 set mouse=a
 set number
@@ -69,31 +85,41 @@ set cmdheight=2
 set ignorecase
 set smartcase
 set shortmess+=c
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set nofoldenable " Disable folding at startup.
 
-nnoremap <C-p> :FZF<cr>
 
 let mapleader = 'j'
 inoremap <leader>j <Esc>
 
 let mapleader = ','
-nmap <leader>g <Plug>(lcn-definition)
-nmap <leader>r <Plug>(lcn-references)
-nmap <leader>m <Plug>(lcn-menu)
-nmap <leader>h <Plug>(lcn-hover)
-nmap <leader>c <Plug>(lcn-code-lens-action)
-nmap <leader>d <Plug>(lcn-explain-error)
-nnoremap <leader>ls :LanguageClientStop<cr>
-nnoremap <leader>ll :LanguageClientStart<cr>
-nnoremap <leader>n :NnnPicker<cr>
-nnoremap <leader>p :FZF<cr>
-nnoremap <leader>a :Ack<cr>
-nnoremap <leader>we :VimwikiAll2HTML<cr>
-nnoremap <leader>wz :VimwikiIndex<cr> :Goyo<cr>
-nnoremap <leader>wg :VimwikiGoto
-nnoremap <leader>z :Goyo 105<cr>
-nnoremap <leader>Z :Goyo<cr>
-nnoremap <leader>l :Limelight<cr>
-nnoremap <leader>L :Limelight!<cr>
+nnoremap <leader>z <cmd>Goyo 105<cr>
+nnoremap <leader>Z <cmd>Goyo<cr>
+nnoremap <leader>l <cmd>Limelight<cr>
+nnoremap <leader>L <cmd>Limelight!<cr>
+
+if has('nvim')
+  nmap <leader>g <Plug>(lcn-definition)
+  nmap <leader>r <Plug>(lcn-references)
+  nmap <leader>m <Plug>(lcn-menu)
+  nmap <leader>h <Plug>(lcn-hover)
+  nmap <leader>c <Plug>(lcn-code-lens-action)
+  nmap <leader>d <Plug>(lcn-explain-error)
+  nnoremap <leader>ls <cmd>LanguageClientStop<cr>
+  nnoremap <leader>ll <cmd>LanguageClientStart<cr>
+
+  nnoremap <leader>n <cmd>Neotree<cr>
+  nnoremap <leader>b <cmd>Neotree float buffers<cr>
+  nnoremap <leader>p <cmd>Telescope git_files<cr>
+  nnoremap <leader>f <cmd>Telescope find_files<cr>
+  nnoremap <leader>a <cmd>Telescope grep_string<cr>
+  nnoremap <leader>t <cmd>Telescope<cr>
+else
+  nnoremap <leader>n <cmd>NnnPicker<cr>
+  nnoremap <leader>p <cmd>FZF<cr>
+  nnoremap <leader>a <cmd>Ack<cr>
+endif
 
 " Allows you to use // in order to search for the visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
