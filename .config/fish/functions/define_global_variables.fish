@@ -27,5 +27,6 @@ function define_global_variables -d 'Defines all and exclusively globally export
         $HOME/.dotnet/tools \
         $ANDROID_HOME/emulator \
         $ANDROID_HOME/platform-tools \
+        $ANDROID_HOME/build-tools/31.0.0 \
         $ANDROID_HOME/tools
 end
