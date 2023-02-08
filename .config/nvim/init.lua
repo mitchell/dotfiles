@@ -1,9 +1,15 @@
 vim.cmd("set runtimepath^=~/.vim runtimepath+=~/.vim/after")
 vim.cmd("let &packpath = &runtimepath")
 vim.cmd("source ~/.vimrc")
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+
 vim.g.neovide_scale_factor = 0.7
 vim.opt.guifont = { "JetBrainsMono Nerd Font", "h13" }
+
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  command = "set nonumber",
+})
 
 require('twilight').setup()
 require('zen-mode').setup({
