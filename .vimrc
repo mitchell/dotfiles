@@ -18,6 +18,7 @@ if !exists('g:vscode')
 
   if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'nvim-treesitter/nvim-treesitter-context'
     Plug 'BurntSushi/ripgrep'
     Plug 'MunifTanjim/nui.nvim'
     Plug 'rcarriga/nvim-notify'
@@ -70,6 +71,7 @@ set cursorline
 set showmatch
 set hlsearch
 set mouse=a
+set mousemodel=extend
 set number
 set noshowmode
 set background=dark

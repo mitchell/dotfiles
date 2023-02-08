@@ -2,6 +2,8 @@ vim.cmd("set runtimepath^=~/.vim runtimepath+=~/.vim/after")
 vim.cmd("let &packpath = &runtimepath")
 vim.cmd("source ~/.vimrc")
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+vim.g.neovide_scale_factor = 0.7
+vim.opt.guifont = { "JetBrainsMono Nerd Font", "h13" }
 
 require('twilight').setup()
 require('zen-mode').setup({
@@ -23,8 +25,12 @@ require('noice').setup({
       ["cmp.entry.get_documentation"] = true,
     },
   },
+  presets = {
+    long_message_to_split = true, -- long messages will be sent to a split
+  },
 })
 
+require('treesitter-context').setup()
 require('nvim-treesitter.configs').setup({
   -- A list of parser names, or "all" (the four listed parsers should always be installed)
   ensure_installed = {
@@ -92,32 +98,22 @@ local on_attach = function(client, bufnr)
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, bufopts)
   vim.keymap.set('n', '<leader>m', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', '<leader>mr', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<leader>F', function() vim.lsp.buf.format { async = true } end, bufopts)
 end
 
-local lsp = require "lspconfig"
+local lspconfig = require "lspconfig"
 local coq = require "coq"
-
 
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,
 }
-lsp['tsserver'].setup({
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
-lsp['tsserver'].setup(coq.lsp_ensure_capabilities())
 
-lsp['elixirls'].setup({
+local servers = { 'tsserver', 'elixirls', 'gopls' }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup(coq.lsp_ensure_capabilities({
     on_attach = on_attach,
     flags = lsp_flags,
-})
-lsp['elixirls'].setup(coq.lsp_ensure_capabilities())
-
-lsp['gopls'].setup({
-    on_attach = on_attach,
-    flags = lsp_flags,
-})
-lsp['gopls'].setup(coq.lsp_ensure_capabilities())
+  }))
+end
