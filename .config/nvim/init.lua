@@ -2,6 +2,8 @@ vim.cmd("set runtimepath^=~/.vim runtimepath+=~/.vim/after")
 vim.cmd("let &packpath = &runtimepath")
 vim.cmd("source ~/.vimrc")
 
+vim.g.coq_settings = { auto_start = true }
+
 vim.g.neovide_scale_factor = 0.7
 vim.opt.guifont = { "JetBrainsMono Nerd Font", "h13" }
 
@@ -30,6 +32,9 @@ require('noice').setup({
       ["vim.lsp.util.stylize_markdown"] = true,
       ["cmp.entry.get_documentation"] = true,
     },
+  },
+  popupmenu = {
+    enabled = false,
   },
   presets = {
     long_message_to_split = true, -- long messages will be sent to a split

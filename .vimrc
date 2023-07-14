@@ -94,6 +94,7 @@ inoremap <leader>j <Esc>
 
 let mapleader = ','
 nnoremap <leader>f <cmd>ALEFix<cr>
+nnoremap <leader>a <cmd>ALEToggle<cr>
 
 if has('nvim')
   nnoremap <leader>n <cmd>Neotree<cr>

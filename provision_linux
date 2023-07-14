@@ -90,7 +90,6 @@ function desktop_env -d 'Install base desktop utilities and configure theme'
         feh \
         rofi \
         kitty \
-        qutebrowser \
         wget \
         unzip \
         physlock \
