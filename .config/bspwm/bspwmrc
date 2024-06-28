@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/fish
 
 if ! test -e ~/.bspwm_no_lock
   slock &
