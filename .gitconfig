@@ -9,7 +9,7 @@
   llog = log --date=local
   flog = log --pretty=fuller --decorate
   lol = log --graph --decorate --oneline
-  lola = log --graph --decorate --oneline --all --date-order
+  lola = log --graph --decorate --oneline --all
   blog = log origin/master... --left-right
   ds = diff --staged
   amend = commit --amend -C HEAD

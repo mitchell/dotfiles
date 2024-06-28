@@ -10,10 +10,7 @@ function configure_fish
     define_global_variables
     import_sources $uname
     define_aliases $uname
-
-    if status is-login; and not set -qx SSH_CONNECTION
-        ssh_agent_startup
-    end
+    ssh_agent_startup
 end
 
 configure_fish

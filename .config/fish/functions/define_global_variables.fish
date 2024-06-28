@@ -14,17 +14,25 @@ function define_global_variables -d 'Defines all and exclusively globally export
     set -gx GOPATH $HOME/code/go
     set -gx GOBIN $GOPATH/bin
 
+    set -gx BUN_INSTALL $HOME/.bun
+
     set -gx LIBVIRT_DEFAULT_URI 'qemu:///system'
 
     set -gx ANDROID_HOME $HOME/Android/Sdk
 
-    set -gx PATH $PATH $GOBIN \
+    set -gx LIBVA_DRIVER_NAME nvidia
+
+    set -gx PNPM_HOME $HOME/.local/share/pnpm
+
+    fish_add_path $GOBIN \
         $HOME/.local/bin \
         $HOME/.pub-cache/bin \
         $HOME/code/scripts \
         $HOME/code/flutter/bin \
         $HOME/.cargo/bin \
         $HOME/.dotnet/tools \
+        $BUN_INSTALL/bin \
+        $PNPM_HOME \
         $ANDROID_HOME/emulator \
         $ANDROID_HOME/platform-tools \
         $ANDROID_HOME/build-tools/31.0.0 \

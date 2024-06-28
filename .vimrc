@@ -131,13 +131,14 @@ highlight Normal ctermbg=None
 let g:ackprg = 'ag --nogroup --nocolor --column --hidden'
 
 let g:lightline = {
-    \ 'colorscheme': 'gruvbox',
+    \ 'colorscheme': 'wombat',
     \ }
 
 let g:ale_linters = {
     \ 'javascript': ['eslint', 'stylelint'],
     \ 'go': ['golint', 'go vet'],
     \ 'typescript': ['eslint', 'stylelint'],
+    \ 'vue': ['eslint', 'stylelint'],
     \ 'make': ['checkmake'],
     \ 'proto': ['protoc-gen-lint'],
     \ 'dockerfile': ['hadolint'],
@@ -157,18 +158,21 @@ let g:ale_linters = {
 let g:ale_fixers = {
     \ 'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
     \ 'graphql': ['prettier'],
-    \ 'javascript': ['eslint', 'prettier'],
-    \ 'typescript': ['eslint', 'prettier'],
-    \ 'css': ['prettier', 'stylelint'],
+    \ 'javascript': ['prettier'],
+    \ 'typescript': ['prettier'],
+    \ 'vue': ['prettier'],
+    \ 'css': ['prettier'],
     \ 'yaml': ['prettier'],
     \ 'json': ['prettier'],
     \ 'dart': ['dartfmt'],
     \ 'html': ['prettier'],
+    \ 'markdown': ['prettier'],
     \ 'make': ['remove_trailing_lines', 'trim_whitespace'],
     \ 'elixir': ['mix_format'],
     \ 'terraform': ['terraform'],
     \ 'ruby': ['rubocop'],
     \ 'python': ['black'],
+    \ 'lua': ['stylua'],
     \ }
 
 let g:ale_linters_explicit = 1
