@@ -1,5 +1,5 @@
 # open terminal
-cmd - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
+cmd - return : /usr/local/bin/wezterm-gui start
 
 # open web browser
 shift + cmd - return : /Applications/Firefox.app/Contents/MacOS/firefox

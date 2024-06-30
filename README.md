@@ -10,15 +10,13 @@ This repo contains my preferred configurations for:
 - neovim
 - tmux
 - git
-- kitty terminal
+- Wez's terminal
 - Jetbrains vim plugin
 - keepassxc
-- qutebrowser
 - bspwm (Linux)
 - sxhkd (Linux)
 - yabaiwm (macOS)
 - skhd (macOS)
-- conky
 
 ## Scripts
 

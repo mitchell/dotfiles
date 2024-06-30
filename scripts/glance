@@ -1,2 +1,2 @@
 #!/bin/sh
-kitty fish -c glance
+wezterm start fish -c glance

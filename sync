@@ -27,7 +27,6 @@ function main
         set_color grey
 
         sync_desktop_env $uname
-        set_kitty_font_size $uname
     end
 
     if test -n "$_flag_g"
@@ -67,10 +66,11 @@ function sync_terminal_env
     and rsync -aP ./.vim ~/
     and rsync -aP ./.vimrc ~/
     and rsync -aP ./scripts/ ~/code/scripts/
+    and rsync -aP ./.config/starship.toml ~/.config/
 end
 
 function sync_desktop_env -a uname
-    rsync -aP ./.config/kitty ~/.config/
+    rsync -aP ./.wezterm.lua ~/
     and rsync -aP ./.ideavimrc ~/
     or return 1
 
@@ -84,12 +84,6 @@ function sync_desktop_env -a uname
             and rsync -aP ./.config/sxhkd ~/.config/
             and rsync -aP ./.config/picom ~/.config/
             and rsync -aP ./.config/polybar ~/.config/
-    end
-end
-
-function set_kitty_font_size -a uname
-    if test "$uname" = Darwin
-        sed -i '' -e 's/font_size 11\.0/font_size 13\.0/' ~/.config/kitty/kitty.conf
     end
 end
 

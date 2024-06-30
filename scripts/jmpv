@@ -1,2 +1,2 @@
 #!/usr/bin/sh
-kitty fish -c jmpv
+wezterm start fish -c jmpv

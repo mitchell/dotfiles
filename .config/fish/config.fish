@@ -11,6 +11,7 @@ function configure_fish
     import_sources $uname
     define_aliases $uname
     ssh_agent_startup
+    starship init fish | source
 end
 
 configure_fish

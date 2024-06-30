@@ -1,2 +1,2 @@
 #!/usr/bin/env fish
-kitty fish -c "sesh $argv"
+wezterm start fish -c "sesh $argv"

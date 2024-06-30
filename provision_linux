@@ -49,7 +49,6 @@ function terminal_env -d 'Install base terminal utilities and sync configuration
         tmux \
         rsync \
         curl \
-        kitty-terminfo \
         fzf \
         nnn \
         mosh
@@ -89,7 +88,6 @@ function desktop_env -d 'Install base desktop utilities and configure theme'
         picom \
         feh \
         rofi \
-        kitty \
         wget \
         unzip \
         physlock \
@@ -111,6 +109,7 @@ function desktop_env -d 'Install base desktop utilities and configure theme'
         pipewire-alsa \
         polybar \
         light \
+        wezterm \
         slock
 
     set -l debian_pkgs \
