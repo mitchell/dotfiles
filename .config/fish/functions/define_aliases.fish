@@ -1,8 +1,8 @@
 function define_aliases -a uname -d 'Defines aliases for commonly used commands'
-    alias q 'exit'
+    alias q exit
     alias rcp 'rsync -aP'
-    alias vg 'vagrant'
-    alias tf 'terraform'
+    alias vg vagrant
+    alias tf terraform
     alias gco 'gcloud compute'
     alias tocb 'xclip -in -selection clipboard'
     alias fromcb 'xclip -out -selection clipboard'
@@ -12,17 +12,17 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias age-e 'age --armor --recipient (cat ~/.secrets/id_ed25519.pub)'
     alias age-k 'age --decrypt --identity ~/.secrets/id_ed25519 ~/.secrets/age_keys.age'
     alias bb 'bun --bun'
-    alias pn 'pnpm'
+    alias pn pnpm
 
     switch "$uname"
-        case 'Linux'
+        case Linux
             alias goland 'command goland'
             alias rider 'command rider'
             alias webstorm 'command webstorm'
             alias sctl 'sudo systemctl'
             alias uctl 'systemctl --user'
-            alias bctl 'bluetoothctl'
-        case 'Darwin'
+            alias bctl bluetoothctl
+        case Darwin
             alias goland 'open -a Goland'
             alias rider 'open -a Rider'
             alias webstorm 'open -a Webstorm'

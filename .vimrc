@@ -120,13 +120,10 @@ endif
 " Allows you to use // in order to search for the visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
-" next line is necessary to prevent background rendering bug with kitty term
-let &t_ut=''
-
 let g:gruvbox_italic=1
 colorscheme gruvbox
 
-highlight Normal ctermbg=None
+highlight Normal guibg=None ctermbg=None
 
 let g:ackprg = 'ag --nogroup --nocolor --column --hidden'
 

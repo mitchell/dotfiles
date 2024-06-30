@@ -1,30 +1,39 @@
 #!/usr/bin/fish
 
-if ! test -e ~/.bspwm_no_lock
-  slock &
-  touch ~/.bspwm_no_lock
+#if ! test -e ~/.bspwm_no_lock
+#  slock &
+#  touch ~/.bspwm_no_lock
+#end
+
+if test $DISPLAY = ":0"
+    setxkbmap -option ctrl:swapcaps
+    setxkbmap -option altwin:swap_alt_win
+    xset s off -dpms
+    xinput set-prop 'MSFT0001:00 04F3:317C Touchpad' 'libinput Tapping Enabled' 1
+    xinput set-prop 'MSFT0001:00 04F3:317C Touchpad' 'libinput Middle Emulation Enabled' 1
 end
 
-setxkbmap -option ctrl:swapcaps
-setxkbmap -option altwin:swap_alt_win
-xset s off -dpms
-xinput set-prop 'MSFT0001:00 04F3:317C Touchpad' 'libinput Tapping Enabled' 1
-xinput set-prop 'MSFT0001:00 04F3:317C Touchpad' 'libinput Middle Emulation Enabled' 1
-
 sxhkd &
-picom -b
 
-wmname LG3D
+if test $DISPLAY = ":0"
+    picom -b --blur-background
+else
+    picom -b --backend xrender
+end
 
-xfce4-screensaver &
+#wmname LG3D
+
 ~/.fehbg &
 
-killall -q polybar barrier barrierc cbatticon pasystray
+if test $DISPLAY = ":0"
+    killall -q polybar cbatticon pasystray barrier barrierc
+    barrier &
+    keepassxc &
+end
+
 polybar m-bar &
 cbatticon &
 pasystray &
-keepassxc &
-barrier &
 
 bspc monitor -d I II III IV V VI VII
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 function main
-    argparse 'd/desktop' 'g/git' -- $argv
+    argparse d/desktop g/git -- $argv
     set -l start_dir (pwd)
     and set -l tmp_dir (mktemp --directory 2>/dev/null; or mktemp -d -t 'dotfiles')
     and set -l cwd (string match -r '\w+$' $start_dir)
@@ -45,7 +45,7 @@ function main
 end
 
 function setup_tmp_space -a cwd tmp_dir
-    if test ! "$cwd" = 'dotfiles'
+    if test ! "$cwd" = dotfiles
         git clone --recurse-submodules https://github.com/mitchell/dotfiles.git $tmp_dir
         and cd $tmp_dir
     end
@@ -66,13 +66,11 @@ function sync_terminal_env
     and rsync -aP ./.tmux.conf ~/
     and rsync -aP ./.vim ~/
     and rsync -aP ./.vimrc ~/
-    and rsync -aP ./.taskrc ~/
     and rsync -aP ./scripts/ ~/code/scripts/
 end
 
 function sync_desktop_env -a uname
     rsync -aP ./.config/kitty ~/.config/
-    and rsync -aP ./.config/qutebrowser ~/.config/
     and rsync -aP ./.ideavimrc ~/
     or return 1
 
@@ -86,12 +84,11 @@ function sync_desktop_env -a uname
             and rsync -aP ./.config/sxhkd ~/.config/
             and rsync -aP ./.config/picom ~/.config/
             and rsync -aP ./.config/polybar ~/.config/
-            and rsync -aP ./.config/conky ~/.config/
     end
 end
 
 function set_kitty_font_size -a uname
-    if test "$uname" = 'Darwin'
+    if test "$uname" = Darwin
         sed -i '' -e 's/font_size 11\.0/font_size 13\.0/' ~/.config/kitty/kitty.conf
     end
 end
@@ -101,7 +98,7 @@ function install_fisher_packages
 end
 
 function install_nvim_plugins
-    command -q nvim; and nvim +PlugUpgrade +PlugUpdate +qa
+    command -q nvim; and nvim +PlugUpgrade +PlugUpdate +UpdateRemotePlugins +qa
 end
 
 function sync_git_config
@@ -120,7 +117,7 @@ function set_fish_universal_vars
 end
 
 function clean_up_tmp_space -a cwd start_dir tmp_dir
-    if test ! "$cwd" = 'dotfiles'
+    if test ! "$cwd" = dotfiles
         cd $start_dir
         and rm -r $tmp_dir
     end

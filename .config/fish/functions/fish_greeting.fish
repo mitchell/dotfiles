@@ -1,10 +1,16 @@
 function fish_greeting -d "What's up, fish?"
     set_color $fish_color_autosuggestion
-    uname -nmsr
 
-    # TODO: `command -q -s` only works on fish 2.5+, so hold off on that for now
+    set uname (uname -nor)
+
     command -s uptime >/dev/null
-    and uptime
+    and if test (uname) = Linux
+        and set uptime '; ' (uptime --pretty)
+    else
+        and set uptime '; ' (uptime)
+    end
+
+    echo -s $uname $uptime
 
     set_color normal
 end
