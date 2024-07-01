@@ -10,6 +10,9 @@ super + Return
 super + shift + Return
 	firefox
 
+super + alt + shift + Return
+	qutebrowser
+
 # program launcher
 super + @space
 	rofi -width 30 \

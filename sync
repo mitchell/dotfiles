@@ -17,8 +17,6 @@ function main
 
     and set_fish_universal_vars
 
-    and install_fisher_packages
-
     and install_nvim_plugins
 
     if test -n "$_flag_d"
@@ -85,10 +83,6 @@ function sync_desktop_env -a uname
             and rsync -aP ./.config/picom ~/.config/
             and rsync -aP ./.config/polybar ~/.config/
     end
-end
-
-function install_fisher_packages
-    eval fisher
 end
 
 function install_nvim_plugins

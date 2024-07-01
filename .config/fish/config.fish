@@ -12,6 +12,7 @@ function configure_fish
     define_aliases $uname
     ssh_agent_startup
     starship init fish | source
+    zoxide init fish | source
 end
 
 configure_fish

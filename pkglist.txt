@@ -86,3 +86,4 @@ wezterm
 wget
 wireguard-tools
 yt-dlp
+zoxide
