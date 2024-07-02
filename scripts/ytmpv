@@ -1,2 +1,2 @@
 #!/usr/bin/sh
-wezterm start fish -c ytmpv
+wezterm start -- fish -c ytmpv

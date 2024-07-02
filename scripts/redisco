@@ -1,2 +1,2 @@
 #!/usr/bin/env fish
-wezterm start fish -c "redisco $argv"
+wezterm start -- fish -c "redisco $argv"

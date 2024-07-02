@@ -13,6 +13,11 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	command = "set nonumber",
 })
 
+require("gruvbox").setup({
+	transparent_mode = true,
+})
+vim.cmd("colorscheme gruvbox")
+
 require("twilight").setup()
 require("zen-mode").setup({
 	window = {
@@ -57,7 +62,6 @@ require("nvim-treesitter.configs").setup({
 		"c",
 		"lua",
 		"vim",
-		"help",
 		"fish",
 		"typescript",
 		"javascript",
@@ -134,21 +138,24 @@ local lsp_flags = {
 	debounce_text_changes = 150,
 }
 
+-- Unused for now
 local vue_plugin_location = vim.fn.expand("$HOME/.bun/install/global/node_modules/@vue/language-server")
 
-lspconfig.tsserver.setup(coq.lsp_ensure_capabilities({
+require("typescript-tools").setup(coq.lsp_ensure_capabilities({
 	on_attach = on_attach,
 	flags = lsp_flags,
-	init_options = {
-		plugins = {
-			{
-				name = "@vue/typescript-plugin",
-				location = vue_plugin_location,
-				languages = { "vue" },
-			},
+	filetypes = {
+		"typescript",
+		"javascript",
+		"javascriptreact",
+		"typescriptreact",
+		"vue",
+	},
+	settings = {
+		tsserver_plugins = {
+			"@vue/typescript-plugin",
 		},
 	},
-	filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
 }))
 
 local servers = { "volar", "elixirls", "gopls", "pylsp" }

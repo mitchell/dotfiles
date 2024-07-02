@@ -10,7 +10,7 @@ super + Return
 super + shift + Return
 	firefox
 
-super + alt + shift + Return
+super + shift + ctrl + Return
 	qutebrowser
 
 # program launcher

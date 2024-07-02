@@ -18,17 +18,17 @@ config.hide_tab_bar_if_only_one_tab = true
 config.keys = {
 	{ key = "Enter", mods = "SHIFT|CTRL", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 	{ key = '"', mods = "SHIFT|CTRL", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "H", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Left") },
+	{ key = "L", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Right") },
+	{ key = "K", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Up") },
+	{ key = "J", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Down") },
+	{ key = "H", mods = "SHIFT|CTRL|SUPER", action = act.AdjustPaneSize({ "Left", 1 }) },
+	{ key = "L", mods = "SHIFT|CTRL|SUPER", action = act.AdjustPaneSize({ "Right", 1 }) },
+	{ key = "K", mods = "SHIFT|CTRL|SUPER", action = act.AdjustPaneSize({ "Up", 1 }) },
+	{ key = "J", mods = "SHIFT|CTRL|SUPER", action = act.AdjustPaneSize({ "Down", 1 }) },
+	{ key = "D", mods = "SHIFT|CTRL|SUPER", action = act.ShowDebugOverlay },
 	{ key = "X", mods = "SHIFT|CTRL|ALT", action = act.ActivateCopyMode },
 	{ key = "Z", mods = "SHIFT|CTRL|ALT", action = act.TogglePaneZoomState },
-	{ key = "H", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Left") },
-	{ key = "H", mods = "SHIFT|ALT|CTRL", action = act.AdjustPaneSize({ "Left", 1 }) },
-	{ key = "L", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Right") },
-	{ key = "L", mods = "SHIFT|ALT|CTRL", action = act.AdjustPaneSize({ "Right", 1 }) },
-	{ key = "K", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Up") },
-	{ key = "K", mods = "SHIFT|ALT|CTRL", action = act.AdjustPaneSize({ "Up", 1 }) },
-	{ key = "J", mods = "SHIFT|CTRL", action = act.ActivatePaneDirection("Down") },
-	{ key = "J", mods = "SHIFT|ALT|CTRL", action = act.AdjustPaneSize({ "Down", 1 }) },
-	{ key = "D", mods = "SHIFT|ALT|CTRL", action = act.ShowDebugOverlay },
 }
 
 return config

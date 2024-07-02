@@ -38,6 +38,7 @@ if !exists('g:vscode')
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 
          \ 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
          \ }
+    Plug 'pmizio/typescript-tools.nvim'
   else
     Plug 'morhetz/gruvbox'
     Plug 'junegunn/fzf'
@@ -123,7 +124,7 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 let g:gruvbox_italic=1
 colorscheme gruvbox
 
-highlight Normal guibg=None ctermbg=None
+highlight Normal ctermbg=None
 
 let g:ackprg = 'ag --nogroup --nocolor --column --hidden'
 
@@ -133,8 +134,10 @@ let g:lightline = {
 
 let g:ale_linters = {
     \ 'javascript': ['eslint', 'stylelint'],
-    \ 'go': ['golint', 'go vet'],
     \ 'typescript': ['eslint', 'stylelint'],
+    \ 'javascriptreact': ['eslint', 'stylelint'],
+    \ 'typescriptreact': ['eslint', 'stylelint'],
+    \ 'go': ['golint', 'go vet'],
     \ 'vue': ['eslint', 'stylelint'],
     \ 'make': ['checkmake'],
     \ 'proto': ['protoc-gen-lint'],
@@ -157,6 +160,8 @@ let g:ale_fixers = {
     \ 'graphql': ['prettier'],
     \ 'javascript': ['prettier'],
     \ 'typescript': ['prettier'],
+    \ 'javascriptreact': ['prettier'],
+    \ 'typescriptreact': ['prettier'],
     \ 'vue': ['prettier'],
     \ 'css': ['prettier'],
     \ 'yaml': ['prettier'],
@@ -181,12 +186,6 @@ let g:pencil#map#suspend_af = 'K'
 
 let g:nnn#layout = {'left': '~20%'}
 let g:nnn#command = 'nnn -eHo'
-
-augroup ft_jsx
-  au!
-  autocmd BufNewFile,BufRead *.jsx  set filetype=javascript.jsx
-  autocmd BufNewFile,BufRead *.tsx  set filetype=typescript.tsx
-augroup END
 
 augroup ft_fish
   au!

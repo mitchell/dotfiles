@@ -22,8 +22,6 @@ function define_global_variables -d 'Defines all and exclusively globally export
 
     set -gx LIBVA_DRIVER_NAME nvidia
 
-    set -gx PNPM_HOME $HOME/.local/share/pnpm
-
     fish_add_path $GOBIN \
         $HOME/.local/bin \
         $HOME/.pub-cache/bin \
@@ -32,7 +30,6 @@ function define_global_variables -d 'Defines all and exclusively globally export
         $HOME/.cargo/bin \
         $HOME/.dotnet/tools \
         $BUN_INSTALL/bin \
-        $PNPM_HOME \
         $ANDROID_HOME/emulator \
         $ANDROID_HOME/platform-tools \
         $ANDROID_HOME/build-tools/31.0.0 \
