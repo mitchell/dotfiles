@@ -59,17 +59,15 @@ function sync_terminal_env
 
     rsync -aP ./.config/fish ~/.config/
     and rsync -aP ./.config/nvim ~/.config/
+    and rsync -aP ./.local/share/nvim ~/.local/share/
     and rsync -aP ./.tmux-line.conf ~/
     and rsync -aP ./.tmux.conf ~/
-    and rsync -aP ./.vim ~/
-    and rsync -aP ./.vimrc ~/
     and rsync -aP ./scripts/ ~/code/scripts/
     and rsync -aP ./.config/starship.toml ~/.config/
 end
 
 function sync_desktop_env -a uname
     rsync -aP ./.wezterm.lua ~/
-    and rsync -aP ./.ideavimrc ~/
     or return 1
 
     switch $uname

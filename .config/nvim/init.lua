@@ -1,22 +1,53 @@
-vim.cmd("set runtimepath^=~/.vim runtimepath+=~/.vim/after")
-vim.cmd("let &packpath = &runtimepath")
-vim.cmd("source ~/.vimrc")
+local plug = vim.fn["plug#"]
+vim.call("plug#begin")
 
-vim.g.coq_settings = { auto_start = true }
+-- Contains lots of sensible configurations, which I have in turn omitted from here
+plug("tpope/vim-sensible")
 
-vim.g.neovide_scale_factor = 0.7
+plug("tpope/vim-eunuch")
+plug("tpope/vim-surround")
+plug("tpope/vim-endwise")
+plug("itchyny/lightline.vim")
+plug("edkolev/tmuxline.vim")
+plug("airblade/vim-gitgutter")
+plug("reedes/vim-pencil", { ["on"] = { "HardPencil", "SoftPencil" } })
+
+plug("w0rp/ale")
+plug("tpope/vim-fugitive", { ["on"] = { "G", "Git" }, ["for"] = "gitcommit" })
+plug("mileszs/ack.vim", { ["on"] = "Ack" })
+
+plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
+plug("nvim-treesitter/nvim-treesitter-context")
+plug("BurntSushi/ripgrep")
+plug("MunifTanjim/nui.nvim")
+plug("rcarriga/nvim-notify")
+plug("nvim-lua/plenary.nvim")
+plug("nvim-tree/nvim-web-devicons")
+
+plug("ms-jpq/coq_nvim")
+plug("folke/noice.nvim")
+plug("ggandor/leap.nvim")
+plug("folke/zen-mode.nvim")
+plug("folke/twilight.nvim")
+plug("neovim/nvim-lspconfig")
+plug("ellisonleao/gruvbox.nvim")
+plug("nvim-neo-tree/neo-tree.nvim")
+plug("nvim-telescope/telescope.nvim")
+plug("simrat39/symbols-outline.nvim")
+plug("nvim-telescope/telescope-fzf-native.nvim", {
+	["do"] = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+})
+plug("pmizio/typescript-tools.nvim")
+
+vim.call("plug#end")
+
 vim.opt.guifont = { "JetBrainsMono Nerd Font", "h13" }
 
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
-vim.api.nvim_create_autocmd("TermOpen", {
-	pattern = "*",
-	command = "set nonumber",
-})
+vim.g.coq_settings = { auto_start = true }
 
 require("gruvbox").setup({
 	transparent_mode = true,
 })
-vim.cmd("colorscheme gruvbox")
 
 require("twilight").setup()
 require("zen-mode").setup({
@@ -165,3 +196,5 @@ for _, lsp in ipairs(servers) do
 		flags = lsp_flags,
 	}))
 end
+
+vim.cmd("source ~/.config/nvim/config.vim")
