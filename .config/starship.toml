@@ -1,17 +1,17 @@
 add_newline = false
-palette = 'gruvbox_dark'
+palette = 'kanagawa'
 
-[palettes.gruvbox_dark]
-fg = '#ebdbb2'
-bg = '#282828'
-gray = '#a89984'
-blue = '#458588'
-aqua = '#689d6a'
-green = '#98971a'
-orange = '#d65d0e'
-purple = '#b16286'
-red = '#cc241d'
-yellow = '#d79921'
+[palettes.kanagawa]
+bg = '#1f1f28'
+fg = '#dcd7ba'
+black = '#090618'
+red = '#c34043'
+green = '#76946a'
+yellow = '#c0a36e'
+blue = '#7e9cd8'
+magenta = '#957fb8'
+cyan = '#6a9589'
+white = '#c8c093'
 
 [jobs]
 symbol = ""
@@ -48,7 +48,6 @@ symbol = " "
 
 [directory]
 read_only = " 󰌾"
-style = "bold blue"
 
 [docker_context]
 symbol = " "

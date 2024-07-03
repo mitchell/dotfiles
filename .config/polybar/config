@@ -17,15 +17,14 @@
 ;==========================================================
 
 [colors]
-;background = ${xrdb:color0:#222}
-background = #282828
-background-alt = #3c3836
-;foreground = ${xrdb:color7:#222}
-foreground = #ebdbb2
-foreground-alt = #fbf1c7
-primary = #98971a
-secondary = #458588
-alert = #cc241d
+background = #1F1F28
+background-alt = #2A2A37
+foreground = #DCD7BA
+foreground-alt = #CBC093
+primary = #7E9CD8
+secondary = #76946A
+alert = #C34043
+orange = #FF9E64
 
 [bar/m-bar]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -105,7 +104,7 @@ interval = 25
 
 mount-0 = /
 
-label-mounted = %{F#458588}%mountpoint%%{F-}: %percentage_used%%
+label-mounted = %{F#CBC093}%mountpoint%%{F-}: %percentage_used%%
 label-mounted-underline = ${colors.primary}
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}

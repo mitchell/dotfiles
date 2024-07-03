@@ -45,7 +45,7 @@ tnoremap <Esc> <C-\><C-n>
 " Allows you to use // in order to search for the visually selected text
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
-colorscheme gruvbox
+colorscheme kanagawa
 
 let g:neovide_scale_factor = 0.7
 

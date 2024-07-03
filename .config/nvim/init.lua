@@ -24,7 +24,7 @@ plug("ggandor/leap.nvim")
 plug("folke/zen-mode.nvim")
 plug("folke/twilight.nvim")
 plug("neovim/nvim-lspconfig")
-plug("ellisonleao/gruvbox.nvim")
+plug("rebelot/kanagawa.nvim")
 plug("nvim-lualine/lualine.nvim")
 plug("nvim-neo-tree/neo-tree.nvim")
 plug("pmizio/typescript-tools.nvim")
@@ -40,8 +40,8 @@ vim.opt.guifont = { "JetBrainsMono Nerd Font", "h13" }
 
 vim.g.coq_settings = { auto_start = true }
 
-require("gruvbox").setup({
-	transparent_mode = true,
+require("kanagawa").setup({
+	transparent = true,
 })
 
 require("lualine").setup()
