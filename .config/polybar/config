@@ -52,14 +52,14 @@ module-margin-left = 0
 module-margin-right = 2
 
 font-0 = IBM Plex Sans:size=10;3
-font-1 = JetBrains Mono:size=11;3
+font-1 = JetBrainsMono Nerd Font:size=11;3
 #font-2 = JetBrains Mono:pixelsize=10;1
 #font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 #font-2 = siji:pixelsize=10;1
 
 modules-left = bspwm
 modules-center = xwindow
-modules-right = pulseaudio cpu memory filesystem eth date xkeyboard powermenu
+modules-right = pulseaudio cpu memory temperature filesystem battery xkeyboard date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -87,7 +87,7 @@ label = %title:0:30:...%
 type = internal/xkeyboard
 blacklist-0 = num lock
 
-format-prefix = " "
+format-prefix = "kb "
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
 
@@ -133,19 +133,6 @@ label-empty-padding = 4
 ; Separator in between workspaces
 ; label-separator = |
 
-[module/mpd]
-type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
-
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
-
-label-song-maxlen = 25
-label-song-ellipsis = true
-
 [module/xbacklight]
 type = internal/xbacklight
 
@@ -171,7 +158,7 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " "
+format-prefix = "cpu "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${colors.alert}
 label = %percentage:2%%
@@ -179,7 +166,7 @@ label = %percentage:2%%
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = " "
+format-prefix = "mem "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${colors.alert}
 label = %percentage_used%%
@@ -190,7 +177,7 @@ interface = wlan0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-format-connected-underline = #9f78e1
+format-connected-underline = ${colors.secondary}
 label-connected = %essid%
 
 format-disconnected =
@@ -208,11 +195,11 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = enp125s0u1u4
+interface = enp5s0f4u2
 interval = 3.0
 
 format-connected-underline = ${colors.secondary}
-format-connected-prefix = " "
+format-connected-prefix = "eth "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
@@ -232,9 +219,9 @@ date-alt = " %Y-%m-%d"
 time = %H:%M
 time-alt = %H:%M:%S
 
-format-prefix = 
+format-prefix = ""
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #98971a
+format-underline = ${colors.secondary}
 
 label = %date% %time%
 
@@ -254,36 +241,8 @@ bar-volume-foreground-1 = ${colors.secondary}
 bar-volume-foreground-2 = ${colors.secondary}
 bar-volume-foreground-3 = ${colors.secondary}
 bar-volume-foreground-4 = ${colors.secondary}
-bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-5 = ${colors.orange}
 bar-volume-foreground-6 = ${colors.alert}
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
-
-[module/alsa]
-type = internal/alsa
-
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL
-label-volume-foreground = ${root.foreground}
-
-format-muted-prefix = " "
-format-muted-foreground = ${colors.foreground-alt}
-label-muted = sound muted
-
-bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
 bar-volume-gradient = false
 bar-volume-indicator = |
 bar-volume-indicator-font = 2
@@ -299,15 +258,17 @@ battery = BAT0
 adapter = ADP1
 full-at = 98
 
-format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
+format-charging-prefix = "bat "
+format-charging-prefix-foreground = ${colors.foreground-alt}
+format-charging-underline = ${colors.secondary}
 
-format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+format-discharging-prefix = ${self.format-charging-prefix}
+format-discharging-prefix-foreground = ${colors.foreground-alt}
+format-discharging-underline = ${colors.orange}
 
-format-full-prefix = " "
+format-full-prefix = ${self.format-charging-prefix}
 format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
+format-full-underline = ${colors.secondary}
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -332,13 +293,13 @@ thermal-zone = 0
 warn-temperature = 60
 
 format = <ramp> <label>
-format-underline = #f50a4d
+format-underline = ${colors.orange}
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
 
 label = %temperature-c%
 label-warn = %temperature-c%
-label-warn-foreground = ${colors.secondary}
+label-warn-foreground = ${colors.alert}
 
 ramp-0 = 
 ramp-1 = 

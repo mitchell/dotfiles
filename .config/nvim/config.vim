@@ -54,10 +54,6 @@ let g:ale_completion_enabled = 0
 
 let g:pencil#map#suspend_af = 'K'
 
-let g:lightline = {
-    \ 'colorscheme': 'wombat',
-    \ }
-
 let g:ale_linters = {
     \ 'javascript': ['eslint', 'stylelint'],
     \ 'typescript': ['eslint', 'stylelint'],

@@ -26,13 +26,12 @@ end
 ~/.fehbg &
 
 if test $DISPLAY = ":0"
-    killall -q polybar cbatticon pasystray barrier barrierc
+    killall -q polybar pasystray barrier barrierc
     barrier &
     keepassxc &
 end
 
 polybar m-bar &
-cbatticon &
 pasystray &
 
 bspc monitor -d I II III IV V VI VII

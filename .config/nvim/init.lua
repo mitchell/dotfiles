@@ -4,21 +4,15 @@ vim.call("plug#begin")
 -- Contains lots of sensible configurations, which I have in turn omitted from here
 plug("tpope/vim-sensible")
 
+plug("w0rp/ale")
 plug("tpope/vim-eunuch")
 plug("tpope/vim-surround")
 plug("tpope/vim-endwise")
-plug("itchyny/lightline.vim")
 plug("edkolev/tmuxline.vim")
 plug("airblade/vim-gitgutter")
 plug("reedes/vim-pencil", { ["on"] = { "HardPencil", "SoftPencil" } })
-
-plug("w0rp/ale")
 plug("tpope/vim-fugitive", { ["on"] = { "G", "Git" }, ["for"] = "gitcommit" })
-plug("mileszs/ack.vim", { ["on"] = "Ack" })
 
-plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
-plug("nvim-treesitter/nvim-treesitter-context")
-plug("BurntSushi/ripgrep")
 plug("MunifTanjim/nui.nvim")
 plug("rcarriga/nvim-notify")
 plug("nvim-lua/plenary.nvim")
@@ -31,13 +25,14 @@ plug("folke/zen-mode.nvim")
 plug("folke/twilight.nvim")
 plug("neovim/nvim-lspconfig")
 plug("ellisonleao/gruvbox.nvim")
+plug("nvim-lualine/lualine.nvim")
 plug("nvim-neo-tree/neo-tree.nvim")
-plug("nvim-telescope/telescope.nvim")
-plug("simrat39/symbols-outline.nvim")
-plug("nvim-telescope/telescope-fzf-native.nvim", {
-	["do"] = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-})
 plug("pmizio/typescript-tools.nvim")
+plug("simrat39/symbols-outline.nvim")
+plug("nvim-telescope/telescope.nvim")
+plug("nvim-telescope/telescope-fzf-native.nvim", { ["do"] = "make" })
+plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
+plug("nvim-treesitter/nvim-treesitter-context")
 
 vim.call("plug#end")
 
@@ -49,7 +44,8 @@ require("gruvbox").setup({
 	transparent_mode = true,
 })
 
-require("twilight").setup()
+require("lualine").setup()
+
 require("zen-mode").setup({
 	window = {
 		backdrop = 1,
@@ -58,11 +54,14 @@ require("zen-mode").setup({
 require("symbols-outline").setup({
 	autofold_depth = 2,
 })
-require("leap").add_default_mappings()
+require("leap").create_default_mappings()
 
 require("notify").setup({
 	background_colour = "#000000",
 })
+
+require("telescope").setup()
+require("telescope").load_extension("fzf")
 
 require("noice").setup({
 	lsp = {
@@ -86,7 +85,6 @@ require("noice").setup({
 	},
 })
 
-require("treesitter-context").setup()
 require("nvim-treesitter.configs").setup({
 	-- A list of parser names, or "all" (the four listed parsers should always be installed)
 	ensure_installed = {
