@@ -27,7 +27,7 @@ if test $DISPLAY = ":0"
     killall -q polybar pasystray barrier barrierc
     barrier &
     keepassxc &
-    feh --no-fehbg --bg-scale '/home/m/sync/capitol_city.jpg'
+    ~/.fehbg
 else
     feh --no-fehbg --bg-scale '/home/m/sync/maelstrom.jpg'
 end
