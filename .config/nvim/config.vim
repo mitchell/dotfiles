@@ -19,6 +19,7 @@ set shortmess+=c
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set nofoldenable " Disable folding at startup.
+set termguicolors
 
 inoremap jj <Esc>
 
@@ -39,6 +40,8 @@ nnoremap <leader>o <cmd>SymbolsOutline<cr>
 nnoremap <leader>z <cmd>ZenMode<cr>
 nnoremap <leader>l <cmd>Twilight<cr>
 nnoremap <leader>c <cmd>COQnow<cr>
+nnoremap <silent><leader>j <cmd>BufferLinePick<cr>
+nnoremap <silent><leader>J <cmd>BufferLinePickClose<cr>
 
 tnoremap <Esc> <C-\><C-n>
 

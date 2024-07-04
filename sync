@@ -80,6 +80,7 @@ function sync_desktop_env -a uname
             and rsync -aP ./.config/sxhkd ~/.config/
             and rsync -aP ./.config/picom ~/.config/
             and rsync -aP ./.config/polybar ~/.config/
+            and rsync -aP ./.config/rofi ~/.config/
     end
 end
 

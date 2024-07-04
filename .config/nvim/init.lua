@@ -25,6 +25,7 @@ plug("folke/zen-mode.nvim")
 plug("folke/twilight.nvim")
 plug("neovim/nvim-lspconfig")
 plug("rebelot/kanagawa.nvim")
+plug("akinsho/bufferline.nvim")
 plug("nvim-lualine/lualine.nvim")
 plug("nvim-neo-tree/neo-tree.nvim")
 plug("pmizio/typescript-tools.nvim")
@@ -44,7 +45,18 @@ require("kanagawa").setup({
 	transparent = true,
 })
 
-require("lualine").setup()
+require("bufferline").setup({
+	options = {
+		separator_style = "slant",
+	},
+})
+
+require("lualine").setup({
+	extensions = {
+		"neo-tree",
+		"symbols-outline",
+	},
+})
 
 require("zen-mode").setup({
 	window = {

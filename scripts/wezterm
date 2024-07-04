@@ -1,0 +1,8 @@
+#!/usr/bin/env fish
+if command -q prime-run
+    set -lx __NV_PRIME_RENDER_OFFLOAD 1
+    set -lx __VK_LAYER_NV_optimus NVIDIA_only
+    /usr/bin/wezterm $argv
+else
+    /usr/bin/wezterm $argv
+end

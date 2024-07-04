@@ -11,23 +11,23 @@ set -l pink D27E99 brmagenta
 
 # Syntax Highlighting Colors
 set -U fish_color_normal $foreground
-set -U fish_color_command $cyan
+set -U fish_color_command $purple
 set -U fish_color_keyword $pink
 set -U fish_color_quote $yellow
-set -U fish_color_redirection $foreground
+set -U fish_color_redirection $green
 set -U fish_color_end $orange
 set -U fish_color_error $red
-set -U fish_color_param $purple
+set -U fish_color_param $foreground
 set -U fish_color_comment $comment
 set -U fish_color_selection --background=$selection
 set -U fish_color_search_match --background=$selection
-set -U fish_color_operator $green
+set -U fish_color_operator $cyan
 set -U fish_color_escape $pink
 set -U fish_color_autosuggestion $comment
 
 # Completion Pager Colors
 set -U fish_pager_color_progress $comment
-set -U fish_pager_color_prefix $cyan
+set -U fish_pager_color_prefix $purple
 set -U fish_pager_color_completion $foreground
 set -U fish_pager_color_description $comment
 

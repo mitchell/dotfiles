@@ -1,0 +1,6 @@
+#!/usr/bin/env fish
+if command -q prime-run
+    prime-run /usr/bin/streamlink-twitch-gui
+else
+    /usr/bin/streamlink-twitch-gui
+end

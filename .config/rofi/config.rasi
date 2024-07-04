@@ -1,0 +1,19 @@
+configuration{
+    combi-modi: "window,drun,run";
+    modi: "combi";
+    font: "JetBrainsMono Nerd Font 9";
+    icon-theme: "Adwaita";
+    show-icons: true;
+    terminal: "wezterm";
+    location: 2;
+    yoffset: 100;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-combi: "  Open";
+    display-run: "  ";
+    display-drun: "  ";
+    display-window: " 󰕰 ";
+    sidebar-mode: false;
+}
+
+@theme "DarkBlue"

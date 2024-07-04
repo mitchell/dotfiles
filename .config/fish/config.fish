@@ -13,6 +13,7 @@ function configure_fish
     ssh_agent_startup
     starship init fish | source
     zoxide init fish | source
+    fzf --fish | source
 end
 
 configure_fish

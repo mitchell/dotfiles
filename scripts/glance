@@ -1,2 +1,0 @@
-#!/bin/sh
-wezterm start -- fish -c glance

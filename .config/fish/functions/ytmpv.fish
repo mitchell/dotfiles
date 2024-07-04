@@ -1,6 +1,12 @@
 function ytmpv -d 'A script to help queue youtube videos on MPV'
     set -l queue ~/.ytmpv_queue
 
+    if command --query prime-run
+        set --function --export __NV_PRIME_RENDER_OFFLOAD 1
+        set --function --export __GLX_VENDOR_LIBRARY_NAME nvidia
+    end
+
+
     if not test -f $queue
         touch $queue
     end
@@ -53,6 +59,9 @@ function ytmpv -d 'A script to help queue youtube videos on MPV'
                     --player mpv \
                     (cat $queue) \
                     best
+                break
+            case dwl destroy-watch-later
+                rm -r ~/.local/state/mpv/watch_later/
                 break
             case '*'
                 if test -z "$video"

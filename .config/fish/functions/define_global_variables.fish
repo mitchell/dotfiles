@@ -8,19 +8,20 @@ function define_global_variables -d 'Defines all and exclusively globally export
     set -gx BROWSER firefox
     set -gx DIFFPROG nvim -d
 
-    set -gx FZF_CTRL_T_COMMAND 'ag --hidden --ignore .git -g ""'
-    set -gx FZF_DEFAULT_COMMAND 'ag --hidden --ignore .git -g ""'
+    set -gx FZF_CTRL_T_COMMAND 'fd --type f --type d --hidden --exclude ".git/"'
+    set -gx FZF_DEFAULT_COMMAND 'fd --type f --type d --hidden --exclude ".git/"'
+    set -gx FZF_ALT_C_COMMAND 'fd --type d --hidden --exclude ".git/"'
 
     set -gx GOPATH $HOME/code/go
     set -gx GOBIN $GOPATH/bin
+
+    set -gx GTK_THEME Kanagawa-BL
 
     set -gx BUN_INSTALL $HOME/.bun
 
     set -gx LIBVIRT_DEFAULT_URI 'qemu:///system'
 
     set -gx ANDROID_HOME $HOME/Android/Sdk
-
-    set -gx LIBVA_DRIVER_NAME nvidia
 
     fish_add_path $GOBIN \
         $HOME/.local/bin \
