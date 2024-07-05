@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 function main
-    argparse d/desktop g/git -- $argv
+    argparse d/desktop g/git i/install -- $argv
     set -l start_dir (pwd)
     and set -l tmp_dir (mktemp --directory 2>/dev/null; or mktemp -d -t 'dotfiles')
     and set -l cwd (string match -r '\w+$' $start_dir)
@@ -17,9 +17,15 @@ function main
 
     and set_fish_universal_vars
 
-    and install_nvim_plugins
+    and if test -n "$_flag_i"
+        set_color normal
+        log 'Installing Neovim plugins'
+        set_color grey
 
-    if test -n "$_flag_d"
+        install_nvim_plugins
+    end
+
+    and if test -n "$_flag_d"
         set_color normal
         log 'Syncing desktop environment configurations'
         set_color grey
@@ -27,7 +33,7 @@ function main
         sync_desktop_env $uname
     end
 
-    if test -n "$_flag_g"
+    and if test -n "$_flag_g"
         set_color normal
         log 'Sync git config'
         sync_git_config
