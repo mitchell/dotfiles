@@ -1,5 +1,6 @@
 function ytmpv -d 'A script to help queue youtube videos on MPV'
     set -l queue ~/.ytmpv_queue
+    set -l downloads ~/.ytmpv_downloads/
 
     if command --query prime-run
         set --function --export __NV_PRIME_RENDER_OFFLOAD 1
@@ -9,6 +10,10 @@ function ytmpv -d 'A script to help queue youtube videos on MPV'
 
     if not test -f $queue
         touch $queue
+    end
+
+    if not test -d $downloads
+        mkdir $downloads
     end
 
     while read -P 'url(s)/command (play)> ' -l video
@@ -21,6 +26,9 @@ function ytmpv -d 'A script to help queue youtube videos on MPV'
             case d destroy
                 rm -r $queue
                 break
+            case dd destroy-downloads
+                rm -r $downloads
+                break
             case e edit
                 $EDITOR $queue
             case f fg
@@ -31,6 +39,22 @@ function ytmpv -d 'A script to help queue youtube videos on MPV'
                 cat $queue
             case q quit
                 return
+            case dl download
+                tmux attach -t ytmpv
+                tmux new-session -s ytmpv -- \
+                    yt-dlp \
+                    --format-sort 'height:1080' \
+                    --batch-file $queue \
+                    --path $downloads
+                break
+            case pd play-downloads
+                tmux attach -t ytmpv
+                tmux new-session -s ytmpv -- \
+                    mpv \
+                    --ytdl \
+                    --save-position-on-quit \
+                    $downloads
+                break
             case p play
                 tmux attach -t ytmpv
                 tmux new-session -s ytmpv -- \
