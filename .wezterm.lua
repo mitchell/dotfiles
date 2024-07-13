@@ -26,7 +26,7 @@ config.colors = {
 	indexed = { [16] = "#ffa066", [17] = "#ff5d62" },
 }
 
-config.window_background_opacity = is_darwin() and 0.7 or 0.65
+config.window_background_opacity = 0.7
 config.window_decorations = "RESIZE"
 
 config.font_size = is_darwin() and 13 or 11

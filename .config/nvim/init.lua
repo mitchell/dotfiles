@@ -37,17 +37,27 @@ plug("nvim-treesitter/nvim-treesitter-context")
 
 vim.call("plug#end")
 
-vim.opt.guifont = { "JetBrainsMono Nerd Font", "h13" }
+vim.opt.guifont = "JetBrainsMono Nerd Font:h13"
 
 vim.g.coq_settings = { auto_start = true }
 
+require("neo-tree").setup()
+
 require("kanagawa").setup({
-	transparent = true,
+	transparent = not vim.g.neovide,
 })
 
 require("bufferline").setup({
 	options = {
-		separator_style = "slant",
+		separator_style = "slope",
+		offsets = {
+			{
+				filetype = "neo-tree",
+				text = "explorer",
+				highlight = "Directory",
+				separator = true, -- use a "true" to enable the default, or set your own character
+			},
+		},
 	},
 })
 
@@ -103,13 +113,15 @@ require("nvim-treesitter.configs").setup({
 		"c",
 		"lua",
 		"vim",
+		"regex",
 		"fish",
 		"typescript",
 		"javascript",
+		"tsx",
 		"go",
 		"elixir",
 		"vue",
-		"regex",
+		"groovy",
 	},
 
 	-- Automatically install missing parsers when entering buffer

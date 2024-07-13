@@ -26,7 +26,8 @@ inoremap jj <Esc>
 let mapleader = ','
 nnoremap <leader>f <cmd>ALEFix<cr>
 nnoremap <leader>a <cmd>ALEToggle<cr>
-nnoremap <leader>n <cmd>Neotree<cr>
+nnoremap <leader>nn <cmd>Neotree toggle show git_status<cr>
+nnoremap <leader>np <cmd>Neotree float reveal_force_cwd<cr>
 nnoremap <leader>t <cmd>Telescope<cr>
 nnoremap <leader>p <cmd>Telescope git_files<cr>
 nnoremap <C-p> <cmd>Telescope find_files<cr>
@@ -50,7 +51,9 @@ vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 colorscheme kanagawa
 
-let g:neovide_scale_factor = 0.7
+let g:neovide_scale_factor = 0.75
+let g:neovide_transparency = 0.7
+let g:neovide_cursor_vfx_mode = 'sonicboom'
 
 let g:ale_linters_explicit = 1
 let g:ale_completion_enabled = 0

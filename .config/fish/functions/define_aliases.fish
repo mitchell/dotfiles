@@ -13,6 +13,7 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias age-k 'age --decrypt --identity ~/.secrets/id_ed25519 ~/.secrets/age_keys.age'
     alias bb 'bun --bun'
     alias pn pnpm
+    alias nv 'neovide --fork; and clear'
 
     switch "$uname"
         case Linux
