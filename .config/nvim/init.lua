@@ -1,13 +1,9 @@
 local plug = vim.fn["plug#"]
 vim.call("plug#begin")
 
--- Contains lots of sensible configurations, which I have in turn omitted from here
-plug("tpope/vim-sensible")
-
 plug("w0rp/ale")
 plug("tpope/vim-eunuch")
 plug("tpope/vim-surround")
-plug("tpope/vim-endwise")
 plug("edkolev/tmuxline.vim")
 plug("airblade/vim-gitgutter")
 plug("reedes/vim-pencil", { ["on"] = { "HardPencil", "SoftPencil" } })
@@ -18,7 +14,8 @@ plug("rcarriga/nvim-notify")
 plug("nvim-lua/plenary.nvim")
 plug("nvim-tree/nvim-web-devicons")
 
-plug("ms-jpq/coq_nvim")
+plug("ms-jpq/coq_nvim", { ["branch"] = "coq" })
+plug("ms-jpq/coq.artifacts", { ["branch"] = "artifacts" })
 plug("folke/noice.nvim")
 plug("ggandor/leap.nvim")
 plug("folke/zen-mode.nvim")

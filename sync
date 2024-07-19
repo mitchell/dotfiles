@@ -65,7 +65,6 @@ function sync_terminal_env
 
     rsync -aP ./.config/fish ~/.config/
     and rsync -aP ./.config/nvim ~/.config/
-    and rsync -aP ./.local/share/nvim ~/.local/share/
     and rsync -aP ./.tmux-line.conf ~/
     and rsync -aP ./.tmux.conf ~/
     and rsync -aP ./scripts/ ~/code/scripts/
@@ -91,7 +90,9 @@ function sync_desktop_env -a uname
 end
 
 function install_nvim_plugins
-    command -q nvim; and nvim +PlugUpgrade +PlugUpdate +UpdateRemotePlugins +qa
+    command -q nvim
+    and nvim +PlugUpgrade +PlugUpdate +UpdateRemotePlugins +qa
+    and nvim +COQdeps +q +bnext
 end
 
 function sync_git_config
