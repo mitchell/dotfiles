@@ -1,19 +1,10 @@
 function import_sources -a uname -d 'Loads any additional fish files needed at init.'
     test -f ~/.asdf/plugins/dotnet-core/set-dotnet-home.fish; and source ~/.asdf/plugins/dotnet-core/set-dotnet-home.fish
 
-    # ASDF configuration code
-    if test -z $ASDF_DATA_DIR
-        set _asdf_shims "$HOME/.asdf/shims"
-    else
-        set _asdf_shims "$ASDF_DATA_DIR/shims"
-    end
-
-    # Do not use fish_add_path (added in Fish 3.2) because it
-    # potentially changes the order of items in PATH
-    if not contains $_asdf_shims $PATH
-        set -gx --prepend PATH $_asdf_shims
-    end
-    set --erase _asdf_shims
+    test -e ~/.asdf/asdf.fish
+    and source ~/.asdf/asdf.fish
+    and mkdir -p ~/.config/fish/completions
+    and ln -sf ~/.asdf/completions/asdf.fish ~/.config/fish/completions
 
     test -e /opt/homebrew/bin/brew
     and /opt/homebrew/bin/brew shellenv | source -

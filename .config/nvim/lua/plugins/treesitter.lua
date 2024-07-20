@@ -23,7 +23,6 @@ return {
 				"groovy",
 				"java",
 				"objc",
-				"swift",
 				"hcl",
 				"terraform",
 				"yaml",
