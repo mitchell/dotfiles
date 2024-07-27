@@ -17,7 +17,7 @@ plug("nvim-tree/nvim-web-devicons")
 plug("ms-jpq/coq_nvim", { ["branch"] = "coq" })
 plug("ms-jpq/coq.artifacts", { ["branch"] = "artifacts" })
 plug("folke/noice.nvim")
-plug("ggandor/leap.nvim")
+plug("folke/flash.nvim")
 plug("folke/zen-mode.nvim")
 plug("folke/twilight.nvim")
 plug("neovim/nvim-lspconfig")
@@ -67,13 +67,15 @@ require("lualine").setup({
 
 require("zen-mode").setup({
 	window = {
-		backdrop = 1,
+		backdrop = 0.95,
+	},
+	plugins = {
+		twilight = { enabled = false }, -- enable to start Twilight when zen mode opens
 	},
 })
 require("symbols-outline").setup({
 	autofold_depth = 2,
 })
-require("leap").create_default_mappings()
 
 require("notify").setup({
 	background_colour = "#000000",
@@ -111,6 +113,7 @@ require("nvim-treesitter.configs").setup({
 		"lua",
 		"vim",
 		"regex",
+		"bash",
 		"fish",
 		"typescript",
 		"javascript",
@@ -119,6 +122,8 @@ require("nvim-treesitter.configs").setup({
 		"elixir",
 		"vue",
 		"groovy",
+		"hcl",
+		"terraform",
 	},
 
 	-- Automatically install missing parsers when entering buffer
@@ -149,9 +154,21 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
+-- Map Leader
+vim.g.mapleader = ","
+
+-- Flash config
+local flash = require("flash")
+flash.setup()
+vim.keymap.set({ "n", "x", "o" }, "s", flash.jump, { desc = "Flash" })
+vim.keymap.set({ "n", "x", "o" }, "S", flash.treesitter, { desc = "Flash Treesitter" })
+vim.keymap.set("o", "r", flash.remote, { desc = "Remote Flash" })
+vim.keymap.set({ "o", "x" }, "R", flash.treesitter_search, { desc = "Treesitter Search" })
+vim.keymap.set("c", "<c-s>", flash.toggle, { desc = "Toggle Flash Search" })
+
 -- LSP Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap = true, silent = true }
+local opts = { silent = true }
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
@@ -165,7 +182,7 @@ local on_attach = function(client, bufnr)
 
 	-- Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	local bufopts = { noremap = true, silent = true, buffer = bufnr }
+	local bufopts = { silent = true, buffer = bufnr }
 	vim.keymap.set("n", "<leader>h", vim.lsp.buf.hover, bufopts)
 	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
 	vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)

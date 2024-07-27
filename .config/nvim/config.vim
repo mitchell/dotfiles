@@ -23,7 +23,6 @@ set termguicolors
 
 inoremap jj <Esc>
 
-let mapleader = ','
 nnoremap <leader>f <cmd>ALEFix<cr>
 nnoremap <leader>a <cmd>ALEToggle<cr>
 nnoremap <leader>nn <cmd>Neotree toggle show git_status<cr>
@@ -61,10 +60,10 @@ let g:ale_completion_enabled = 0
 let g:pencil#map#suspend_af = 'K'
 
 let g:ale_linters = {
-    \ 'javascript': ['eslint', 'stylelint'],
-    \ 'typescript': ['eslint', 'stylelint'],
-    \ 'javascriptreact': ['eslint', 'stylelint'],
-    \ 'typescriptreact': ['eslint', 'stylelint'],
+    \ 'javascript': ['eslint', 'stylelint', 'biome'],
+    \ 'typescript': ['eslint', 'stylelint', 'biome'],
+    \ 'javascriptreact': ['eslint', 'stylelint', 'biome'],
+    \ 'typescriptreact': ['eslint', 'stylelint', 'biome'],
     \ 'go': ['golint', 'go vet'],
     \ 'vue': ['eslint', 'stylelint'],
     \ 'make': ['checkmake'],
@@ -86,17 +85,17 @@ let g:ale_linters = {
 let g:ale_fixers = {
     \ 'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
     \ 'graphql': ['prettier'],
-    \ 'javascript': ['prettier'],
-    \ 'typescript': ['prettier'],
-    \ 'javascriptreact': ['prettier'],
-    \ 'typescriptreact': ['prettier'],
+    \ 'javascript': ['prettier', 'biome'],
+    \ 'typescript': ['prettier', 'biome'],
+    \ 'javascriptreact': ['prettier', 'biome'],
+    \ 'typescriptreact': ['prettier', 'biome'],
     \ 'vue': ['prettier'],
     \ 'css': ['prettier'],
-    \ 'yaml': ['prettier'],
-    \ 'json': ['prettier'],
+    \ 'yaml': ['prettier', 'biome'],
+    \ 'json': ['prettier', 'biome'],
     \ 'dart': ['dartfmt'],
-    \ 'html': ['prettier'],
-    \ 'markdown': ['prettier'],
+    \ 'html': ['prettier', 'biome'],
+    \ 'markdown': ['prettier', 'biome'],
     \ 'make': ['remove_trailing_lines', 'trim_whitespace'],
     \ 'elixir': ['mix_format'],
     \ 'terraform': ['terraform'],

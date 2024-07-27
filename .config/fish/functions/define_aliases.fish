@@ -14,6 +14,7 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias bb 'bun --bun'
     alias pn pnpm
     alias nv 'neovide --fork; and clear'
+    alias hx helix
 
     switch "$uname"
         case Linux
