@@ -1,5 +1,5 @@
 # open terminal
-cmd - return : /usr/local/bin/wezterm-gui start
+cmd - return : /Applications/WezTerm.app/Contents/MacOS/wezterm-gui
 
 # open web browser
 shift + cmd - return : /Applications/Firefox.app/Contents/MacOS/firefox
@@ -50,8 +50,8 @@ cmd + alt - w : yabai -m space --destroy
 
 # fast focus desktop
 cmd + alt - x : yabai -m space --focus recent
-cmd + alt - z : yabai -m space --focus prev
-cmd + alt - c : yabai -m space --focus next
+cmd - 0x21 : yabai -m space --focus prev
+cmd - 0x1E : yabai -m space --focus next
 cmd + alt - 1 : yabai -m space --focus 1
 cmd + alt - 2 : yabai -m space --focus 2
 cmd + alt - 3 : yabai -m space --focus 3

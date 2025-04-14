@@ -11,9 +11,6 @@ function configure_fish
     import_sources $uname
     define_aliases $uname
     ssh_agent_startup
-    starship init fish | source
-    zoxide init fish | source
-    fzf --fish | source
 end
 
 configure_fish

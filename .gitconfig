@@ -1,6 +1,7 @@
 [alias]
   co = checkout
-  sco = restore --staged
+  rs = restore
+  rss = restore --staged
   br = branch
   cm = commit
   st = status
@@ -21,6 +22,7 @@
   merff = merge --ff-only
   fa = fetch --all
   pa = push --all
+  ap = add --patch
 
 [core]
   editor = nvim

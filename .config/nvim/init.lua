@@ -1,173 +1,326 @@
-local plug = vim.fn["plug#"]
-vim.call("plug#begin")
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out, "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
+end
+vim.opt.rtp:prepend(lazypath)
 
-plug("w0rp/ale")
-plug("tpope/vim-eunuch")
-plug("tpope/vim-surround")
-plug("edkolev/tmuxline.vim")
-plug("airblade/vim-gitgutter")
-plug("reedes/vim-pencil", { ["on"] = { "HardPencil", "SoftPencil" } })
-plug("tpope/vim-fugitive", { ["on"] = { "G", "Git" }, ["for"] = "gitcommit" })
+-- Set leader key before lazy setup
+vim.g.mapleader = ","
 
-plug("MunifTanjim/nui.nvim")
-plug("rcarriga/nvim-notify")
-plug("nvim-lua/plenary.nvim")
-plug("nvim-tree/nvim-web-devicons")
+-- Plugin specifications
+require("lazy").setup({
+	install = { colorscheme = { "kanagawa" } },
+	spec = {
+		-- UI and appearance
+		{
+			"rebelot/kanagawa.nvim",
+			lazy = false,
+			priority = 1000,
+			opts = {
+				transparent = not vim.g.neovide,
+			},
+			init = function()
+				vim.cmd([[colorscheme kanagawa]])
+			end,
+		},
+		{
+			"akinsho/bufferline.nvim",
+			version = "*",
+			dependencies = { "nvim-tree/nvim-web-devicons" },
+			opts = {
+				options = {
+					separator_style = "slope",
+					offsets = {
+						{
+							filetype = "neo-tree",
+							text = "explorer",
+							highlight = "Directory",
+							separator = true,
+						},
+					},
+				},
+			},
+		},
+		{
+			"nvim-lualine/lualine.nvim",
+			dependencies = { "nvim-tree/nvim-web-devicons" },
+			opts = {
+				extensions = {
+					"neo-tree",
+					"symbols-outline",
+				},
+			},
+		},
+		{
+			"rcarriga/nvim-notify",
+			opts = {
+				background_colour = "#000000",
+			},
+		},
+		{
+			"folke/noice.nvim",
+			event = "VeryLazy",
+			dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
+			opts = {
+				lsp = {
+					override = {
+						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+						["vim.lsp.util.stylize_markdown"] = true,
+						["cmp.entry.get_documentation"] = true,
+					},
+				},
+				presets = {
+					bottom_search = true,
+					command_palette = true,
+					long_message_to_split = true,
+				},
+				views = {
+					notify = {
+						replace = true,
+						merge = true,
+					},
+				},
+			},
+		},
+		"edkolev/tmuxline.vim",
 
-plug("ms-jpq/coq_nvim", { ["branch"] = "coq" })
-plug("ms-jpq/coq.artifacts", { ["branch"] = "artifacts" })
-plug("folke/noice.nvim")
-plug("folke/flash.nvim")
-plug("folke/zen-mode.nvim")
-plug("folke/twilight.nvim")
-plug("neovim/nvim-lspconfig")
-plug("rebelot/kanagawa.nvim")
-plug("akinsho/bufferline.nvim")
-plug("nvim-lualine/lualine.nvim")
-plug("nvim-neo-tree/neo-tree.nvim")
-plug("pmizio/typescript-tools.nvim")
-plug("simrat39/symbols-outline.nvim")
-plug("nvim-telescope/telescope.nvim")
-plug("nvim-telescope/telescope-fzf-native.nvim", { ["do"] = "make" })
-plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
-plug("nvim-treesitter/nvim-treesitter-context")
+		-- Editor enhancements
+		"w0rp/ale",
+		"tpope/vim-eunuch",
+		"tpope/vim-surround",
+		-- { "airblade/vim-gitgutter", lazy = false },
+		{ "echasnovski/mini.diff", version = false, opts = {} },
+		{
+			"reedes/vim-pencil",
+			cmd = { "HardPencil", "SoftPencil" },
+		},
+		{
+			"tpope/vim-fugitive",
+			cmd = { "G", "Git" },
+			ft = "gitcommit",
+		},
+		{
+			"folke/zen-mode.nvim",
+			opts = {
+				window = {
+					backdrop = 0.95,
+				},
+				plugins = {
+					twilight = { enabled = false },
+				},
+			},
+		},
+		{ "folke/twilight.nvim", opts = {} },
 
-vim.call("plug#end")
+		-- Completion and LSP
+		{
+			"saghen/blink.cmp",
+			dependencies = { "rafamadriz/friendly-snippets" },
+			version = "1.*",
+			---@module 'blink.cmp'
+			---@type blink.cmp.Config
+			opts = {},
+			opts_extend = { "sources.default" },
+		},
+		{
+			"neovim/nvim-lspconfig",
+			dependencies = { "saghen/blink.cmp" },
+		},
+		{
+			"pmizio/typescript-tools.nvim",
+			dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		},
 
-vim.opt.guifont = "JetBrainsMono Nerd Font:h13"
+		-- Navigation and search
+		{
+			"nvim-neo-tree/neo-tree.nvim",
+			branch = "v3.x",
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+				"nvim-tree/nvim-web-devicons",
+				"MunifTanjim/nui.nvim",
+			},
+			lazy = false, -- neo-tree will lazily load itself
+			---@module "neo-tree"
+			---@type neotree.Config?
+			opts = {},
+		},
+		{
+			"nvim-telescope/telescope.nvim",
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+				"nvim-tree/nvim-web-devicons",
+			},
+			opts = {},
+		},
+		{
+			"nvim-telescope/telescope-fzf-native.nvim",
+			build = "make",
+			dependencies = {
+				"nvim-telescope/telescope.nvim",
+			},
+			config = function()
+				require("telescope").load_extension("fzf")
+			end,
+		},
+		{
+			"folke/flash.nvim",
+			event = "VeryLazy",
+			opts = {},
+			keys = {
+				{
+					"s",
+					mode = { "n", "x", "o" },
+					function()
+						require("flash").jump()
+					end,
+					desc = "Flash",
+				},
+				{
+					"S",
+					mode = { "n", "x", "o" },
+					function()
+						require("flash").treesitter()
+					end,
+					desc = "Flash Treesitter",
+				},
+				{
+					"r",
+					mode = "o",
+					function()
+						require("flash").remote()
+					end,
+					desc = "Remote Flash",
+				},
+				{
+					"R",
+					mode = { "o", "x" },
+					function()
+						require("flash").treesitter_search()
+					end,
+					desc = "Treesitter Search",
+				},
+				{
+					"<c-s>",
+					mode = { "c" },
+					function()
+						require("flash").toggle()
+					end,
+					desc = "Toggle Flash Search",
+				},
+			},
+		},
 
-vim.g.coq_settings = { auto_start = true }
+		-- Treesitter
+		{
+			"nvim-treesitter/nvim-treesitter",
+			build = ":TSUpdate",
+			opts = {
+				ensure_installed = {
+					"c",
+					"cpp",
+					"lua",
+					"vim",
+					"regex",
+					"bash",
+					"fish",
+					"typescript",
+					"javascript",
+					"tsx",
+					"go",
+					"elixir",
+					"vue",
+					"groovy",
+					"java",
+					"objc",
+					"swift",
+					"hcl",
+					"terraform",
+					"yaml",
+					"json",
+				},
+				auto_install = false,
+				highlight = {
+					enable = true,
+					additional_vim_regex_highlighting = false,
+				},
+				incremental_selection = {
+					enable = true,
+					keymaps = {
+						init_selection = "gnn",
+						node_incremental = "grn",
+						scope_incremental = "grc",
+						node_decremental = "grm",
+					},
+				},
+				indent = {
+					enable = true,
+				},
+			},
+			config = function(plugin, opts)
+				require("nvim-treesitter.configs").setup(opts)
+			end,
+		},
 
-require("neo-tree").setup()
-
-require("kanagawa").setup({
-	transparent = not vim.g.neovide,
-})
-
-require("bufferline").setup({
-	options = {
-		separator_style = "slope",
-		offsets = {
-			{
-				filetype = "neo-tree",
-				text = "explorer",
-				highlight = "Directory",
-				separator = true, -- use a "true" to enable the default, or set your own character
+		-- CodeCompanion
+		{
+			"olimorris/codecompanion.nvim",
+			dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "echasnovski/mini.diff" },
+			opts = {
+				display = { diff = { provider = "mini_diff" }, chat = { show_settings = true } },
+				strategies = {
+					chat = { adapter = "gemini_deep" },
+					inline = { adapter = "gemini" },
+					cmd = { adapter = "gemini" },
+				},
+				adapters = {
+					anthropic = function()
+						return require("codecompanion.adapters").extend("anthropic", {
+							schema = {
+								model = { default = "claude-3-7-sonnet-20250219" },
+								extended_thinking = { default = false },
+							},
+						})
+					end,
+					gemini_deep = function()
+						return require("codecompanion.adapters").extend("gemini", {
+							schema = {
+								model = { default = "gemini-2.5-pro-preview-03-25" },
+							},
+						})
+					end,
+					ollama = function()
+						return require("codecompanion.adapters").extend("ollama", {
+							env = {
+								url = "http://scimitar.lan:11434",
+							},
+							schema = {
+								model = { default = "deepseek-r1:7b" },
+								num_ctx = { default = 8192 },
+							},
+						})
+					end,
+				},
 			},
 		},
 	},
 })
 
-require("lualine").setup({
-	extensions = {
-		"neo-tree",
-		"symbols-outline",
-	},
-})
+-- General settings
+vim.opt.guifont = "JetBrainsMono Nerd Font:h13"
 
-require("zen-mode").setup({
-	window = {
-		backdrop = 0.95,
-	},
-	plugins = {
-		twilight = { enabled = false }, -- enable to start Twilight when zen mode opens
-	},
-})
-require("symbols-outline").setup({
-	autofold_depth = 2,
-})
-
-require("notify").setup({
-	background_colour = "#000000",
-})
-
-require("telescope").setup()
-require("telescope").load_extension("fzf")
-
-require("noice").setup({
-	lsp = {
-		-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-		override = {
-			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-			["vim.lsp.util.stylize_markdown"] = true,
-			["cmp.entry.get_documentation"] = true,
-		},
-	},
-	presets = {
-		bottom_search = true, -- use a classic bottom cmdline for search
-		command_palette = true, -- position the cmdline and popupmenu together
-		long_message_to_split = true, -- long messages will be sent to a split
-	},
-	views = {
-		notify = {
-			replace = true,
-			merge = true,
-		},
-	},
-})
-
-require("nvim-treesitter.configs").setup({
-	-- A list of parser names, or "all" (the four listed parsers should always be installed)
-	ensure_installed = {
-		"c",
-		"lua",
-		"vim",
-		"regex",
-		"bash",
-		"fish",
-		"typescript",
-		"javascript",
-		"tsx",
-		"go",
-		"elixir",
-		"vue",
-		"groovy",
-		"hcl",
-		"terraform",
-	},
-
-	-- Automatically install missing parsers when entering buffer
-	-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-	auto_install = false,
-
-	highlight = {
-		enable = true,
-		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-		-- Using this option may slow down your editor, and you may see some duplicate highlights.
-		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = false,
-	},
-
-	incremental_selection = {
-		enable = true,
-		keymaps = {
-			init_selection = "gnn", -- set to `false` to disable one of the mappings
-			node_incremental = "grn",
-			scope_incremental = "grc",
-			node_decremental = "grm",
-		},
-	},
-
-	indent = {
-		enable = true,
-	},
-})
-
--- Map Leader
-vim.g.mapleader = ","
-
--- Flash config
-local flash = require("flash")
-flash.setup()
-vim.keymap.set({ "n", "x", "o" }, "s", flash.jump, { desc = "Flash" })
-vim.keymap.set({ "n", "x", "o" }, "S", flash.treesitter, { desc = "Flash Treesitter" })
-vim.keymap.set("o", "r", flash.remote, { desc = "Remote Flash" })
-vim.keymap.set({ "o", "x" }, "R", flash.treesitter_search, { desc = "Treesitter Search" })
-vim.keymap.set("c", "<c-s>", flash.toggle, { desc = "Toggle Flash Search" })
-
--- LSP Mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
+-- LSP Mappings
 local opts = { silent = true }
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
@@ -197,8 +350,9 @@ local on_attach = function(client, bufnr)
 	end, bufopts)
 end
 
+-- LSP Setup
 local lspconfig = require("lspconfig")
-local coq = require("coq")
+local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 local lsp_flags = {
 	-- This is the default in Nvim 0.7+
@@ -208,9 +362,10 @@ local lsp_flags = {
 -- Unused for now
 local vue_plugin_location = vim.fn.expand("$HOME/.bun/install/global/node_modules/@vue/language-server")
 
-require("typescript-tools").setup(coq.lsp_ensure_capabilities({
+require("typescript-tools").setup({
 	on_attach = on_attach,
 	flags = lsp_flags,
+	capabilities = capabilities,
 	filetypes = {
 		"typescript",
 		"javascript",
@@ -223,14 +378,16 @@ require("typescript-tools").setup(coq.lsp_ensure_capabilities({
 			"@vue/typescript-plugin",
 		},
 	},
-}))
+})
 
 local servers = { "volar", "elixirls", "gopls", "pylsp" }
 for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup(coq.lsp_ensure_capabilities({
+	lspconfig[lsp].setup({
 		on_attach = on_attach,
 		flags = lsp_flags,
-	}))
+		capabilities = capabilities,
+	})
 end
 
+-- Source config.vim
 vim.cmd("source ~/.config/nvim/config.vim")

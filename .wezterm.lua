@@ -6,6 +6,12 @@ local is_darwin = function()
 	return wezterm.target_triple:find("darwin") ~= nil
 end
 
+if is_darwin() then
+	config.default_prog = { "/opt/homebrew/bin/fish", "-l" }
+end
+
+config.window_decorations = "RESIZE"
+
 config.force_reverse_video_cursor = true
 config.colors = {
 	foreground = "#dcd7ba",
@@ -26,10 +32,9 @@ config.colors = {
 	indexed = { [16] = "#ffa066", [17] = "#ff5d62" },
 }
 
-config.window_background_opacity = 0.7
-config.window_decorations = "RESIZE"
+config.window_background_opacity = is_darwin() and 0.85 or 0.7
 
-config.font_size = is_darwin() and 13 or 11
+config.font_size = is_darwin() and 14 or 11
 
 config.tab_bar_at_bottom = true
 config.hide_tab_bar_if_only_one_tab = true

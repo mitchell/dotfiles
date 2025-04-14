@@ -21,7 +21,13 @@ function define_global_variables -d 'Defines all and exclusively globally export
 
     set -gx LIBVIRT_DEFAULT_URI 'qemu:///system'
 
-    set -gx ANDROID_HOME $HOME/Android/Sdk
+    if test (uname) = "Darwin"
+        set -gx ANDROID_HOME $HOME/Library/Android/Sdk
+    else
+        set -gx ANDROID_HOME $HOME/Android/Sdk
+    end
+
+    set -gx PYENV_ROOT $HOME/.pyenv
 
     fish_add_path $GOBIN \
         $HOME/.local/bin \
@@ -31,6 +37,7 @@ function define_global_variables -d 'Defines all and exclusively globally export
         $HOME/.cargo/bin \
         $HOME/.dotnet/tools \
         $BUN_INSTALL/bin \
+        $PYENV_ROOT/bin \
         $ANDROID_HOME/emulator \
         $ANDROID_HOME/platform-tools
 end

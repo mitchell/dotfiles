@@ -1,5 +1,6 @@
 function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias q exit
+    alias cl clear
     alias rcp 'rsync -aP'
     alias vg vagrant
     alias tf terraform
@@ -15,6 +16,7 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias pn pnpm
     alias nv 'neovide --fork; and clear'
     alias hx helix
+    alias ai aichat
 
     switch "$uname"
         case Linux

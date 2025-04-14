@@ -1,30 +1,60 @@
+" =============================================================================
+" Neovim Configuration File
+" =============================================================================
+
+" -----------------------------------------------------------------------------
+" UI Settings
+" -----------------------------------------------------------------------------
 set colorcolumn=100
 set cursorline
 set showmatch
-set hlsearch
-set mouse=a
-set mousemodel=extend
 set number
 set noshowmode
 set background=dark
 set nowrap
+set cmdheight=2
+set shortmess+=c
+set termguicolors
+
+" Folding settings
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set nofoldenable " Disable folding at startup.
+
+" -----------------------------------------------------------------------------
+" Editor Behavior
+" -----------------------------------------------------------------------------
+set mouse=a
+set mousemodel=extend
 set tabstop=2
 set shiftwidth=0
 set expandtab
 set textwidth=100
-set cmdheight=2
+
+" -----------------------------------------------------------------------------
+" Search Settings
+" -----------------------------------------------------------------------------
+set hlsearch
 set ignorecase
 set smartcase
-set shortmess+=c
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-set nofoldenable " Disable folding at startup.
-set termguicolors
 
+" -----------------------------------------------------------------------------
+" Key Mappings
+" -----------------------------------------------------------------------------
+" Quick escape from insert mode
 inoremap jj <Esc>
 
+" Terminal escape
+tnoremap <Esc> <C-\><C-n>
+
+" Search for visually selected text
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+" ALE (Linting/Fixing)
 nnoremap <leader>f <cmd>ALEFix<cr>
 nnoremap <leader>a <cmd>ALEToggle<cr>
+
+" File Navigation
 nnoremap <leader>nn <cmd>Neotree toggle show git_status<cr>
 nnoremap <leader>np <cmd>Neotree float reveal_force_cwd<cr>
 nnoremap <leader>t <cmd>Telescope<cr>
@@ -32,33 +62,43 @@ nnoremap <leader>p <cmd>Telescope git_files<cr>
 nnoremap <C-p> <cmd>Telescope find_files<cr>
 nnoremap <leader>s <cmd>Telescope treesitter<cr>
 nnoremap <leader>ga <cmd>Telescope grep_string<cr>
+
+" LSP Integration
 nnoremap <leader>gg <cmd>Telescope lsp_definitions<cr>
 nnoremap <leader>gr <cmd>Telescope lsp_references<cr>
 nnoremap <leader>gi <cmd>Telescope lsp_implementations<cr>
 nnoremap <leader>gd <cmd>Telescope lsp_type_definitions<cr>
+
+" UI Toggles
 nnoremap <leader>o <cmd>SymbolsOutline<cr>
 nnoremap <leader>z <cmd>ZenMode<cr>
 nnoremap <leader>l <cmd>Twilight<cr>
-nnoremap <leader>c <cmd>COQnow<cr>
+
+" Buffer Management
 nnoremap <silent><leader>j <cmd>BufferLinePick<cr>
 nnoremap <silent><leader>J <cmd>BufferLinePickClose<cr>
 
-tnoremap <Esc> <C-\><C-n>
+" Code Companion
+nnoremap <silent><leader>c <cmd>CodeCompanionChat<cr>
 
-" Allows you to use // in order to search for the visually selected text
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
-colorscheme kanagawa
-
+" -----------------------------------------------------------------------------
+" Neovide GUI Settings
+" -----------------------------------------------------------------------------
 let g:neovide_scale_factor = 0.75
 let g:neovide_transparency = 0.7
 let g:neovide_cursor_vfx_mode = 'sonicboom'
 
+" -----------------------------------------------------------------------------
+" Plugin Configurations
+" -----------------------------------------------------------------------------
+" ALE (Linting)
 let g:ale_linters_explicit = 1
 let g:ale_completion_enabled = 0
 
+" Pencil
 let g:pencil#map#suspend_af = 'K'
 
+" ALE Linters Configuration
 let g:ale_linters = {
     \ 'javascript': ['eslint', 'stylelint', 'biome'],
     \ 'typescript': ['eslint', 'stylelint', 'biome'],
@@ -81,7 +121,7 @@ let g:ale_linters = {
     \ 'python': ['pylint'],
     \ }
 
-
+" ALE Fixers Configuration
 let g:ale_fixers = {
     \ 'go': ['goimports', 'remove_trailing_lines', 'trim_whitespace'],
     \ 'graphql': ['prettier'],
@@ -104,12 +144,18 @@ let g:ale_fixers = {
     \ 'lua': ['stylua'],
     \ }
 
+" -----------------------------------------------------------------------------
+" Autocommands
+" -----------------------------------------------------------------------------
+" Fish filetype settings
 augroup ft_fish
   au!
   autocmd FileType fish set tabstop=4
 augroup END
 
+" Terminal settings
 augroup term
   au!
   autocmd TermOpen * set nonumber
 augroup END
+
