@@ -36,6 +36,7 @@ require("lazy").setup({
 		},
 		{
 			"akinsho/bufferline.nvim",
+			event = "VeryLazy",
 			version = "*",
 			dependencies = { "nvim-tree/nvim-web-devicons" },
 			opts = {
@@ -50,6 +51,10 @@ require("lazy").setup({
 						},
 					},
 				},
+			},
+			keys = {
+				{ "<leader>j", "<cmd>BufferLinePick<cr>", desc = "BufferLinePick", silent = true },
+				{ "<leader>J", "<cmd>BufferLinePickClose<cr>", desc = "BufferLinePickClose", silent = true },
 			},
 		},
 		{
@@ -96,7 +101,62 @@ require("lazy").setup({
 		"edkolev/tmuxline.vim",
 
 		-- Editor enhancements
-		"w0rp/ale",
+		{
+			"w0rp/ale",
+			event = "VeryLazy",
+			keys = {
+				{ "<leader>f", "<cmd>ALEFix<cr>", desc = "ALE Fix", silent = true },
+				{ "<leader>a", "<cmd>ALEToggle<cr>", desc = "ALE Toggle", silent = true },
+			},
+			config = function()
+				vim.g.ale_linters_explicit = 1
+				vim.g.ale_completion_enabled = 0 -- Using blink.cmp for completion
+
+				vim.g.ale_linters = {
+					javascript = { "eslint", "stylelint", "biome" },
+					typescript = { "eslint", "stylelint", "biome" },
+					javascriptreact = { "eslint", "stylelint", "biome" },
+					typescriptreact = { "eslint", "stylelint", "biome" },
+					go = { "golint", "go vet" },
+					vue = { "eslint", "stylelint" },
+					make = { "checkmake" },
+					proto = { "protoc-gen-lint" },
+					dockerfile = { "hadolint" },
+					dart = { "dartanalyzer" },
+					fish = { "fish" },
+					vim = { "vint" },
+					elixir = { "credo" },
+					cs = { "OmniSharp" },
+					terraform = { "tflint" },
+					ruby = { "rubocop" },
+					css = { "stylelint" },
+					sh = { "shellcheck" },
+					python = { "pylint" },
+				}
+
+				vim.g.ale_fixers = {
+					go = { "goimports", "remove_trailing_lines", "trim_whitespace" },
+					graphql = { "prettier" },
+					javascript = { "prettier", "biome" },
+					typescript = { "prettier", "biome" },
+					javascriptreact = { "prettier", "biome" },
+					typescriptreact = { "prettier", "biome" },
+					vue = { "prettier" },
+					css = { "prettier" },
+					yaml = { "prettier", "biome" },
+					json = { "prettier", "biome" },
+					dart = { "dartfmt" },
+					html = { "prettier", "biome" },
+					markdown = { "prettier", "biome" },
+					make = { "remove_trailing_lines", "trim_whitespace" },
+					elixir = { "mix_format" },
+					terraform = { "terraform" },
+					ruby = { "rubocop" },
+					python = { "black" },
+					lua = { "stylua" },
+				}
+			end,
+		},
 		"tpope/vim-eunuch",
 		"tpope/vim-surround",
 		-- { "airblade/vim-gitgutter", lazy = false },
@@ -104,6 +164,9 @@ require("lazy").setup({
 		{
 			"reedes/vim-pencil",
 			cmd = { "HardPencil", "SoftPencil" },
+			config = function()
+				vim.g["pencil#map#suspend_af"] = "K" -- Use bracket notation for '#'
+			end,
 		},
 		{
 			"tpope/vim-fugitive",
@@ -120,8 +183,17 @@ require("lazy").setup({
 					twilight = { enabled = false },
 				},
 			},
+			keys = {
+				{ "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode", silent = true },
+			},
 		},
-		{ "folke/twilight.nvim", opts = {} },
+		{
+			"folke/twilight.nvim",
+			opts = {},
+			keys = {
+				{ "<leader>l", "<cmd>Twilight<cr>", desc = "Twilight", silent = true },
+			},
+		},
 
 		-- Completion and LSP
 		{
@@ -155,6 +227,20 @@ require("lazy").setup({
 			---@module "neo-tree"
 			---@type neotree.Config?
 			opts = {},
+			keys = {
+				{
+					"<leader>nn",
+					"<cmd>Neotree toggle git_status<cr>",
+					desc = "Neo-tree Toggle Git Status",
+					silent = true,
+				},
+				{
+					"<leader>np",
+					"<cmd>Neotree float reveal_force_cwd<cr>",
+					desc = "Neo-tree Float Reveal CWD",
+					silent = true,
+				},
+			},
 		},
 		{
 			"nvim-telescope/telescope.nvim",
@@ -163,6 +249,24 @@ require("lazy").setup({
 				"nvim-tree/nvim-web-devicons",
 			},
 			opts = {},
+			keys = {
+				{ "<leader>t", "<cmd>Telescope<cr>", desc = "Telescope", silent = true },
+				{ "<leader>p", "<cmd>Telescope git_files<cr>", desc = "Telescope Git Files", silent = true },
+				{ "<C-p>", "<cmd>Telescope find_files<cr>", desc = "Telescope Find Files", silent = true },
+				-- Note: 's' is used by flash.nvim, this mapping shadows the default 's' jump.
+				-- You might want to change this leader mapping if you use flash jump often.
+				{ "<leader>s", "<cmd>Telescope treesitter<cr>", desc = "Telescope Treesitter", silent = true },
+				{ "<leader>ga", "<cmd>Telescope grep_string<cr>", desc = "Telescope Grep String", silent = true },
+				{ "<leader>gg", "<cmd>Telescope lsp_definitions<cr>", desc = "LSP Definitions", silent = true },
+				{ "<leader>gr", "<cmd>Telescope lsp_references<cr>", desc = "LSP References", silent = true },
+				{ "<leader>gi", "<cmd>Telescope lsp_implementations<cr>", desc = "LSP Implementations", silent = true },
+				{
+					"<leader>gd",
+					"<cmd>Telescope lsp_type_definitions<cr>",
+					desc = "LSP Type Definitions",
+					silent = true,
+				},
+			},
 		},
 		{
 			"nvim-telescope/telescope-fzf-native.nvim",
@@ -281,18 +385,10 @@ require("lazy").setup({
 				display = { diff = { provider = "mini_diff" }, chat = { show_settings = true } },
 				strategies = {
 					chat = { adapter = "gemini_deep" },
-					inline = { adapter = "gemini" },
-					cmd = { adapter = "gemini" },
+					inline = { adapter = "gemini_deep" },
+					cmd = { adapter = "gemini_deep" },
 				},
 				adapters = {
-					anthropic = function()
-						return require("codecompanion.adapters").extend("anthropic", {
-							schema = {
-								model = { default = "claude-3-7-sonnet-20250219" },
-								extended_thinking = { default = false },
-							},
-						})
-					end,
 					gemini_deep = function()
 						return require("codecompanion.adapters").extend("gemini", {
 							schema = {
@@ -313,12 +409,77 @@ require("lazy").setup({
 					end,
 				},
 			},
+			keys = {
+				{ "<leader>c", "<cmd>CodeCompanionChat<cr>", desc = "CodeCompanion Chat", silent = true },
+			},
 		},
 	},
 })
 
 -- General settings
 vim.opt.guifont = "JetBrainsMono Nerd Font:h13"
+vim.opt.colorcolumn = "100"
+vim.opt.cursorline = true
+vim.opt.showmatch = true
+vim.opt.number = true
+vim.opt.showmode = false
+vim.o.background = "dark"
+vim.opt.wrap = false
+vim.opt.cmdheight = 1
+vim.opt.shortmess:append("c")
+vim.o.termguicolors = true
+vim.opt.foldenable = false
+vim.opt.mouse = "a"
+vim.opt.mousemodel = "extend"
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 0
+vim.opt.expandtab = true
+vim.opt.textwidth = 100
+vim.opt.hlsearch = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- Key Mappings
+local map = vim.keymap.set
+local map_opts_silent = { noremap = true, silent = true }
+
+-- General Mappings
+map("i", "jj", "<Esc>", { noremap = true, silent = true, desc = "Escape Insert Mode" })
+map("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Escape Terminal Mode" })
+map("v", "//", function()
+	local sel = vim.fn.getreg('"')
+	local pattern = vim.fn.escape(sel, "/\\")
+	vim.fn.setreg("/", "\\V" .. pattern)
+	vim.cmd("normal! gN")
+	vim.opt.hlsearch = true
+end, { noremap = true, silent = true, desc = "Search for Visual Selection" })
+
+-- Neovide GUI Settings
+if vim.g.neovide then
+	vim.g.neovide_scale_factor = 0.75
+	vim.g.neovide_transparency = 0.7
+	vim.g.neovide_cursor_vfx_mode = "sonicboom"
+end
+
+-- Autocommands
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
+
+-- Fish filetype settings
+augroup("FishSettings", { clear = true })
+autocmd("FileType", {
+	pattern = "fish",
+	command = "setlocal tabstop=4",
+	group = "FishSettings",
+})
+
+-- Terminal settings
+augroup("TerminalSettings", { clear = true })
+autocmd("TermOpen", {
+	pattern = "*",
+	command = "setlocal nonumber norelativenumber",
+	group = "TerminalSettings",
+})
 
 -- LSP Mappings
 local opts = { silent = true }
@@ -330,11 +491,8 @@ vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-	-- Mappings.
-	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local bufopts = { silent = true, buffer = bufnr }
 	vim.keymap.set("n", "<leader>h", vim.lsp.buf.hover, bufopts)
 	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
@@ -354,10 +512,7 @@ end
 local lspconfig = require("lspconfig")
 local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-local lsp_flags = {
-	-- This is the default in Nvim 0.7+
-	debounce_text_changes = 150,
-}
+local lsp_flags = { debounce_text_changes = 150 }
 
 -- Unused for now
 local vue_plugin_location = vim.fn.expand("$HOME/.bun/install/global/node_modules/@vue/language-server")
@@ -373,11 +528,7 @@ require("typescript-tools").setup({
 		"typescriptreact",
 		"vue",
 	},
-	settings = {
-		tsserver_plugins = {
-			"@vue/typescript-plugin",
-		},
-	},
+	settings = { tsserver_plugins = { "@vue/typescript-plugin" } },
 })
 
 local servers = { "volar", "elixirls", "gopls", "pylsp" }
@@ -388,6 +539,3 @@ for _, lsp in ipairs(servers) do
 		capabilities = capabilities,
 	})
 end
-
--- Source config.vim
-vim.cmd("source ~/.config/nvim/config.vim")
