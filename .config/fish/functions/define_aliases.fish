@@ -17,6 +17,7 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias nv 'neovide --fork; and clear'
     alias hx helix
     alias ai aichat
+    alias ais aisearch
 
     switch "$uname"
         case Linux

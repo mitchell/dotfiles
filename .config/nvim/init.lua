@@ -389,6 +389,20 @@ require("lazy").setup({
 					cmd = { adapter = "gemini_deep" },
 				},
 				adapters = {
+					anthro = function()
+						return require("codecompanion.adapters").extend("anthropic", {
+							schema = {
+								model = { default = "claude-3-5-haiku-20241022" },
+							},
+						})
+					end,
+					anthro_deep = function()
+						return require("codecompanion.adapters").extend("anthropic", {
+							schema = {
+								model = { default = "claude-3-7-sonnet-20250219" },
+							},
+						})
+					end,
 					gemini_deep = function()
 						return require("codecompanion.adapters").extend("gemini", {
 							schema = {
