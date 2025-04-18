@@ -160,7 +160,22 @@ require("lazy").setup({
 		"tpope/vim-eunuch",
 		"tpope/vim-surround",
 		-- { "airblade/vim-gitgutter", lazy = false },
-		{ "echasnovski/mini.diff", version = false, opts = {} },
+		{
+			"echasnovski/mini.diff",
+			version = false,
+			lazy = false,
+			opts = {},
+			keys = {
+				{
+					"<leader>i",
+					function()
+						require("mini.diff").toggle_overlay()
+					end,
+					desc = "Mini.diff overlay",
+					silent = true,
+				},
+			},
+		},
 		{
 			"reedes/vim-pencil",
 			cmd = { "HardPencil", "SoftPencil" },
@@ -256,7 +271,8 @@ require("lazy").setup({
 				-- Note: 's' is used by flash.nvim, this mapping shadows the default 's' jump.
 				-- You might want to change this leader mapping if you use flash jump often.
 				{ "<leader>s", "<cmd>Telescope treesitter<cr>", desc = "Telescope Treesitter", silent = true },
-				{ "<leader>ga", "<cmd>Telescope grep_string<cr>", desc = "Telescope Grep String", silent = true },
+				{ "<leader>gs", "<cmd>Telescope grep_string<cr>", desc = "Telescope Grep String", silent = true },
+				{ "<leader>gl", "<cmd>Telescope live_grep<cr>", desc = "Telescope Grep String", silent = true },
 				{ "<leader>gg", "<cmd>Telescope lsp_definitions<cr>", desc = "LSP Definitions", silent = true },
 				{ "<leader>gr", "<cmd>Telescope lsp_references<cr>", desc = "LSP References", silent = true },
 				{ "<leader>gi", "<cmd>Telescope lsp_implementations<cr>", desc = "LSP Implementations", silent = true },
@@ -372,6 +388,11 @@ require("lazy").setup({
 					enable = true,
 				},
 			},
+			init = function()
+				vim.opt.foldmethod = "expr"
+				vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+				vim.opt.foldenable = false
+			end,
 			config = function(plugin, opts)
 				require("nvim-treesitter.configs").setup(opts)
 			end,
@@ -384,9 +405,9 @@ require("lazy").setup({
 			opts = {
 				display = { diff = { provider = "mini_diff" }, chat = { show_settings = true } },
 				strategies = {
-					chat = { adapter = "gemini_deep" },
-					inline = { adapter = "gemini_deep" },
-					cmd = { adapter = "gemini_deep" },
+					chat = { adapter = "anthro_deep" },
+					inline = { adapter = "anthro" },
+					cmd = { adapter = "anthro" },
 				},
 				adapters = {
 					anthro = function()
@@ -437,11 +458,11 @@ vim.opt.cursorline = true
 vim.opt.showmatch = true
 vim.opt.number = true
 vim.opt.showmode = false
-vim.o.background = "dark"
+vim.opt.background = "dark"
 vim.opt.wrap = false
 vim.opt.cmdheight = 1
 vim.opt.shortmess:append("c")
-vim.o.termguicolors = true
+vim.opt.termguicolors = true
 vim.opt.foldenable = false
 vim.opt.mouse = "a"
 vim.opt.mousemodel = "extend"
@@ -461,11 +482,11 @@ local map_opts_silent = { noremap = true, silent = true }
 map("i", "jj", "<Esc>", { noremap = true, silent = true, desc = "Escape Insert Mode" })
 map("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Escape Terminal Mode" })
 map("v", "//", function()
+	vim.cmd("normal! y")
 	local sel = vim.fn.getreg('"')
 	local pattern = vim.fn.escape(sel, "/\\")
 	vim.fn.setreg("/", "\\V" .. pattern)
-	vim.cmd("normal! gN")
-	vim.opt.hlsearch = true
+	vim.cmd("normal! n")
 end, { noremap = true, silent = true, desc = "Search for Visual Selection" })
 
 -- Neovide GUI Settings

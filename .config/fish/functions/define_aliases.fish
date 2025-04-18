@@ -12,6 +12,7 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias age-d 'age --decrypt --identity ~/.secrets/id_ed25519'
     alias age-e 'age --armor --recipient (cat ~/.secrets/id_ed25519.pub)'
     alias age-k 'age --decrypt --identity ~/.secrets/id_ed25519 ~/.secrets/age_keys.age'
+    alias kp 'keepassxc-cli show -k ~/.secrets/mjfs_keepass_key_file ~/.passwords/mjfs.kdbx'
     alias bb 'bun --bun'
     alias pn pnpm
     alias nv 'neovide --fork; and clear'
