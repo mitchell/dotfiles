@@ -1,5 +1,5 @@
 [alias]
-  co = checkout
+  sw = switch
   rs = restore
   rss = restore --staged
   br = branch
@@ -21,7 +21,6 @@
   puff = pull --ff-only
   merff = merge --ff-only
   fa = fetch --all
-  pa = push --all
   ap = add --patch
 
 [core]

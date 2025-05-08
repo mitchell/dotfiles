@@ -11,7 +11,6 @@ This repo contains my preferred configurations for:
 - tmux
 - git
 - Wez's terminal
-- Jetbrains vim plugin
 - keepassxc
 - bspwm (Linux)
 - sxhkd (Linux)

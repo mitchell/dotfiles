@@ -23,6 +23,7 @@ require("lazy").setup({
 	install = { colorscheme = { "kanagawa" } },
 	spec = {
 		-- UI and appearance
+		"edkolev/tmuxline.vim",
 		{
 			"rebelot/kanagawa.nvim",
 			lazy = false,
@@ -98,7 +99,18 @@ require("lazy").setup({
 				},
 			},
 		},
-		"edkolev/tmuxline.vim",
+		{
+			"OXY2DEV/markview.nvim",
+			lazy = false,
+			dependencies = { "saghen/blink.cmp" },
+			opts = {
+				preview = {
+					icon_provider = "devicons",
+					filetypes = { "markdown", "codecompanion" },
+					ignore_buftypes = {},
+				},
+			},
+		},
 
 		-- Editor enhancements
 		{
@@ -117,8 +129,9 @@ require("lazy").setup({
 					typescript = { "eslint", "stylelint", "biome" },
 					javascriptreact = { "eslint", "stylelint", "biome" },
 					typescriptreact = { "eslint", "stylelint", "biome" },
+					svelte = { "eslint" },
 					go = { "golint", "go vet" },
-					vue = { "eslint", "stylelint" },
+					vue = { "eslint", "stylelint", "biome" },
 					make = { "checkmake" },
 					proto = { "protoc-gen-lint" },
 					dockerfile = { "hadolint" },
@@ -129,7 +142,7 @@ require("lazy").setup({
 					cs = { "OmniSharp" },
 					terraform = { "tflint" },
 					ruby = { "rubocop" },
-					css = { "stylelint" },
+					css = { "stylelint", "biome" },
 					sh = { "shellcheck" },
 					python = { "pylint" },
 				}
@@ -141,8 +154,9 @@ require("lazy").setup({
 					typescript = { "prettier", "biome" },
 					javascriptreact = { "prettier", "biome" },
 					typescriptreact = { "prettier", "biome" },
-					vue = { "prettier" },
-					css = { "prettier" },
+					svelte = { "prettier" },
+					vue = { "prettier", "biome" },
+					css = { "prettier", "biome" },
 					yaml = { "prettier", "biome" },
 					json = { "prettier", "biome" },
 					dart = { "dartfmt" },
@@ -245,14 +259,14 @@ require("lazy").setup({
 			keys = {
 				{
 					"<leader>nn",
-					"<cmd>Neotree toggle git_status<cr>",
-					desc = "Neo-tree Toggle Git Status",
+					"<cmd>Neotree toggle reveal_force_cwd<cr>",
+					desc = "Neo-tree Toggle Sidebar",
 					silent = true,
 				},
 				{
-					"<leader>np",
+					"<leader>nf",
 					"<cmd>Neotree float reveal_force_cwd<cr>",
-					desc = "Neo-tree Float Reveal CWD",
+					desc = "Neo-tree Float",
 					silent = true,
 				},
 			},
@@ -369,6 +383,8 @@ require("lazy").setup({
 					"terraform",
 					"yaml",
 					"json",
+					"markdown",
+					"markdown_inline",
 				},
 				auto_install = false,
 				highlight = {
@@ -405,9 +421,9 @@ require("lazy").setup({
 			opts = {
 				display = { diff = { provider = "mini_diff" }, chat = { show_settings = true } },
 				strategies = {
-					chat = { adapter = "anthro_deep" },
-					inline = { adapter = "anthro" },
-					cmd = { adapter = "anthro" },
+					chat = { adapter = "gemini_deep" },
+					inline = { adapter = "gemini" },
+					cmd = { adapter = "gemini" },
 				},
 				adapters = {
 					anthro = function()
@@ -424,10 +440,17 @@ require("lazy").setup({
 							},
 						})
 					end,
+					gemini = function()
+						return require("codecompanion.adapters").extend("gemini", {
+							schema = {
+								model = { default = "gemini-2.5-flash-preview-04-17" },
+							},
+						})
+					end,
 					gemini_deep = function()
 						return require("codecompanion.adapters").extend("gemini", {
 							schema = {
-								model = { default = "gemini-2.5-pro-preview-03-25" },
+								model = { default = "gemini-2.5-pro-preview-05-06" },
 							},
 						})
 					end,
@@ -550,27 +573,40 @@ local capabilities = require("blink.cmp").get_lsp_capabilities()
 local lsp_flags = { debounce_text_changes = 150 }
 
 -- Unused for now
-local vue_plugin_location = vim.fn.expand("$HOME/.bun/install/global/node_modules/@vue/language-server")
+local vue_plugin_location = vim.fn.expand("$HOME/.bun/install/global/node_modules/@vue/typescript-plugin")
 
-require("typescript-tools").setup({
+vim.lsp.config("ts_ls", {
 	on_attach = on_attach,
 	flags = lsp_flags,
 	capabilities = capabilities,
 	filetypes = {
-		"typescript",
 		"javascript",
+		"typescript",
 		"javascriptreact",
 		"typescriptreact",
 		"vue",
 	},
-	settings = { tsserver_plugins = { "@vue/typescript-plugin" } },
+	init_options = {
+		plugins = {
+			{
+				name = "@vue/typescript-plugin",
+				location = vue_plugin_location,
+				languages = { "javascript", "typescript", "vue" },
+			},
+		},
+	},
 })
 
-local servers = { "volar", "elixirls", "gopls", "pylsp" }
+vim.lsp.enable("ts_ls")
+
+require("lspconfig").volar.setup({})
+
+local servers = { "elixirls", "gopls", "pylsp", "svelte" }
 for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({
+	vim.lsp.config(lsp, {
 		on_attach = on_attach,
 		flags = lsp_flags,
 		capabilities = capabilities,
 	})
+	vim.lsp.enable(lsp)
 end
