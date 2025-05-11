@@ -238,10 +238,6 @@ require("lazy").setup({
 			"neovim/nvim-lspconfig",
 			dependencies = { "saghen/blink.cmp" },
 		},
-		{
-			"pmizio/typescript-tools.nvim",
-			dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-		},
 
 		-- Navigation and search
 		{
@@ -422,14 +418,15 @@ require("lazy").setup({
 				display = { diff = { provider = "mini_diff" }, chat = { show_settings = true } },
 				strategies = {
 					chat = { adapter = "gemini_deep" },
-					inline = { adapter = "gemini" },
-					cmd = { adapter = "gemini" },
+					inline = { adapter = "openai" },
+					cmd = { adapter = "openai_mini" },
 				},
 				adapters = {
 					anthro = function()
 						return require("codecompanion.adapters").extend("anthropic", {
 							schema = {
-								model = { default = "claude-3-5-haiku-20241022" },
+								model = { default = "claude-3-7-sonnet-20250219" },
+								extended_thinking = { default = false },
 							},
 						})
 					end,
@@ -454,14 +451,18 @@ require("lazy").setup({
 							},
 						})
 					end,
-					ollama = function()
-						return require("codecompanion.adapters").extend("ollama", {
-							env = {
-								url = "http://scimitar.lan:11434",
-							},
+					openai_mini = function()
+						return require("codecompanion.adapters").extend("openai", {
 							schema = {
-								model = { default = "deepseek-r1:7b" },
-								num_ctx = { default = 8192 },
+								model = { default = "gpt-4.1-mini" },
+							},
+						})
+					end,
+					openai_deep = function()
+						return require("codecompanion.adapters").extend("openai", {
+							schema = {
+								model = { default = "o4-mini-2025-04-16" },
+								reasoning_effort = { default = "high" },
 							},
 						})
 					end,
@@ -486,7 +487,6 @@ vim.opt.wrap = false
 vim.opt.cmdheight = 1
 vim.opt.shortmess:append("c")
 vim.opt.termguicolors = true
-vim.opt.foldenable = false
 vim.opt.mouse = "a"
 vim.opt.mousemodel = "extend"
 vim.opt.tabstop = 2
@@ -572,7 +572,6 @@ local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 local lsp_flags = { debounce_text_changes = 150 }
 
--- Unused for now
 local vue_plugin_location = vim.fn.expand("$HOME/.bun/install/global/node_modules/@vue/typescript-plugin")
 
 vim.lsp.config("ts_ls", {
