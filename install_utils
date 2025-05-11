@@ -1,0 +1,77 @@
+#!/usr/bin/env fish
+
+test -e /etc/os-release; and source /etc/os-release
+
+set -l uname (uname)
+
+if test $uname = Darwin
+    set -l distro mac
+else
+    set -l distro $ID
+end
+
+set -l base_pkgs \
+    fish \
+    git \
+    neovim \
+    tmux \
+    rsync \
+    curl \
+    fzf \
+    mosh \
+    lsd \
+    ripgrep \
+    bat
+
+set -l mac_pkgs \
+    $base_pkgs \
+    fd \
+    yazi \
+    git-delta \
+    starship
+
+set -l arch_pkgs \
+    $base_pkgs \
+    fd \
+    yazi \
+    git-delta \
+    starship
+
+set -l debian_pkgs \
+    $base_pkgs \
+    fd-find
+
+switch $distro
+    case mac
+        log 'Installing packages with Homebrew'
+        brew install $mac_pkgs
+    case arch
+        log 'Installing Pikaur'
+
+        install_pkgs --needed base-devel
+        or return $status
+
+        set -l cwd (pwd)
+        and set -l tmp_dir (mktemp --directory)
+        or return $status
+
+        git clone https://aur.archlinux.org/pikaur.git $tmp_dir
+        and cd $tmp_dir
+        and makepkg --clean --install --rmdeps --syncdeps --noconfirm
+        and cd $cwd
+        or return $status
+
+        log 'Installing packages with Pikaur '
+
+        pikaur --sync --refresh --sysupgrade --noconfirm
+        and pikaur --sync --noconfirm $arch_pkgs
+    case debian
+        log 'Installing packages with APT'
+        sudo apt-get --quiet --yes update
+        and sudo apt-get --quiet --yes upgrade
+        and sudo apt-get --quiet --yes install $debian_pkgs
+end
+
+function log -a message
+    echo \n"--- $message ---"\n
+end
