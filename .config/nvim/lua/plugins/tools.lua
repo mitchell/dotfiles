@@ -17,14 +17,15 @@ return {
 				},
 			},
 			strategies = {
-				chat = { adapter = "gemini" },
-				inline = { adapter = "openai_mini" },
-				cmd = { adapter = "openai_mini" },
+				chat = { adapter = "gemini_high" },
+				inline = { adapter = "gemini_none" },
+				cmd = { adapter = "gemini_none" },
 			},
 			adapters = {
 				anthropic = function()
 					return require("codecompanion.adapters").extend("anthropic", {
 						schema = {
+							model = { default = "claude-3-7-sonnet-20250219" },
 							max_tokens = { default = 20000 },
 						},
 					})
@@ -36,19 +37,27 @@ return {
 						},
 					})
 				end,
+				gemini_none = function()
+					return require("codecompanion.adapters").extend("gemini", {
+						schema = {
+							model = { default = "gemini-2.5-flash-preview-04-17" },
+							reasoning_effort = { default = "none" },
+						},
+					})
+				end,
+				gemini_high = function()
+					return require("codecompanion.adapters").extend("gemini", {
+						schema = {
+							model = { default = "gemini-2.5-flash-preview-04-17" },
+							reasoning_effort = { default = "high" },
+						},
+					})
+				end,
 				openai = function()
 					return require("codecompanion.adapters").extend("openai", {
 						schema = {
 							model = { default = "o4-mini-2025-04-16" },
 							reasoning_effort = { default = "high" },
-						},
-					})
-				end,
-				openai_mini = function()
-					return require("codecompanion.adapters").extend("openai", {
-						schema = {
-							model = { default = "gpt-4.1-mini" },
-							temperature = { default = 0 },
 						},
 					})
 				end,
@@ -58,7 +67,7 @@ return {
 			{ "<leader>cc", "<cmd>CodeCompanionChat<cr>", desc = "CodeCompanion Chat", silent = true },
 			{
 				"<leader>cf",
-				"<cmd>CodeCompanionChat openai_mini<cr>",
+				"<cmd>CodeCompanionChat gemini_none<cr>",
 				desc = "CodeCompanion Chat (Fast)",
 				silent = true,
 			},
