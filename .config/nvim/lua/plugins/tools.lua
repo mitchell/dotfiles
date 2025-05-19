@@ -9,50 +9,34 @@ return {
 			"echasnovski/mini.diff",
 		},
 		opts = {
-			display = { diff = { provider = "mini_diff" }, chat = { show_settings = true } },
+			display = {
+				diff = { provider = "mini_diff" },
+				chat = {
+					show_settings = false,
+					window = { position = "right", opts = { number = false } },
+				},
+			},
 			strategies = {
-				chat = { adapter = "gemini_deep" },
-				inline = { adapter = "openai" },
+				chat = { adapter = "gemini" },
+				inline = { adapter = "openai_mini" },
 				cmd = { adapter = "openai_mini" },
 			},
 			adapters = {
-				anthro = function()
+				anthropic = function()
 					return require("codecompanion.adapters").extend("anthropic", {
 						schema = {
-							model = { default = "claude-3-7-sonnet-20250219" },
-							extended_thinking = { default = false },
-						},
-					})
-				end,
-				anthro_deep = function()
-					return require("codecompanion.adapters").extend("anthropic", {
-						schema = {
-							model = { default = "claude-3-7-sonnet-20250219" },
+							max_tokens = { default = 20000 },
 						},
 					})
 				end,
 				gemini = function()
 					return require("codecompanion.adapters").extend("gemini", {
 						schema = {
-							model = { default = "gemini-2.5-flash-preview-04-17" },
-						},
-					})
-				end,
-				gemini_deep = function()
-					return require("codecompanion.adapters").extend("gemini", {
-						schema = {
 							model = { default = "gemini-2.5-pro-preview-05-06" },
 						},
 					})
 				end,
-				openai_mini = function()
-					return require("codecompanion.adapters").extend("openai", {
-						schema = {
-							model = { default = "gpt-4.1-mini" },
-						},
-					})
-				end,
-				openai_deep = function()
+				openai = function()
 					return require("codecompanion.adapters").extend("openai", {
 						schema = {
 							model = { default = "o4-mini-2025-04-16" },
@@ -60,10 +44,26 @@ return {
 						},
 					})
 				end,
+				openai_mini = function()
+					return require("codecompanion.adapters").extend("openai", {
+						schema = {
+							model = { default = "gpt-4.1-mini" },
+							temperature = { default = 0 },
+						},
+					})
+				end,
 			},
 		},
 		keys = {
-			{ "<leader>c", "<cmd>CodeCompanionChat<cr>", desc = "CodeCompanion Chat", silent = true },
+			{ "<leader>cc", "<cmd>CodeCompanionChat<cr>", desc = "CodeCompanion Chat", silent = true },
+			{
+				"<leader>cf",
+				"<cmd>CodeCompanionChat openai_mini<cr>",
+				desc = "CodeCompanion Chat (Fast)",
+				silent = true,
+			},
+			{ "<leader>ca", "<cmd>CodeCompanionActions<cr>", desc = "CodeCompanion Actions", silent = true },
+			{ "<leader>ci", ":CodeCompanion<space>", mode = { "n", "v" }, desc = "CodeCompanion Inline" },
 		},
 	},
 }

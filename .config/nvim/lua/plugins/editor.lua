@@ -88,7 +88,7 @@ return {
 	{
 		"folke/zen-mode.nvim",
 		opts = {
-			window = { backdrop = 0.95 },
+			window = { backdrop = 0.95, options = { number = false } },
 			plugins = { twilight = { enabled = false } },
 		},
 		keys = {

@@ -16,6 +16,7 @@ return {
 				"typescript",
 				"javascript",
 				"tsx",
+				"svelte",
 				"go",
 				"elixir",
 				"vue",

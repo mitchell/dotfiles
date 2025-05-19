@@ -14,7 +14,7 @@ return {
 		keys = {
 			{
 				"<leader>nn",
-				"<cmd>Neotree toggle reveal_force_cwd<cr>",
+				"<cmd>Neotree left reveal_force_cwd<cr>",
 				desc = "Neo-tree Toggle Sidebar",
 				silent = true,
 			},

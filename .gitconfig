@@ -44,10 +44,10 @@
   diffFilter = delta --color-only
 
 [delta]
-  features = side-by-side line-numbers decorations
-  whitespace-error-style = 22 reverse
+  navigate = true
+  dark = true
+  side-by-side = true
+  line-numbers = true
 
-[delta "decorations"]
-  commit-decoration-style = bold yellow box ul
-  file-style = bold yellow ul
-  file-decoration-style = none
+[merge]
+  conflictstyle = zdiff3
