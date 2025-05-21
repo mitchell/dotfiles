@@ -22,39 +22,42 @@ return {
 				cmd = { adapter = "gemini_none" },
 			},
 			adapters = {
-				anthropic = function()
-					return require("codecompanion.adapters").extend("anthropic", {
-						schema = {
-							model = { default = "claude-3-7-sonnet-20250219" },
-							max_tokens = { default = 20000 },
-						},
+				ollama = function()
+					return require("codecompanion.adapters").extend("ollama", {
+						name = "ollama",
+						env = { url = "http://192.168.1.165:11434" },
+						parameters = { sync = true },
+						schema = { num_ctx = { default = 8192 } },
 					})
 				end,
-				gemini = function()
+				gemini_pro = function()
 					return require("codecompanion.adapters").extend("gemini", {
-						schema = {
-							model = { default = "gemini-2.5-pro-preview-05-06" },
-						},
+						name = "gemini_pro",
+						schema = { model = { default = "gemini-2.5-pro-preview-05-06" } },
 					})
 				end,
 				gemini_none = function()
 					return require("codecompanion.adapters").extend("gemini", {
+						name = "gemini_none",
 						schema = {
-							model = { default = "gemini-2.5-flash-preview-04-17" },
+							model = { default = "gemini-2.5-flash-preview-05-20" },
 							reasoning_effort = { default = "none" },
+							temperature = { default = 0 },
 						},
 					})
 				end,
 				gemini_high = function()
 					return require("codecompanion.adapters").extend("gemini", {
+						name = "gemini_high",
 						schema = {
-							model = { default = "gemini-2.5-flash-preview-04-17" },
+							model = { default = "gemini-2.5-flash-preview-05-20" },
 							reasoning_effort = { default = "high" },
 						},
 					})
 				end,
-				openai = function()
+				openai_high = function()
 					return require("codecompanion.adapters").extend("openai", {
+						name = "openai_high",
 						schema = {
 							model = { default = "o4-mini-2025-04-16" },
 							reasoning_effort = { default = "high" },
