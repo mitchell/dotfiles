@@ -1,5 +1,14 @@
 -- lua/plugins/tools.lua
 
+local function create_adapter(adapter_type, name, opts)
+  return require("codecompanion.adapters").extend(adapter_type, {
+    name = name,
+    schema = opts.schema or {},
+    env = opts.env or {},
+    parameters = opts.parameters or {},
+  })
+end
+
 return {
 	{
 		"olimorris/codecompanion.nvim",
@@ -23,22 +32,19 @@ return {
 			},
 			adapters = {
 				ollama = function()
-					return require("codecompanion.adapters").extend("ollama", {
-						name = "ollama",
+					return create_adapter("ollama", "ollama", {
 						env = { url = "http://192.168.1.165:11434" },
 						parameters = { sync = true },
 						schema = { num_ctx = { default = 8192 } },
 					})
 				end,
 				gemini_pro = function()
-					return require("codecompanion.adapters").extend("gemini", {
-						name = "gemini_pro",
+					return create_adapter("gemini", "gemini_pro", {
 						schema = { model = { default = "gemini-2.5-pro-preview-05-06" } },
 					})
 				end,
 				gemini_none = function()
-					return require("codecompanion.adapters").extend("gemini", {
-						name = "gemini_none",
+					return create_adapter("gemini", "gemini_none", {
 						schema = {
 							model = { default = "gemini-2.5-flash-preview-05-20" },
 							reasoning_effort = { default = "none" },
@@ -47,8 +53,7 @@ return {
 					})
 				end,
 				gemini_high = function()
-					return require("codecompanion.adapters").extend("gemini", {
-						name = "gemini_high",
+					return create_adapter("gemini", "gemini_high", {
 						schema = {
 							model = { default = "gemini-2.5-flash-preview-05-20" },
 							reasoning_effort = { default = "high" },
@@ -56,8 +61,7 @@ return {
 					})
 				end,
 				openai_high = function()
-					return require("codecompanion.adapters").extend("openai", {
-						name = "openai_high",
+					return create_adapter("openai", "openai_high", {
 						schema = {
 							model = { default = "o4-mini-2025-04-16" },
 							reasoning_effort = { default = "high" },
