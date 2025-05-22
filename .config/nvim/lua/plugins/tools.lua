@@ -1,12 +1,12 @@
 -- lua/plugins/tools.lua
 
 local function create_adapter(adapter_type, name, opts)
-  return require("codecompanion.adapters").extend(adapter_type, {
-    name = name,
-    schema = opts.schema or {},
-    env = opts.env or {},
-    parameters = opts.parameters or {},
-  })
+	return require("codecompanion.adapters").extend(adapter_type, {
+		name = name,
+		schema = opts.schema or {},
+		env = opts.env or {},
+		parameters = opts.parameters or {},
+	})
 end
 
 return {
