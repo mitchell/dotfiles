@@ -9,6 +9,49 @@ local function create_adapter(adapter_type, name, opts)
 	})
 end
 
+local adapter_configs = {
+	ollama = {
+		type = "ollama",
+		env = { url = "http://192.168.1.165:11434" },
+		parameters = { sync = true },
+		schema = { num_ctx = { default = 8192 } },
+	},
+	gemini_pro = {
+		type = "gemini",
+		schema = { model = { default = "gemini-2.5-pro-preview-05-06" } },
+	},
+	gemini_none = {
+		type = "gemini",
+		schema = {
+			model = { default = "gemini-2.5-flash-preview-05-20" },
+			reasoning_effort = { default = "none" },
+			temperature = { default = 0 },
+		},
+	},
+	gemini_high = {
+		type = "gemini",
+		schema = {
+			model = { default = "gemini-2.5-flash-preview-05-20" },
+			reasoning_effort = { default = "high" },
+		},
+	},
+	openai_high = {
+		type = "openai",
+		schema = {
+			model = { default = "o4-mini-2025-04-16" },
+			reasoning_effort = { default = "high" },
+		},
+	},
+}
+
+-- Dynamically generate adapter functions
+local adapters = {}
+for name, config in pairs(adapter_configs) do
+	adapters[name] = function()
+		return create_adapter(config.type, name, config)
+	end
+end
+
 return {
 	{
 		"olimorris/codecompanion.nvim",
@@ -30,45 +73,7 @@ return {
 				inline = { adapter = "gemini_none" },
 				cmd = { adapter = "gemini_none" },
 			},
-			adapters = {
-				ollama = function()
-					return create_adapter("ollama", "ollama", {
-						env = { url = "http://192.168.1.165:11434" },
-						parameters = { sync = true },
-						schema = { num_ctx = { default = 8192 } },
-					})
-				end,
-				gemini_pro = function()
-					return create_adapter("gemini", "gemini_pro", {
-						schema = { model = { default = "gemini-2.5-pro-preview-05-06" } },
-					})
-				end,
-				gemini_none = function()
-					return create_adapter("gemini", "gemini_none", {
-						schema = {
-							model = { default = "gemini-2.5-flash-preview-05-20" },
-							reasoning_effort = { default = "none" },
-							temperature = { default = 0 },
-						},
-					})
-				end,
-				gemini_high = function()
-					return create_adapter("gemini", "gemini_high", {
-						schema = {
-							model = { default = "gemini-2.5-flash-preview-05-20" },
-							reasoning_effort = { default = "high" },
-						},
-					})
-				end,
-				openai_high = function()
-					return create_adapter("openai", "openai_high", {
-						schema = {
-							model = { default = "o4-mini-2025-04-16" },
-							reasoning_effort = { default = "high" },
-						},
-					})
-				end,
-			},
+			adapters = adapters,
 		},
 		keys = {
 			{ "<leader>cc", "<cmd>CodeCompanionChat<cr>", desc = "CodeCompanion Chat", silent = true },
