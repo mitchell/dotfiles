@@ -14,7 +14,7 @@ local adapter_configs = {
 		type = "ollama",
 		env = { url = "http://192.168.1.165:11434" },
 		parameters = { sync = true },
-		schema = { num_ctx = { default = 8192 } },
+		schema = { num_ctx = { default = 40960 } },
 	},
 	gemini_pro = {
 		type = "gemini",

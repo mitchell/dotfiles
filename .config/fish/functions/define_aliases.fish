@@ -20,6 +20,7 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias hx helix
     alias ai aichat
     alias ais aisearch
+    alias adr aider
 
     switch "$uname"
         case Linux
