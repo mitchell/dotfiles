@@ -6,5 +6,7 @@ function aikeys -d 'Set AI API keys' -a service
             echo "set -lx OPENAI_API_KEY (kp Keys/openai-general -a Password)"
         case anthro
             echo "set -lx ANTHROPIC_API_KEY (kp Keys/anthropic-bespin-nvim -a Password)"
+        case work
+            echo "set -lx OPENAI_API_KEY (kp Keys/openai-mystro -a Password)"
     end
 end
