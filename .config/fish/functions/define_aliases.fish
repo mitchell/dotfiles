@@ -20,7 +20,7 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias hx helix
     alias ai aichat
     alias ais aisearch
-    alias adr aider
+    alias fwl 'sudo firewall-cmd'
 
     switch "$uname"
         case Linux

@@ -1,45 +1,20 @@
 #!/usr/bin/fish
 
-#if ! test -e ~/.bspwm_no_lock
-#  slock &
-#  touch ~/.bspwm_no_lock
-#end
+#wmname LG3D
 
 if test $DISPLAY = ":0"
-    setxkbmap -option ctrl:swapcaps
-    setxkbmap -option altwin:swap_alt_win
-    xset s off -dpms
-    xinput set-prop 'MSFT0001:00 04F3:317C Touchpad' 'libinput Tapping Enabled' 1
-    xinput set-prop 'MSFT0001:00 04F3:317C Touchpad' 'libinput Middle Emulation Enabled' 1
-end
-
-sxhkd &
-
-if test $DISPLAY = ":0"
+    killall -q picom sxhkd
     picom -b
 else
     picom -b --backend xrender
 end
 
-#wmname LG3D
+sxhkd &
 
-if test $DISPLAY = ":0"
-    killall -q polybar pasystray barrier barrierc
-    barrier &
-    keepassxc &
-    ~/.fehbg
-else
-    feh --no-fehbg --bg-scale '/home/m/sync/maelstrom.jpg'
-end
-
-polybar m-bar &
-pasystray &
-
-bspc monitor -d I II III IV V VI VII
+bspc monitor -d I II III IV V
 
 bspc config border_width   2
 bspc config window_gap     10
-bspc config top_padding    -10
 
 bspc config split_ratio         0.52
 bspc config borderless_monocle  false

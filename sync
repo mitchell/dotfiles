@@ -73,6 +73,7 @@ end
 
 function sync_desktop_env -a uname
     rsync -aP ./.wezterm.lua ~/
+    rsync -aP ./.config/ghostty ~/.config/
     or return 1
 
     switch $uname
@@ -86,6 +87,7 @@ function sync_desktop_env -a uname
             and rsync -aP ./.config/picom ~/.config/
             and rsync -aP ./.config/polybar ~/.config/
             and rsync -aP ./.config/rofi ~/.config/
+            and rsync -aP ./.config/niri ~/.config/
     end
 end
 
@@ -98,12 +100,8 @@ end
 function sync_git_config
     rsync -aP ./.gitconfig ~/
 
-    echo 'Please set your git user:'
-    read -P 'name: ' name
-    read -P 'email: ' email
-
-    git config --global user.name $name
-    git config --global user.email $email
+    git config --global user.name mitchell
+    git config --global user.email m@mjfs.us
 end
 
 function set_fish_universal_vars

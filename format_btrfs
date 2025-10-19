@@ -1,0 +1,23 @@
+#!/usr/bin/env fish
+
+lsblk
+echo
+read -P 'Device (/dev/vda2):' -l device
+
+if test -z "$device"
+    set device /dev/vda2
+end
+
+mkfs.btrfs $device
+and mount $device /mnt
+and btrfs subvolume create /mnt/root
+and btrfs subvolume create /mnt/swap
+and btrfs subvolume create /mnt/home
+and umount /mnt
+
+and mount -o subvol=root $device /mnt
+and mount -m -o subvol=swap $device /mnt/swap
+and mount -m -o subvol=home $device /mnt/home
+and btrfs filesystem mkswapfile --size 4g --uuid clear /mnt/swap/swapfile
+and swapon /mnt/swap/swapfile
+and lsblk

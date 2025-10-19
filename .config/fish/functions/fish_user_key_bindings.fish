@@ -7,4 +7,5 @@ function fish_user_key_bindings
     bind --mode insert comma,r 'fzf-history-widget'
     bind --mode insert comma,c 'fzf-cd-widget'
     bind --mode insert comma,l 'clear; commandline -f repaint'
+    bind --mode insert comma,o 'opencode; commandline -f repaint'
 end

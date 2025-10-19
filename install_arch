@@ -2,19 +2,33 @@
 
 function main
     log 'Enter your configuration'
-    read -P 'Timezone: ' -l timezone
-    read -P 'Hostname: ' -l new_host_name
-    read -P 'Network interface: ' -l net_interface
-    read -P 'Username: ' -l username
-    read -P 'Is your disk encrypted? (y/N) ' -l is_encrypt
+    read -P 'Timezone (America/New_York): ' -l timezone
+    read -P 'Hostname (archlinux): ' -l new_host_name
+    read -P 'Username (m): ' -l username
+    read -P 'Password: ' -s -l pass
+    read -P 'Confirm: ' -s -l confpass
 
-    set -l encrypted_uuid ''
-    if test "$is_encrypt" = 'y'; or test "$is_encrypt" = 'Y'
-        read -P 'Encrypted device UUID: ' encrypted_uuid
+    while test "$pass" != "$confpass"
+        echo 'Passwords did not match!'
+        read -P 'Password: ' -s -f pass
+        read -P 'Confirm: ' -s -f confpass
     end
 
-    read -P 'Boot mode (bios/uefi): ' -l boot_mode
-    read -P 'Grub target: ' -l device
+    read -P 'Network client (NM/networkd): ' -l network
+    read -P 'Boot mode (BIOS/uefi): ' -l boot_mode
+    read -P 'Boot target: ' -l device
+    #read -P 'Is your disk encrypted? (y/N) ' -l is_encrypt
+
+    read -P 'Continue? (y/N): ' -l ready
+
+    if test "$ready" != y; and test "$ready" != Y
+        return
+    end
+
+    set -l encrypted_uuid ''
+    if test "$is_encrypt" = y; or test "$is_encrypt" = Y
+        read -P 'Encrypted device UUID: ' encrypted_uuid
+    end
 
     set_timezone $timezone
 
@@ -22,21 +36,29 @@ function main
 
     set_hostname $new_host_name
 
-    configure_wired_network $net_interface
+    set_pacman_color
 
-    if test "$is_encrypt" = 'y'; or test "$is_encrypt" = 'Y'
-        add_lvm2_mkinitcpio_hook true
+    if test "$network" = networkd
+        configure_systemd_networkd
     else
-        add_lvm2_mkinitcpio_hook
+        configure_network_manager
     end
+
+    if test "$is_encrypt" = y; or test "$is_encrypt" = Y
+        add_lvm2_mkinitcpio_hook true
+    end
+
+    mkinitcpio -P
 
     configure_sudo
 
-    create_admin_user $username
-
-    install_grub $boot_mode $device $encrypted_uuid
+    create_admin_user $username $pass
 
     install_openssh
+
+    install_bootloader $boot_mode $device $encrypted_uuid
+
+    move_dotfiles $username
 end
 
 function install
@@ -48,7 +70,15 @@ function log -a message level
     echo \n$message\n
 end
 
+function set_pacman_color
+    log "Enable color for pacman"
+    sed -i 's/#Color/Color/' /etc/pacman.conf
+end
+
 function set_timezone -a timezone
+    if test -z "$timezone"
+        set -f timezone America/New_York
+    end
     log "Setting timezone to $timezone"
     ln -sf /usr/share/zoneinfo/$timezone /etc/localtime
 
@@ -56,16 +86,18 @@ function set_timezone -a timezone
     hwclock --systohc
 end
 
-
 function set_locale
     log 'Setting locale to en_US.UTF-8 and generating it'
     sed -i 's/#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
     locale-gen
     echo 'LANG=en_US.UTF-8' >/etc/locale.conf
+    touch /etc/vconsole.conf
 end
 
-
 function set_hostname -a new_hostname
+    if test -z "$new_hostname"
+        set -f new_hostname archlinux
+    end
     log "Setting hostname to $new_hostname"
     echo $new_hostname >/etc/hostname
     echo "
@@ -74,12 +106,11 @@ function set_hostname -a new_hostname
 127.0.1.1   $new_hostname.local $new_hostname" >>/etc/hosts
 end
 
-
-function configure_wired_network -a interface
-    log "Configuring DHCP managed wired interface $interface"
+function configure_systemd_networkd
+    log "Configuring systemd-resolved wired interface"
     echo "
 [Match]
-Name=$interface
+Name=en*
 
 [Network]
 DHCP=yes
@@ -88,19 +119,25 @@ IPv6PrivacyExtensions=yes" >/etc/systemd/network/20-wired.network
     log 'Enabling systemd networkd and resolved services'
     systemctl enable systemd-networkd.service
     systemctl enable systemd-resolved.service
-    systemctl start systemd-networkd.service
-    systemctl start systemd-resolved.service
 
     ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 end
 
+function configure_network_manager
+    log "Configuring NetworkManager wired interface"
+    install networkmanager
+
+    log 'Enabling systemd networkd and resolved services'
+    systemctl enable NetworkManager.service
+    systemctl enable systemd-resolved.service
+end
 
 function add_lvm2_mkinitcpio_hook -a is_encrypt
     log 'Adding lvm2 mkinitcpio hook'
 
-    set -l hooks 'lvm2'
+    set -l hooks lvm2
     if test -n "$is_encrypt"
-        set hooks 'encrypt' $hooks
+        set hooks encrypt $hooks
     end
 
     sed -i "s/modconf block filesystems/modconf block $hooks filesystems/" /etc/mkinitcpio.conf
@@ -109,40 +146,49 @@ function add_lvm2_mkinitcpio_hook -a is_encrypt
     install lvm2
 end
 
-
 function configure_sudo
-    log 'Adding and configuring sudo group'
+    log 'Adding and configuring wheel group'
     install sudo
-    groupadd sudo
-
-    echo "# Enable sudo group
-%sudo ALL=(ALL) ALL" | sudo tee /etc/sudoers.d/sudo_group
+    sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 end
 
-function create_admin_user -a username
-    log "Creating user $username and adding to sudo group"
-    useradd -m $username
-    passwd $username
-    gpasswd -a $username sudo
+function create_admin_user -a username pass
+    if test -z "$username"
+        set -f username m
+    end
+    log "Creating user $username and adding to wheel group"
+    useradd -m -G wheel -s /usr/bin/fish $username
+    echo $pass | passwd -s $username
+    passwd -l root
 end
 
-function install_grub -a boot_mode target encrypted_uuid
-    log "Installing grub to target $target"
+function install_bootloader -a boot_mode target encrypted_uuid
+    if test "$boot_mode" = uefi
+        log "Installing systemd-boot with root $target"
 
-    switch $boot_mode
-        case bios
-            install grub
-            grub-install --target=i386-pc $target
-        case uefi
-            install grub efibootmgr
-            grub-install --target=x86_64-efi --efi-directory=$target --bootloader-id=GRUB
+        bootctl install
+        set -lx partuuid (blkid --match-tag PARTUUID --output value $target)
+        echo "title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /initramfs-linux.img
+options root=PARTUUID=$partuuid rootflags=subvol=root rootfstype=btrfs rw quiet" >/boot/loader/entries/arch.conf
+    else
+        log "Installing grub to target $target"
+        install grub
+        grub-install --target=i386-pc $target
+
+        if test -n "$encrypted_uuid"
+            sed -i "s/loglevel=3 quiet/loglevel=3 quiet cryptdevice=UUID=$encrypted_uuid:cryptlvm/" /etc/default/grub
+        end
+
+        grub-mkconfig -o /boot/grub/grub.cfg
     end
+end
 
-    if test -n "$encrypted_uuid"
-        sed -i "s/loglevel=3 quiet/loglevel=3 quiet cryptdevice=UUID=$encrypted_uuid:cryptlvm/" /etc/default/grub
-    end
-
-    grub-mkconfig -o /boot/grub/grub.cfg
+function install_zram
+    log "Installing and configuring zram-generator"
+    install zram-generator
+    echo '[zram0]' >/etc/systemd/zram-generator.conf
 end
 
 function install_openssh
@@ -151,6 +197,17 @@ function install_openssh
 
     log 'Enabling sshd service'
     systemctl enable sshd.service
+end
+
+function move_dotfiles -a username
+    log 'Moving dotfiles'
+    if test -z "$username"
+        set -f username m
+    end
+    mkdir /home/$username/code
+    mv /dotfiles /home/$username/code/
+    chown -R $username: /home/$username
+    cd /
 end
 
 main

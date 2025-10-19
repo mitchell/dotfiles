@@ -1,0 +1,5 @@
+#!/usr/bin/env fish
+pacstrap -K /mnt base linux git fish amd-ucode btrfs-progs $argv
+and genfstab -U /mnt >>/mnt/etc/fstab
+and cp -r /root/dotfiles /mnt/
+and arch-chroot /mnt

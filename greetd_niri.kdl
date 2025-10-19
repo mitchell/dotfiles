@@ -1,0 +1,15 @@
+spawn-sh-at-startup "swaybg --image /usr/share/wallpapers/Path/contents/images/2560x1440.jpg"
+spawn-sh-at-startup "gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'"
+spawn-sh-at-startup "gtkgreet -l -s /etc/greetd/gtkgreet.css; niri msg action quit --skip-confirmation"
+input {
+    touchpad {
+        tap
+        natural-scroll
+    }
+    mouse {
+        accel-profile "flat"
+    }
+}
+hotkey-overlay {
+    skip-at-startup
+}

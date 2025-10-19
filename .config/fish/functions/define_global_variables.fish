@@ -6,7 +6,7 @@ function define_global_variables -d 'Defines all and exclusively globally export
 
     set -gx EDITOR nvim
     set -gx BROWSER firefox
-    set -gx DIFFPROG nvim -d
+    set -gx DIFFPROG delta
 
     set -gx FZF_CTRL_T_COMMAND 'fd --type f --type d --hidden --exclude ".git/"'
     set -gx FZF_DEFAULT_COMMAND 'fd --type f --type d --hidden --exclude ".git/"'
@@ -14,8 +14,6 @@ function define_global_variables -d 'Defines all and exclusively globally export
 
     set -gx GOPATH $HOME/code/go
     set -gx GOBIN $GOPATH/bin
-
-    set -gx GTK_THEME Kanagawa-BL
 
     set -gx BUN_INSTALL $HOME/.bun
 

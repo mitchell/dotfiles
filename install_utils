@@ -1,14 +1,10 @@
 #!/usr/bin/env fish
 
-test -e /etc/os-release; and source /etc/os-release
-
-set -l uname (uname)
-
-if test $uname = Darwin
-    set -l distro mac
-else
-    set -l distro $ID
+function log -a message
+    echo \n"--- $message ---"\n
 end
+
+read -P "OS? (arch/debian/fedora/mac) " -l distro
 
 set -l base_pkgs \
     fish \
@@ -17,27 +13,35 @@ set -l base_pkgs \
     tmux \
     rsync \
     curl \
+    less \
     fzf \
     mosh \
     lsd \
     ripgrep \
-    bat
+    bat \
+    tree-sitter-cli \
+    nodejs \
+    zoxide \
+    git-delta
 
 set -l mac_pkgs \
     $base_pkgs \
     fd \
-    yazi \
-    git-delta \
-    starship
+    yazi
 
 set -l arch_pkgs \
     $base_pkgs \
     fd \
     yazi \
-    git-delta \
-    starship
+    ttf-nerd-fonts-symbols \
+    ttf-nerd-fonts-symbols-common \
+    ttf-nerd-fonts-symbols-mono
 
 set -l debian_pkgs \
+    $base_pkgs \
+    fd-find
+
+set -l fedora_pkgs \
     $base_pkgs \
     fd-find
 
@@ -46,32 +50,29 @@ switch $distro
         log 'Installing packages with Homebrew'
         brew install $mac_pkgs
     case arch
-        log 'Installing Pikaur'
+        log 'Installing yay'
 
-        install_pkgs --needed base-devel
+        sudo pacman --sync --refresh --sysupgrade --noconfirm
+        and sudo pacman --sync --needed --noconfirm base-devel go
         or return $status
 
-        set -l cwd (pwd)
-        and set -l tmp_dir (mktemp --directory)
+        test -d yay
+        or git clone https://aur.archlinux.org/yay.git
+        and cd yay
+        and makepkg --syncdeps --install --noconfirm
+        and cd ..
         or return $status
 
-        git clone https://aur.archlinux.org/pikaur.git $tmp_dir
-        and cd $tmp_dir
-        and makepkg --clean --install --rmdeps --syncdeps --noconfirm
-        and cd $cwd
-        or return $status
+        log 'Installing packages with yay'
 
-        log 'Installing packages with Pikaur '
-
-        pikaur --sync --refresh --sysupgrade --noconfirm
-        and pikaur --sync --noconfirm $arch_pkgs
+        yay --sync --noconfirm $arch_pkgs
     case debian
         log 'Installing packages with APT'
         sudo apt-get --quiet --yes update
         and sudo apt-get --quiet --yes upgrade
         and sudo apt-get --quiet --yes install $debian_pkgs
-end
-
-function log -a message
-    echo \n"--- $message ---"\n
+    case fedora
+        log 'Installing packages with DNF'
+        sudo dnf upgrade --assumeyes
+        and sudo dnf --assumeyes install $fedora_pkgs
 end

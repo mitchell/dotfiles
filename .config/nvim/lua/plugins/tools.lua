@@ -1,57 +1,5 @@
 -- lua/plugins/tools.lua
 
-local function create_adapter(adapter_type, name, opts)
-	return require("codecompanion.adapters").extend(adapter_type, {
-		name = name,
-		schema = opts.schema or {},
-		env = opts.env or {},
-		parameters = opts.parameters or {},
-	})
-end
-
-local adapter_configs = {
-	ollama = {
-		type = "ollama",
-		env = { url = "http://192.168.1.165:11434" },
-		parameters = { sync = true },
-		schema = { num_ctx = { default = 40960 } },
-	},
-	gemini_pro = {
-		type = "gemini",
-		schema = { model = { default = "gemini-2.5-pro-preview-05-06" } },
-	},
-	gemini_none = {
-		type = "gemini",
-		schema = {
-			model = { default = "gemini-2.5-flash-preview-05-20" },
-			reasoning_effort = { default = "none" },
-			temperature = { default = 0 },
-		},
-	},
-	gemini_high = {
-		type = "gemini",
-		schema = {
-			model = { default = "gemini-2.5-flash-preview-05-20" },
-			reasoning_effort = { default = "high" },
-		},
-	},
-	openai_high = {
-		type = "openai",
-		schema = {
-			model = { default = "o4-mini-2025-04-16" },
-			reasoning_effort = { default = "high" },
-		},
-	},
-}
-
--- Dynamically generate adapter functions
-local adapters = {}
-for name, config in pairs(adapter_configs) do
-	adapters[name] = function()
-		return create_adapter(config.type, name, config)
-	end
-end
-
 return {
 	{
 		"olimorris/codecompanion.nvim",
@@ -68,22 +16,98 @@ return {
 					window = { position = "right", opts = { number = false } },
 				},
 			},
-			strategies = {
-				chat = { adapter = "gemini_high" },
-				inline = { adapter = "gemini_none" },
-				cmd = { adapter = "gemini_none" },
+			rules = {
+				opts = {
+					chat = {
+						enabled = false,
+					},
+				},
 			},
-			adapters = adapters,
+			interactions = {
+				chat = {
+					adapter = { name = "opencode", model = "llama.cpp/qwen3.5-35b-a3b-dev" },
+					opts = {
+						-- system_prompt = "",
+					},
+					tools = {
+						opts = {
+							system_prompt = {
+								enabled = true, -- Enable the tools system prompt?
+								replace_main_system_prompt = true, -- Replace the main system prompt with the tools system prompt?
+							},
+						},
+					},
+				},
+				inline = {
+					adapter = { name = "llama.cpp", model = "qwen3.5-35b-a3b-dev" },
+				},
+				cmd = {
+					adapter = { name = "llama.cpp", model = "qwen3.5-35b-a3b-dev" },
+				},
+				cli = {
+					agent = "opencode",
+					agents = {
+						opencode = {
+							cmd = "opencode",
+							args = {},
+							description = "OpenCode CLI",
+						},
+					},
+					opts = {
+						auto_insert = true, -- Enter insert mode when focusing the CLI terminal
+						reload = true, -- Reload buffers when an agent modifies files on disk
+					},
+				},
+			},
+			adapters = {
+				http = {
+					["llama.cpp"] = function()
+						return require("codecompanion.adapters").extend("openai_compatible", {
+							schema = {
+								model = {
+									default = "qwen3.5-35b-a3b-dev",
+								},
+							},
+							env = {
+								url = "http://127.0.0.1:8080", -- replace with your llama.cpp instance
+								api_key = "TERM",
+								chat_url = "/v1/chat/completions",
+							},
+							handlers = {
+								parse_message_meta = function(self, data)
+									local extra = data.extra
+									if extra and extra.reasoning_content then
+										data.output.reasoning = { content = extra.reasoning_content }
+										if data.output.content == "" then
+											data.output.content = nil
+										end
+									end
+									return data
+								end,
+							},
+						})
+					end,
+				},
+			},
 		},
 		keys = {
 			{ "<leader>cc", "<cmd>CodeCompanionChat<cr>", desc = "CodeCompanion Chat", silent = true },
 			{
-				"<leader>cf",
-				"<cmd>CodeCompanionChat gemini_none<cr>",
-				desc = "CodeCompanion Chat (Fast)",
+				"<leader>ca",
+				"<cmd>CodeCompanionChat Add<cr>",
+				mode = { "v" },
+				desc = "CodeCompanion Chat Add",
 				silent = true,
 			},
-			{ "<leader>ca", "<cmd>CodeCompanionActions<cr>", desc = "CodeCompanion Actions", silent = true },
+			{ "<leader>cp", "<cmd>CodeCompanionActions<cr>", desc = "CodeCompanion Actions", silent = true },
+			{
+				"<leader>cl",
+				"<cmd>CodeCompanionCLI<cr>",
+				mode = { "n", "v" },
+				desc = "CodeCompanion CLI",
+				silent = true,
+			},
+			{ "<leader>ck", "<cmd>CodeCompanionCLI Ask<cr>", mode = { "n", "v" }, desc = "CodeCompanion CLI Ask" },
 			{ "<leader>ci", ":CodeCompanion<space>", mode = { "n", "v" }, desc = "CodeCompanion Inline" },
 		},
 	},

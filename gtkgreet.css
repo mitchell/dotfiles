@@ -1,0 +1,37 @@
+/* Example colors for adw-gtk3 */
+
+@define-color accent_color #76946a;
+@define-color accent_bg_color #76946a;
+@define-color accent_fg_color #e6e1e5;
+@define-color window_bg_color #1f1f28;
+@define-color window_fg_color #ffffff;
+@define-color headerbar_bg_color #1f1f28;
+@define-color headerbar_fg_color #ffffff;
+@define-color popover_bg_color #2a2a36;
+@define-color popover_fg_color #ffffff;
+@define-color view_bg_color #1f1f28;
+@define-color view_fg_color #ffffff;
+@define-color card_bg_color #1f1f28;
+@define-color card_fg_color #ffffff;
+
+@define-color sidebar_bg_color #2c2c39;
+@define-color sidebar_fg_color #ffffff;
+@define-color sidebar_border_color @window_bg_color;
+@define-color sidebar_backdrop_color @window_bg_color;
+
+/* Important bit (borrowed from Fedora 43 /etc/gtkgreet/gtkgreet.css) */
+
+window, window.background {
+  background-color: transparent;
+}
+
+#body {
+  background: @window_bg_color;
+  padding: 50px;
+  padding-top: 80px;
+  border-radius: 15px;
+  border-width: 0px;
+  /* Based on the CSD shadow style from Adwaita */
+  box-shadow: 0 3px 9px 1px alpha(black, 0.5),
+              0 0 0 1px alpha(@borders, 0.2);
+}

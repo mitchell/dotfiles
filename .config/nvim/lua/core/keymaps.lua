@@ -5,7 +5,7 @@ local map_opts_silent = { noremap = true, silent = true }
 
 -- General Mappings
 map("i", "jj", "<Esc>", { noremap = true, silent = true, desc = "Escape Insert Mode" })
-map("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Escape Terminal Mode" })
+-- map("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true, desc = "Escape Terminal Mode" })
 map("v", "//", function()
 	vim.cmd("normal! y")
 	local sel = vim.fn.getreg('"')

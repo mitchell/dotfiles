@@ -8,11 +8,7 @@ function import_sources -a uname -d 'Loads any additional fish files needed at i
         set _asdf_shims "$ASDF_DATA_DIR/shims"
     end
 
-    # Do not use fish_add_path (added in Fish 3.2) because it
-    # potentially changes the order of items in PATH
-    if not contains $_asdf_shims $PATH
-        set -gx --prepend PATH $_asdf_shims
-    end
+    fish_add_path $_asdf_shims
     set --erase _asdf_shims
 
     test -e /opt/homebrew/bin/brew
