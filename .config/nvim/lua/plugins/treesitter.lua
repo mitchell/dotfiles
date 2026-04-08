@@ -4,8 +4,9 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		opts = {
-			ensure_installed = {
+		lazy = false,
+		init = function()
+			local langs = {
 				"c",
 				"lua",
 				"vim",
@@ -27,32 +28,19 @@ return {
 				"terraform",
 				"yaml",
 				"json",
-			},
-			auto_install = false,
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = false,
-			},
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "gnn",
-					node_incremental = "grn",
-					scope_incremental = "grc",
-					node_decremental = "grm",
-				},
-			},
-			indent = {
-				enable = true,
-			},
-		},
-		init = function()
+			}
+			require("nvim-treesitter").install(langs)
+
+			vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 			vim.opt.foldmethod = "expr"
-			vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 			vim.opt.foldenable = false
-		end,
-		config = function(plugin, opts)
-			require("nvim-treesitter.configs").setup(opts)
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = langs,
+				callback = function()
+					vim.treesitter.start()
+				end,
+			})
 		end,
 	},
 }
