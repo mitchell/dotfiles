@@ -17,6 +17,10 @@ end, { noremap = true, silent = true, desc = "Search for Visual Selection" })
 -- LSP Diagnostic Mappings
 local diag_opts = { silent = true }
 map("n", "<leader>d", vim.diagnostic.open_float, diag_opts)
-map("n", "[d", vim.diagnostic.goto_prev, diag_opts)
-map("n", "]d", vim.diagnostic.goto_next, diag_opts)
+map("n", "[d", function()
+	vim.diagnostic.jump({ count = 1 })
+end, diag_opts)
+map("n", "]d", function()
+	vim.diagnostic.jump({ count = -1 })
+end, diag_opts)
 map("n", "<space>q", vim.diagnostic.setloclist, diag_opts)

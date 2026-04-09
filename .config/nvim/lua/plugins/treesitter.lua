@@ -35,6 +35,8 @@ return {
 			vim.opt.foldmethod = "expr"
 			vim.opt.foldenable = false
 
+			table.insert(langs, "javascriptreact")
+			table.insert(langs, "typescriptreact")
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = langs,
 				callback = function()
