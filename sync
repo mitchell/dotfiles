@@ -15,8 +15,6 @@ function main
 
     and sync_terminal_env
 
-    and set_fish_universal_vars
-
     and if test -n "$_flag_i"
         set_color normal
         log 'Installing Neovim plugins'
@@ -102,10 +100,6 @@ function sync_git_config
 
     git config --global user.name mitchell
     git config --global user.email m@mjfs.us
-end
-
-function set_fish_universal_vars
-    source ./fish_universal_vars.fish
 end
 
 function clean_up_tmp_space -a cwd start_dir tmp_dir
