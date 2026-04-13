@@ -147,9 +147,15 @@ function add_lvm2_mkinitcpio_hook -a is_encrypt
 end
 
 function configure_sudo
-    log 'Adding and configuring wheel group'
-    install sudo
+    log 'Installing and configuring sudo'
+    install sudo sudo-rs
+
+    ln -s /usr/bin/su-rs /usr/local/bin/su
+    ln -s /usr/bin/sudo-rs /usr/local/bin/sudo
+    ln -s /usr/bin/sudoedit-rs /usr/local/bin/sudoedit
+    ln -s /usr/bin/visudo-rs /usr/local/bin/visudo
     sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+    sed -i 's/Defaults!\/usr\/bin\/visudo/Defaults!\/usr\/local\/bin\/visudo/' /etc/sudoers
 end
 
 function create_admin_user -a username pass

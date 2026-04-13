@@ -2,10 +2,10 @@
 
 lsblk
 echo
-read -P 'Device (/dev/vda2):' -l device
+read -P 'Device (/dev/vda1): ' -l device
 
 if test -z "$device"
-    set device /dev/vda2
+    set device /dev/vda1
 end
 
 mkfs.btrfs $device

@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz
+and tar xvf cachyos-repo.tar.xz
+and cd cachyos-repo/
+and sudo ./cachyos-repo.sh
+and sudo pacman -S --noconfirm cachyos-rate-mirrors
+and sudo cachyos-rate-mirrors
+and sudo pacman -Syuu --noconfirm
+and sudo pacman -S linux-cachyos linux-cachyos-headers

@@ -13,3 +13,9 @@ input {
 hotkey-overlay {
     skip-at-startup
 }
+output "Virtual-1" {
+    mode "1920x1200"
+    scale 1
+    transform "normal"
+    position x=1920 y=0
+}
