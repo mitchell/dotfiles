@@ -158,7 +158,7 @@ function create_admin_user -a username pass
         set -f username m
     end
     log "Creating user $username and adding to wheel group"
-    useradd -m -G wheel -s /usr/bin/fish $username
+    useradd -m -G wheel -s /usr/bin/zsh $username
     echo $pass | passwd -s $username
     passwd -l root
 end

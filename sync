@@ -61,7 +61,8 @@ function sync_terminal_env
         mkdir -p ~/code/scripts
     end
 
-    rsync -aP ./.config/fish ~/.config/
+    rsync -aP ./.zshrc ~/
+    and rsync -aP ./.zshenv ~/
     and rsync -aP ./.config/nvim ~/.config/
     and rsync -aP ./.tmux-line.conf ~/
     and rsync -aP ./.tmux.conf ~/

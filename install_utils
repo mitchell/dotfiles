@@ -35,7 +35,10 @@ set -l arch_pkgs \
     yazi \
     ttf-nerd-fonts-symbols \
     ttf-nerd-fonts-symbols-common \
-    ttf-nerd-fonts-symbols-mono
+    ttf-nerd-fonts-symbols-mono \
+    zsh-autosuggestions \
+    zsh-history-substring-search \
+    zsh-syntax-highlighting
 
 set -l debian_pkgs \
     $base_pkgs \
