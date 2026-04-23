@@ -18,3 +18,11 @@ autocmd("TermOpen", {
 	command = "setlocal nonumber norelativenumber",
 	group = "TerminalSettings",
 })
+
+-- Yaml settings
+augroup("YamlSettings", { clear = true })
+autocmd("FileType", {
+	pattern = "y*ml",
+	command = "setlocal foldenable foldlevel=1",
+	group = "YamlSettings",
+})

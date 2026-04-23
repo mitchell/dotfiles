@@ -25,24 +25,24 @@ return {
 			},
 			interactions = {
 				chat = {
-					adapter = { name = "opencode", model = "llama.cpp/qwen3.5-35b-a3b-dev" },
-					opts = {
-						-- system_prompt = "",
-					},
-					tools = {
-						opts = {
-							system_prompt = {
-								enabled = true, -- Enable the tools system prompt?
-								replace_main_system_prompt = true, -- Replace the main system prompt with the tools system prompt?
-							},
-						},
-					},
+					adapter = { name = "opencode", model = "llama.cpp/qwen3.6-35b-a3b-dev" },
+					-- opts = {
+					-- 	system_prompt = "",
+					-- },
+					-- tools = {
+					-- 	opts = {
+					-- 		system_prompt = {
+					-- 			enabled = true, -- Enable the tools system prompt?
+					-- 			replace_main_system_prompt = true, -- Replace the main system prompt with the tools system prompt?
+					-- 		},
+					-- 	},
+					-- },
 				},
 				inline = {
-					adapter = { name = "llama.cpp", model = "qwen3.5-35b-a3b-dev" },
+					adapter = { name = "llama.cpp", model = "qwen3.6-35b-a3b-dev" },
 				},
 				cmd = {
-					adapter = { name = "llama.cpp", model = "qwen3.5-35b-a3b-dev" },
+					adapter = { name = "llama.cpp", model = "qwen3.6-35b-a3b-dev" },
 				},
 				cli = {
 					agent = "opencode",
@@ -65,7 +65,7 @@ return {
 						return require("codecompanion.adapters").extend("openai_compatible", {
 							schema = {
 								model = {
-									default = "qwen3.5-35b-a3b-dev",
+									default = "qwen3.6-35b-a3b-dev",
 								},
 							},
 							env = {

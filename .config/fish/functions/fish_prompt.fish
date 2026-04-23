@@ -94,69 +94,9 @@ function fish_prompt --description 'Write out the prompt'
         set git_branch ' on ' (set_color $branch_color) $cur_branch (set_color normal)
     end
 
-    # Set user prefix, based on docker machine name
-    if test -n "$DOCKER_MACHINE_NAME"
-        set user_prefix (set_color blue) $DOCKER_MACHINE_NAME (set_color normal) ' '
-    end
-
-    # Set go version, by existence of go mod or dep files
-    if test -e ./go.mod; or test -e ./Gopkg.toml; and command -sq go
-        if test -z "$go_version"
-            set -l version_str (string match -r 'go\d+\.\d+\.?\d*' (go version))
-            set -g go_version ' with ' (set_color 8eadaf) $version_str (set_color normal)
-        end
-    else
-        set -g go_version
-    end
-
-    # Set docker version, by existence of Dockerfile
-    if test -e ./Dockerfile; and command -sq docker
-        if test -z "$docker_version"
-            set -l version_str (string match -r '\d+\.\d+\.?\d*' (docker --version))
-            set -g docker_version ' on ' (set_color blue) 'docker' $version_str (set_color normal)
-        end
-    else
-        set -g docker_version
-    end
-
-    # Set node (and ts) version, based on existance of package.json (and tsconfig.json)
-    if test -e ./package.json; and command -sq node
-        if test -z "$node_version"
-            set -l version_str (string sub -s 2 (node -v))
-            set -g node_version ' with ' (set_color brgreen) 'node' $version_str (set_color normal)
-
-            if test -e ./tsconfig.json; and command -sq tsc
-                set -l version_str (string match -r '\d+\.\d+\.?\d*' (tsc -v))
-                set -g node_version $node_version ' and ' (set_color cyan) 'ts' $version_str (set_color normal)
-            end
-        end
-    else
-        set -g node_version
-    end
-
-    # Set elixir version, based on existance of mix.exs
-    if test -e ./mix.exs; and command -sq elixir
-        if test -z "$ex_version"
-            set -l version_str (string sub -s 8 (string match -r 'Elixir \d+\.\d+\.?\d*' (elixir -v)))
-            set -g ex_version ' with ' (set_color magenta) 'ex' $version_str (set_color normal)
-        end
-    else
-        set -g ex_version
-    end
-
-    # Set dart version, based on existances of pubspec.yaml
-    if test -e ./pubspec.yaml; and command -sq dart
-        if test -z "$dart_version"
-            set -l version_str (string match -r '\d+\.\d+\.?\d*' (dart --version 2>| cat))
-            set -g dart_version ' with ' (set_color brblue) 'dart' $version_str (set_color normal)
-        end
-    else
-        set -g dart_version
-    end
-
     # Combine all prompt variables
     set -l cwd (set_color $color_cwd) (prompt_pwd) (set_color normal)
-    set -l top_prompt $cwd $git_branch $go_version $ex_version $node_version $dart_version $flutter_version $docker_version
+    set -l top_prompt $cwd $git_branch
     set -l bottom_prompt $user_prefix $jobs_num $exit_code $suffix ' '
 
     # Decide whether to insert newline, based on whether the top prompt is only equal to cwd

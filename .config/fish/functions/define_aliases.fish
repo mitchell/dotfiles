@@ -18,9 +18,8 @@ function define_aliases -a uname -d 'Defines aliases for commonly used commands'
     alias pn pnpm
     alias nv 'neovide --fork; and clear'
     alias hx helix
-    alias ai aichat
-    alias ais aisearch
     alias fwl 'sudo firewall-cmd'
+    alias o 'opencode run --thinking'
 
     switch "$uname"
         case Linux

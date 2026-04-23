@@ -15,12 +15,16 @@ map("v", "//", function()
 end, { noremap = true, silent = true, desc = "Search for Visual Selection" })
 
 -- LSP Diagnostic Mappings
-local diag_opts = { silent = true }
+local diag_opts = { silent = true, noremap = true }
 map("n", "<leader>d", vim.diagnostic.open_float, diag_opts)
 map("n", "[d", function()
-	vim.diagnostic.jump({ count = 1 })
-end, diag_opts)
-map("n", "]d", function()
 	vim.diagnostic.jump({ count = -1 })
 end, diag_opts)
+map("n", "]d", function()
+	vim.diagnostic.jump({ count = 1 })
+end, diag_opts)
 map("n", "<space>q", vim.diagnostic.setloclist, diag_opts)
+
+-- Noice
+map("n", "<leader>o", "<cmd>NoiceDismiss<cr>", { silent = true, noremap = true })
+map("n", "<leader>O", "<cmd>NoiceDisable<cr>", { silent = true, noremap = true })
