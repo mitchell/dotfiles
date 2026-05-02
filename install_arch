@@ -59,6 +59,10 @@ function main
     install_bootloader $boot_mode $device $encrypted_uuid
 
     move_dotfiles $username
+
+    if test "$network" = networkd
+        echo 'REMINDER: Run "# ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf" after booting.'
+    end
 end
 
 function install
@@ -100,10 +104,6 @@ function set_hostname -a new_hostname
     end
     log "Setting hostname to $new_hostname"
     echo $new_hostname >/etc/hostname
-    echo "
-127.0.0.1   localhost
-::1         localhost
-127.0.1.1   $new_hostname.local $new_hostname" >>/etc/hosts
 end
 
 function configure_systemd_networkd
@@ -119,8 +119,6 @@ IPv6PrivacyExtensions=yes" >/etc/systemd/network/20-wired.network
     log 'Enabling systemd networkd and resolved services'
     systemctl enable systemd-networkd.service
     systemctl enable systemd-resolved.service
-
-    ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 end
 
 function configure_network_manager
