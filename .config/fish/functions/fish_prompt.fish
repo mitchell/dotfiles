@@ -35,13 +35,37 @@ function fish_prompt --description 'Write out the prompt'
         set user_prefix $USER @ (prompt_hostname) ' '
     end
 
-    # Show current git branch.
-    if set -l cur_branch (git branch --show-current 2>/dev/null)
+    # Show current git branch, based on git commands only.
+    if set -l git_status (git status 2>/dev/null)
+        set -l branch_color green
+
+        if string match 'Changes not staged for commit:' $git_status >/dev/null
+            or string match 'Untracked files:' $git_status >/dev/null
+            set branch_color red
+        else if string match 'Changes to be committed:' $git_status >/dev/null
+            set branch_color yellow
+        end
+
+        set -l cur_branch (git branch --show-current)
         if test -z "$cur_branch"
             set cur_branch detached
         end
 
-        set git_branch ' on ' (set_color $fish_color_cwd) $cur_branch (set_color normal)
+        if test -n "$cur_branch"
+            set -l cur_branch_len (string length $cur_branch)
+            if test $cur_branch_len -gt 21
+                set -l sub_str (string sub -l 18 $cur_branch)
+                set cur_branch "$sub_str..."
+            end
+        end
+
+        if string match 'Your branch is ahead of*' $git_status >/dev/null
+            set cur_branch $cur_branch \u21A5
+        else if string match 'Your branch is behind*' $git_status >/dev/null
+            set cur_branch $cur_branch \u21A7
+        end
+
+        set git_branch ' on ' (set_color $branch_color) $cur_branch (set_color normal)
     end
 
     # Combine all prompt variables
