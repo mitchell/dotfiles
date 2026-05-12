@@ -35,7 +35,7 @@ return {
 				ruby = { "rubocop" },
 				css = { "stylelint", "biome" },
 				sh = { "shellcheck" },
-				python = { "pylint" },
+				python = { "ruff" },
 			}
 
 			vim.g.ale_fixers = {
@@ -57,7 +57,7 @@ return {
 				elixir = { "mix_format" },
 				terraform = { "terraform" },
 				ruby = { "rubocop" },
-				python = { "black" },
+				python = { "ruff", "ruff_format" },
 				lua = { "stylua" },
 			}
 		end,

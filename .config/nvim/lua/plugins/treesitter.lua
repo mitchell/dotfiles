@@ -28,6 +28,9 @@ return {
 				"terraform",
 				"yaml",
 				"json",
+				"java",
+				"kotlin",
+				"python",
 			}
 			require("nvim-treesitter").install(langs)
 
