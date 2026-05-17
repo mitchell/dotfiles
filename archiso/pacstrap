@@ -2,4 +2,4 @@
 pacstrap -K /mnt base linux git fish amd-ucode btrfs-progs ghostty-terminfo $argv
 and genfstab -U /mnt >>/mnt/etc/fstab
 and cp -r /root/dotfiles /mnt/
-and arch-chroot /mnt
+and arch-chroot /mnt /dotfiles/archiso/install_arch
