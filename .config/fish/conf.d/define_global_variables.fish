@@ -10,6 +10,7 @@ set -gx GOPATH $HOME/code/go
 set -gx GOBIN $GOPATH/bin
 
 set -gx BUN_INSTALL $HOME/.bun
+set -gx PNPM_HOME $HOME/.local/share/pnpm
 
 set -gx LIBVIRT_DEFAULT_URI 'qemu:///system'
 
@@ -21,7 +22,7 @@ end
 
 set -gx PYENV_ROOT $HOME/.pyenv
 
-fish_add_path $GOBIN \
+fish_add_path --global $GOBIN \
     $HOME/.local/bin \
     $HOME/.pub-cache/bin \
     $HOME/code/scripts \
@@ -29,6 +30,7 @@ fish_add_path $GOBIN \
     $HOME/.cargo/bin \
     $HOME/.dotnet/tools \
     $BUN_INSTALL/bin \
+    $PNPM_HOME/bin \
     $PYENV_ROOT/bin \
     $ANDROID_HOME/emulator \
     $ANDROID_HOME/platform-tools

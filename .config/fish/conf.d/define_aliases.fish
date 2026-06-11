@@ -9,12 +9,15 @@ if status is-interactive
     alias age-e 'age --armor --recipient (cat ~/.secrets/id_ed25519.pub)'
     alias age-k 'age --decrypt --identity ~/.secrets/id_ed25519 ~/.secrets/age_keys.age'
     alias kp 'keepassxc-cli show -k ~/.secrets/mjfs_keepass_key_file ~/.passwords/mjfs.kdbx'
-    alias fwl 'sudo firewall-cmd'
 
     switch (uname)
         case Linux
             alias sctl 'sudo systemctl'
             alias uctl 'systemctl --user'
             alias bctl bluetoothctl
+            alias fwl 'sudo firewall-cmd'
+            alias vv 'virt-viewer'
+            alias vi 'virt-install'
+            alias vs 'virsh'
     end
 end
