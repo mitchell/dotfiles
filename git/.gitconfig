@@ -1,53 +1,53 @@
 [alias]
-  sw = switch
-  rs = restore
-  rss = restore --staged
-  br = branch
-  cm = commit
-  st = status
-  rb = rebase
-  pfwl = push --force-with-lease
-  llog = log --date=local
-  flog = log --pretty=fuller --decorate
-  lol = log --graph --decorate --oneline
-  lola = log --graph --decorate --oneline --all
-  blog = log origin/master... --left-right
-  ds = diff --staged
-  amend = commit --amend -C HEAD
-  fixup = commit --fixup
-  squash = commit --squash
-  unstage = reset HEAD
-  rum = rebase master@{u}
-  puff = pull --ff-only
-  merff = merge --ff-only
-  fa = fetch --all
-  ap = add --patch
-  aa = add --all
+	sw = switch
+	rs = restore
+	rss = restore --staged
+	br = branch
+	cm = commit
+	st = status
+	rb = rebase
+	pfwl = push --force-with-lease
+	llog = log --date=local
+	flog = log --pretty=fuller --decorate
+	lol = log --graph --decorate --oneline
+	lola = log --graph --decorate --oneline --all
+	blog = log origin/master... --left-right
+	ds = diff --staged
+	amend = commit --amend -C HEAD
+	fixup = commit --fixup
+	squash = commit --squash
+	unstage = reset HEAD
+	rum = rebase master@{u}
+	puff = pull --ff-only
+	merff = merge --ff-only
+	fa = fetch --all
+	ap = add --patch
+	aa = add --all
 
 [core]
-  editor = nvim
-  pager = delta
+	editor = nvim
+	pager = delta
 
 [color]
-  ui = auto
-  branch = auto
-  interactive = auto
-  status = auto
+	ui = auto
+	branch = auto
+	interactive = auto
+	status = auto
 
 [push]
-  default = simple
+	default = simple
 
 [pull]
-  rebase = true
+	rebase = true
 
 [interactive]
-  diffFilter = delta --color-only
+	diffFilter = delta --color-only
 
 [delta]
-  navigate = true
-  dark = true
-  side-by-side = false
-  line-numbers = true
+	navigate = true
+	dark = true
+	side-by-side = false
+	line-numbers = true
 
 [merge]
-  conflictstyle = zdiff3
+	conflictstyle = zdiff3

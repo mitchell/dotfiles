@@ -22,7 +22,8 @@ set -l base_pkgs \
     tree-sitter-cli \
     nodejs \
     zoxide \
-    git-delta
+    git-delta \
+    stow
 
 set -l mac_pkgs \
     $base_pkgs \
