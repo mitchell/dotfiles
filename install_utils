@@ -4,7 +4,17 @@ function log -a message
     echo \n"--- $message ---"\n
 end
 
-read -P "OS? (arch/debian/fedora/mac) " -l distro
+set -l distro
+set -l uname (uname)
+
+if test $uname = Darwin
+    set distro mac
+else if test -f /etc/os-release
+    set distro (grep '^ID=' /etc/os-release | string replace 'ID=' '' | string trim -c '"')
+else
+    echo 'Your OS is unsupported. Supported: Arch, Debian, Fedora, Mac (Brew)'
+    return 1
+end
 
 set -l base_pkgs \
     fish \
@@ -54,15 +64,18 @@ switch $distro
         log 'Installing yay'
 
         sudo pacman --sync --refresh --sysupgrade --noconfirm
-        and sudo pacman --sync --needed --noconfirm base-devel go
-        or return $status
+        and sudo pacman --sync --needed --noconfirm base-devel go bat
+        or return
 
         test -d yay
         or git clone https://aur.archlinux.org/yay.git
         and cd yay
+        and bat PKGBUILD
+        and read -P 'Continue? (y/N): ' -l ready
+        and test "$ready" = y; or test "$ready" = Y
         and makepkg --syncdeps --install --noconfirm
         and cd ..
-        or return $status
+        or return
 
         log 'Installing packages with yay'
 
@@ -76,4 +89,7 @@ switch $distro
         log 'Installing packages with DNF'
         sudo dnf upgrade --assumeyes
         and sudo dnf --assumeyes install $fedora_pkgs
+    case '*'
+        echo 'Your OS is unsupported. Supported: Arch, Debian, Fedora, Mac (Brew)'
+        return 1
 end
