@@ -50,7 +50,8 @@ set -l arch_pkgs \
 
 set -l debian_pkgs \
     $base_pkgs \
-    fd-find
+    fd-find \
+    extrepo
 
 set -l fedora_pkgs \
     $base_pkgs \
