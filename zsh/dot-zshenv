@@ -1,0 +1,19 @@
+export EDITOR='nvim'
+export DIFFPROG='delta'
+
+export FZF_CTRL_T_COMMAND='fd --type f --type d --hidden --exclude ".git/"'
+export FZF_DEFAULT_COMMAND='fd --type f --type d --hidden --exclude ".git/"'
+export FZF_ALT_C_COMMAND='fd --type d --hidden --exclude ".git/"'
+
+export GOPATH="$HOME/code/go"
+export GOBIN="$GOPATH/bin"
+
+export BUN_INSTALL="$HOME/.bun"
+export PNPM_HOME="$HOME/.local/share/pnpm"
+
+PATH="$BUN_INSTALL/bin:$PATH"
+PATH="$PNPM_HOME/bin:$PATH"
+PATH="$GOBIN:$PATH"
+PATH="$HOME/.local/bin:$PATH"
+PATH="$HOME/code/scripts:$PATH"
+export PATH

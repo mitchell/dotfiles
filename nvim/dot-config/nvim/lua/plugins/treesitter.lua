@@ -17,6 +17,7 @@ return {
 				"regex",
 				"bash",
 				"fish",
+				"zsh",
 				"typescript",
 				"javascript",
 				"tsx",
