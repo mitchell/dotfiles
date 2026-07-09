@@ -1,96 +1,92 @@
-#!/usr/bin/env fish
+#!/bin/bash
 
-function log -a message
-    echo \n"--- $message ---"\n
-end
+set -euo pipefail
 
-set -l distro
-set -l uname (uname)
+# Function to log messages
+log() {
+	echo -e "\n--- $1 ---\n"
+}
 
-if test $uname = Darwin
-    set distro mac
-else if test -f /etc/os-release
-    set distro (grep '^ID=' /etc/os-release | string replace 'ID=' '' | string trim -c '"')
+distro=""
+uname_val=$(uname)
+
+if [ "$uname_val" = "Darwin" ]; then
+	distro="mac"
+elif [ -f /etc/os-release ]; then
+	source /etc/os-release
+	distro=$ID
 else
-    echo 'Your OS is unsupported. Supported: Arch, Debian, Fedora, Mac (Brew)'
-    return 1
-end
+	echo 'Your OS is unsupported. Supported: Arch, Debian, Fedora, Mac (Brew)'
+	exit 1
+fi
 
-set -l base_pkgs \
-    fish \
-    git \
-    neovim \
-    tmux \
-    rsync \
-    curl \
-    less \
-    fzf \
-    mosh \
-    lsd \
-    ripgrep \
-    bat \
-    tree-sitter-cli \
-    nodejs \
-    zoxide \
-    git-delta \
-    stow
+# Base packages array
+base_pkgs=(
+	git
+	neovim
+	tmux
+	rsync
+	curl
+	less
+	fzf
+	mosh
+	lsd
+	ripgrep
+	bat
+	tree-sitter-cli
+	zoxide
+	git-delta
+	stow
+)
 
-set -l mac_pkgs \
-    $base_pkgs \
-    fd \
-    yazi
+# OS specific arrays
+mac_pkgs=("${base_pkgs[@]}" fd yazi)
+arch_pkgs=("${base_pkgs[@]}" fd yazi ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-common ttf-nerd-fonts-symbols-mono)
+debian_pkgs=("${base_pkgs[@]}" fd-find extrepo)
+fedora_pkgs=("${base_pkgs[@]}" fd-find)
 
-set -l arch_pkgs \
-    $base_pkgs \
-    fd \
-    yazi \
-    ttf-nerd-fonts-symbols \
-    ttf-nerd-fonts-symbols-common \
-    ttf-nerd-fonts-symbols-mono
+case "$distro" in
+mac)
+	log 'Installing packages with Homebrew'
+	brew install "${mac_pkgs[@]}"
+	;;
+arch)
+	log 'Installing yay'
 
-set -l debian_pkgs \
-    $base_pkgs \
-    fd-find \
-    extrepo
+	sudo pacman --sync --refresh --sysupgrade --noconfirm
+	sudo pacman --sync --needed --noconfirm base-devel go bat
 
-set -l fedora_pkgs \
-    $base_pkgs \
-    fd-find
+	if [ ! -d "yay" ]; then
+		git clone https://aur.archlinux.org/yay.git
+	fi
 
-switch $distro
-    case mac
-        log 'Installing packages with Homebrew'
-        brew install $mac_pkgs
-    case arch
-        log 'Installing yay'
+	cd yay
+	bat PKGBUILD
+	read -p 'Continue? (y/N): ' ready
+	if [[ "$ready" =~ ^[yY] ]]; then
+		makepkg --syncdeps --install --noconfirm
+	else
+		echo "Installation aborted."
+		exit 1
+	fi
+	cd ..
 
-        sudo pacman --sync --refresh --sysupgrade --noconfirm
-        and sudo pacman --sync --needed --noconfirm base-devel go bat
-        or return
-
-        test -d yay
-        or git clone https://aur.archlinux.org/yay.git
-        and cd yay
-        and bat PKGBUILD
-        and read -P 'Continue? (y/N): ' -l ready
-        and test "$ready" = y; or test "$ready" = Y
-        and makepkg --syncdeps --install --noconfirm
-        and cd ..
-        or return
-
-        log 'Installing packages with yay'
-
-        yay --sync --noconfirm $arch_pkgs
-    case debian
-        log 'Installing packages with APT'
-        sudo apt-get --quiet --yes update
-        and sudo apt-get --quiet --yes upgrade
-        and sudo apt-get --quiet --yes install $debian_pkgs
-    case fedora
-        log 'Installing packages with DNF'
-        sudo dnf upgrade --assumeyes
-        and sudo dnf --assumeyes install $fedora_pkgs
-    case '*'
-        echo 'Your OS is unsupported. Supported: Arch, Debian, Fedora, Mac (Brew)'
-        return 1
-end
+	log 'Installing packages with yay'
+	yay --sync --noconfirm "${arch_pkgs[@]}"
+	;;
+debian | ubuntu)
+	log 'Installing packages with APT'
+	sudo apt-get --quiet --yes update
+	sudo apt-get --quiet --yes upgrade
+	sudo apt-get --quiet --yes install "${debian_pkgs[@]}"
+	;;
+fedora | rhel | rocky | almalinux | centos)
+	log 'Installing packages with DNF'
+	sudo dnf upgrade --assumeyes
+	sudo dnf install --assumeyes --skip-broken "${fedora_pkgs[@]}"
+	;;
+*)
+	echo 'Your OS is unsupported. Supported: Arch, Debian, Fedora, Mac (Brew)'
+	exit 1
+	;;
+esac
