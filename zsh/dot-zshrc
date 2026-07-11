@@ -52,13 +52,13 @@ function set_prompt {
 	branch="$(git branch --show-current 2>/dev/null)"
 
 	if [[ "$PWD" == "$HOME" ]]; then
-		PROMPT="%F{magenta}%~%f $prompt_char "
+		PROMPT="%F{magenta}%~%f %n@%m $prompt_char "
 	elif [[ "$branch" != '' ]]; then
 		PROMPT="%F{magenta}%~%f ($branch)
-$prompt_char "
+%n@%m $prompt_char "
 	else
 		PROMPT="%F{magenta}%~%f
-$prompt_char "
+%n@%m $prompt_char "
 	fi
 }
 autoload -Uz add-zsh-hook
