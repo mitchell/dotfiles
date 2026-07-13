@@ -23,6 +23,8 @@ alias o='opencode run --thinking'
 alias oc='opencode'
 alias sctl='sudo systemctl'
 alias uctl='systemctl --user'
+alias q='exit'
+alias fwl='sudo firewall-cmd'
 
 # --- Keybinds ---
 bindkey '.,' open-nvim
