@@ -206,6 +206,10 @@ mode "resize" {
     bindsym Up resize shrink height 10px
     bindsym Right resize grow width 10px
 
+    bindsym 1 resize set 50 ppt 100 ppt
+    bindsym 2 resize set 65 ppt 100 ppt
+    bindsym 3 resize set 70 ppt 100 ppt
+
     # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
