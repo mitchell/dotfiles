@@ -95,7 +95,7 @@ function set_locale
     sed -i 's/#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
     locale-gen
     echo 'LANG=en_US.UTF-8' >/etc/locale.conf
-    touch /etc/vconsole.conf
+    echo 'KEYMAP=us' >/etc/vconsole.conf
 end
 
 function set_hostname -a new_hostname

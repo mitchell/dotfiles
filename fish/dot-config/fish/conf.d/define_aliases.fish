@@ -19,5 +19,6 @@ if status is-interactive
             alias vv 'virt-viewer'
             alias vi 'virt-install'
             alias vs 'virsh'
+            alias vc 'virsh console'
     end
 end
