@@ -10,8 +10,6 @@ if is_darwin() then
 	config.default_prog = { "/opt/homebrew/bin/fish", "-l" }
 end
 
-config.window_decorations = "RESIZE"
-
 config.color_scheme = 'Kanagawa (Gogh)'
 
 config.window_background_opacity = is_darwin() and 0.85 or 0.95

@@ -60,6 +60,10 @@ gaps inner 8
 # You can also configure each device individually.
 # Read `man 5 sway-input` for more information about this section.
 
+input type:pointer {
+    accel_profile "flat"
+}
+
 ### Key bindings
 #
 # Basics:
@@ -223,12 +227,12 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86AudioLowerVolume exec $ipc volume-down
     bindsym --locked XF86AudioMute exec $ipc volume-mute
 
-    # Special keys to control media via playerctl
-    bindsym --locked XF86AudioPlay exec playerctl play-pause
-    bindsym --locked XF86AudioPause exec playerctl play-pause
-    bindsym --locked XF86AudioPrev exec playerctl previous
-    bindsym --locked XF86AudioNext exec playerctl next
-    bindsym --locked XF86AudioStop exec playerctl stop
+    # Special keys to control media
+    bindsym --locked XF86AudioPlay exec $ipc media toggle
+    bindsym --locked XF86AudioPause exec $ipc media pause
+    bindsym --locked XF86AudioPrev exec $ipc media previous
+    bindsym --locked XF86AudioNext exec $ipc media next
+    bindsym --locked XF86AudioStop exec $ipc media stop
 
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessUp exec $ipc brightness-up
@@ -240,6 +244,7 @@ bindsym $mod+r mode "resize"
 
 include /etc/sway/config.d/*
 
+exec systemctl --user start ssh-agent.service
 exec noctalia
 
 include ~/.config/sway/noctalia

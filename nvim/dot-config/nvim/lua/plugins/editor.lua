@@ -85,21 +85,4 @@ return {
 			vim.g["pencil#map#suspend_af"] = "K"
 		end,
 	},
-	{
-		"folke/zen-mode.nvim",
-		opts = {
-			window = { backdrop = 0.95, options = { number = false } },
-			plugins = { twilight = { enabled = false } },
-		},
-		keys = {
-			{ "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode", silent = true },
-		},
-	},
-	{
-		"folke/twilight.nvim",
-		opts = {},
-		keys = {
-			{ "<leader>l", "<cmd>Twilight<cr>", desc = "Twilight", silent = true },
-		},
-	},
 }
