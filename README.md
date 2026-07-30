@@ -1,49 +1,32 @@
 # mitchell's dotfiles
 
 This mostly exists for my convenient bootstrapping onto new systems. I would generally recommend
-drawing from individual applications' configurations as inspiration for your own dotfiles. However,
-the included scripts should be generalized enough to work on anybody's machines.
+drawing from individual applications' configurations as inspiration for your own dotfiles. But I use
+Stow to link each config module into my home dir, and things should be general enough to use
+yourself.
 
 This repo contains my preferred configurations for:
 
 - neovim
 - fish shell
+- zsh shell
 - git
 - tmux
-- wezterm (X11/macOS)
-- ghostty (X11/Wayland)
-- keepassxc
-- bspwm (X11)
-- sxhkd (X11)
-- Niri (Wayland)
-- yabaiwm (macOS)
-- skhd (macOS)
+- ghostty
+- wezterm
+- bspwm/sxhkd (x11)
+- sway (wayland)
+- niri (wayland)
+- yabai/skhd (macos)
 
 ## Scripts
-
-### `sync`
-
-**Dependencies**
-
-- fish
-- git
-- rsync
-- curl
-
-**Description**
-
-> **Warning:** This will overwrite any existing files by the same name.
-
-Syncs all configuration files found in this repository to your home folder.
-
-To run sync script using curl: `curl https://raw.githubusercontent.com/mitchell/dotfiles/master/sync | fish`
 
 ### `install_utils`
 
 **Dependencies**
 
 - git
-- fish
+- bash
 
 **Description**
 
