@@ -1,5 +1,3 @@
-ssh_agent_startup
-
 test -e /opt/homebrew/bin/brew
 and /opt/homebrew/bin/brew shellenv | source -
 

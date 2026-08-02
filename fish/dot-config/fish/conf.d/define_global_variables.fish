@@ -14,6 +14,8 @@ set -gx PNPM_HOME $HOME/.local/share/pnpm
 
 set -gx LIBVIRT_DEFAULT_URI 'qemu:///system'
 
+set -gx SSH_AUTH_SOCK $XDG_RUNTIME_DIR/ssh-agent.socket
+
 if test (uname) = Darwin
     set -gx ANDROID_HOME $HOME/Library/Android/Sdk
 else
