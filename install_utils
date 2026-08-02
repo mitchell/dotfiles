@@ -37,12 +37,13 @@ base_pkgs=(
 	zoxide
 	git-delta
 	stow
+	mise
 )
 
 # OS specific arrays
 mac_pkgs=("${base_pkgs[@]}" fd yazi)
-arch_pkgs=("${base_pkgs[@]}" fd yazi ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-common ttf-nerd-fonts-symbols-mono)
-debian_pkgs=("${base_pkgs[@]}" fd-find extrepo)
+arch_pkgs=("${base_pkgs[@]}" fd yazi ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-common ttf-nerd-fonts-symbols-mono usage)
+debian_pkgs=("${base_pkgs[@]}" fd-find)
 fedora_pkgs=("${base_pkgs[@]}" fd-find)
 
 case "$distro" in
@@ -80,12 +81,16 @@ debian | ubuntu)
 	log 'Installing packages with APT'
 	sudo apt-get --quiet --yes update
 	sudo apt-get --quiet --yes upgrade
+	sudo apt-get --quiet --yes install extrepo
+	sudo extrepo enable mise
+	sudo apt-get --quiet --yes update
 	sudo apt-get --quiet --yes install "${debian_pkgs[@]}"
 	;;
 fedora | rhel | rocky | almalinux | centos)
 	log 'Installing packages with DNF'
-	sudo dnf upgrade --assumeyes
-	sudo dnf install --assumeyes --skip-broken "${fedora_pkgs[@]}"
+	sudo dnf --assumeyes upgrade
+	sudo dnf --assumeyes copr enable jdxcode/mise
+	sudo dnf --assumeyes install --skip-broken "${fedora_pkgs[@]}"
 	;;
 *)
 	echo 'Your OS is unsupported. Supported: Arch, Debian, Fedora, Mac (Brew)'

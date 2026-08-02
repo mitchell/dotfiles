@@ -1,3 +1,3 @@
-function commit -d 'Commit staged changes using Opencode'
-    opencode run Commit the staged changes with conventional style.
+function commit -d 'Generate commit message for staged changes using LMC'
+    git diff --staged | lmc --new --git-message --stdin --model qwen3.6-35b-a3b
 end
