@@ -173,6 +173,7 @@ input type:pointer {
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle; move position center
+    bindsym $mod+Control+space floating enable; move position center; resize set 65 ppt 100 ppt
 
     # Swap focus between the tiling area and the floating area
     bindsym $mod+Mod1+space focus mode_toggle

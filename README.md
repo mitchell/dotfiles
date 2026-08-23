@@ -33,7 +33,7 @@ This repo contains my preferred configurations for:
 Installs various CLI utilities based on OS availability. Supports Arch, Debian, Fedora, and macOS
 (brew). I recommend quickly reading what you're getting.
 
-### `install_arch`
+### `archiso/install_arch`
 
 Dependencies
 
